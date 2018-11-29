@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Form from './Form'
+import FormInput from './pages/signup/components/FormInput'
 import './SignUp.css'
 import { Link } from 'react-router-dom'
 
@@ -49,8 +49,8 @@ export default class Login extends Component {
         break;
 
       case 'password':
-        isValid = targetValue.match(/(?=.*[a-z])(?=.*[A-Z])(?=.{6,15})/g)
-        isValid = isValid ? true : false
+        isValid = !!targetValue.match(/(?=.*[a-z])(?=.*[A-Z])(?=.{6,15})/g)
+        // isValid = isValid ? true : false
         errorMessage = isValid ? '' : 'Longer than 6 '
       // errorMessage = isValid ? '' : 'password has to be 6-15 letter or number with At least one upper case character and At least one lower case character '
     }
@@ -151,4 +151,7 @@ export default class Login extends Component {
         </div>
 
 
-      </div>
+      </div>
+    )
+  }
+}

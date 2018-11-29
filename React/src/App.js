@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Login from './component/project1/Login'
+import {Layout} from './component/project1/pages/signup/Layout'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 class App extends Component {
   
@@ -13,21 +13,16 @@ class App extends Component {
   
   render() {
     return (
-      // <div>
-      //   asdadas
-
-      //   asda
-      //   da
-      //   sda
-
+ 
+        <div>
         <Router>
           <Switch>
-            <Route exact path="/" component={Login} />
-            {/* <Route path="/login" component={Login} /> */}
-            {/* <Route path="/signup" component={SignUp} /> */}
+            <Layout>
+            <Route exact path="/" component={Layout} />
+            </Layout>
           </Switch>
         </Router>
-      // </div>
+        </div>
 
     )
   }

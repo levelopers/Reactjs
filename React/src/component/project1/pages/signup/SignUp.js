@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import './SignUp.css'
-import Form from './Form'
+import Form from './components/FormInput'
 import { Link } from 'react-router-dom'
-import testLogin from './testLogin'
 
 
 export default class SignUp extends Component {
@@ -28,7 +27,7 @@ export default class SignUp extends Component {
 
     }
 
-    
+
 
     handleChange = (e) => {
         const targetName = e.target.name
@@ -49,17 +48,30 @@ export default class SignUp extends Component {
 
         switch (targetName) {
             case 'email':
-                isValid = targetValue.match(/[\w-]+@([\w-]+\.)+[\w-]+/i)
-                isValid = isValid ? true : false
+                isValid = !!targetValue.match(/[\w-]+@([\w-]+\.)+[\w-]+/i)
                 errorMessage = isValid ? '' : 'invalid email'
                 break;
 
             case 'password':
-                isValid = targetValue.match(/(?=.*[a-z])(?=.*[A-Z])(?=.{6,15})/g)
-                isValid = isValid ? true : false
-                errorMessage = isValid ? '' : 'Longer than 6 '
-                
-                // errorMessage = isValid ? '' : 'password has to be 6-15 letter or number with At least one upper case character and At least one lower case character '
+                // isValid = targetValue.match(/(?=.*[a-z])(?=.*[A-Z])(?=.{6,15})/g)
+                // isValid = isValid ? true : false
+                // errorMessage = isValid ? '' : 'Longer than 6 '
+
+                // // errorMessage = isValid ? '' : 'password has to be 6-15 letter or number with At least one upper case character and At least one lower case character '
+
+
+                switch (false) {
+                    case !!targetValue.match(/(?=.*[a-z])/g):
+                        errorMessage = 'at least one lower case'
+                        break;
+                    case !!targetValue.match(/(?=.*[A-Z])/g):
+                        errorMessage = 'at least one Upper case'
+                        break;
+                    case !!targetValue.match(/(?=.{6,15})/g):
+                        errorMessage = 'length between 6 to 15'
+                        break;
+                }
+
         }
 
         if (!targetValue) {
@@ -74,7 +86,7 @@ export default class SignUp extends Component {
         })
     }
 
-    
+
 
     handleBlur = (e) => {
         const name = e.target.name
@@ -82,45 +94,54 @@ export default class SignUp extends Component {
         this.validate(name, value)
     }
 
-   
+    handleClick = () => {
+        Object.entries(this.state).forEach(([key, val]) => {
+            this.validate(key, val.value)
+        })
+    }
+
 
 
     render() {
         console.log(this.state);
         return (
-    
-    <div className="login" style={{"background-image": "url('/background.jpg')"}}>
+
+            <div className="login" style={{ "backgroundImage": "url('/background.jpg')" }}>
 
 
                 <div className="out-box">
-                
+
 
                     <div id="form-title">
                         BIGFISH
                         </div>
 
-                    <form onSubmit={this.handleSubmit}>
-                        <Form name="email" message={this.state.email.errorMessage} 
-                        handleChange={(e)=>this.handleChange(e)} handleBlur={(e)=>this.handleBlur(e)} value={this.state.email.value}/>
+                    <div onSubmit={this.handleSubmit}>
+                        <Form name="email" message={this.state.email.errorMessage}
+                            handleChange={(e) => this.handleChange(e)} handleBlur={(e) => this.handleBlur(e)} value={this.state.email.value} />
                         <Form name="password" message={this.state.password.errorMessage}
-                        handleChange={(e)=>this.handleChange(e)} handleBlur={(e)=>this.handleBlur(e)} value={this.state.password.value}/>
+                            handleChange={(e) => this.handleChange(e)} handleBlur={(e) => this.handleBlur(e)} value={this.state.password.value} />
                         <Form name="name" message={this.state.name.errorMessage}
-                        handleChange={(e)=>this.handleChange(e)} handleBlur={(e)=>this.handleBlur(e)} value={this.state.name.value}/>
+                            handleChange={(e) => this.handleChange(e)} handleBlur={(e) => this.handleBlur(e)} value={this.state.name.value} />
 
-                        
 
-                        <button id="form-button" type="submit" >
+
+                        <button id="form-button" type="button" onClick={this.handleClick} >
+
                             SignUp
                         </button>
-                    </form>
+                    </div>
                     <div className="footer">
-                       <span >
-                       Already have an account?
+                        <span >
+                            Already have an account?
                       <Link to="/login">Login</Link>
 
-                       </span>
+                        </span>
                     </div>
                 </div>
 
 
-        
+            </div>
+        )
+    }
+}
