@@ -1,0 +1,109 @@
+.login {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.out-box {
+  position: absolute;
+  position: center;
+  background-color: #ffffff;
+  text-align: center;
+  /* left: 30%; */
+  top: 10%;
+  grid-column-start: 2;
+  margin: auto;
+  width: 500px;
+  height: 600px;
+  color: #ed5736;
+  font-family: RussoOne;
+  font-weight: 400;
+  line-height: 67px;
+  text-transform: none;
+  text-decoration: none;
+  letter-spacing: 0px;
+}
+
+#form-title {
+  position: relative;
+  margin-top: 50px;
+  color: #ed5736;
+  font-family: "Russo One";
+  font-size: 50px;
+  font-style: normal;
+  font-stretch: normal;
+  font-weight: 400;
+  line-height: 42px;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  letter-spacing: 0px;
+}
+
+form {
+  position: relative;
+  margin-top: 30px;
+}
+
+/* no button background color ,
+  no border radius */
+
+#form-button {
+  background-color: #ed5736;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 50px;
+  width: 386px;
+  height: 50px;
+  color: #ffffff!important;
+  font-family: Roboto;
+  font-size: 25px;
+  font-style: normal;
+  font-stretch: normal;
+  font-weight: 400;
+  line-height: 33px;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  letter-spacing: 0px;
+}
+
+.footer {
+  bottom: 0;
+  background-color: rgba(100, 100, 100, 0.3);
+  box-shadow: 0 0 5px 5px rgba(100, 100, 100, 0.3);
+  position: absolute;
+  width: 500px;
+  height: 118px!important;
+  color: #ed5736;
+  font-family: RussoOne;
+  font-size: 50px;
+  font-style: normal;
+  font-stretch: normal;
+  font-weight: 400;
+  line-height: 67px;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  letter-spacing: 0px;
+}
+
+.footer span {
+  position: relative;
+  width: 356px;
+  height: 30px;
+  color: #424c50;
+  font-family: Roboto;
+  font-size: 25px;
+  font-style: normal;
+  font-stretch: normal;
+  font-weight: 400;
+  line-height: 33px;
+  text-align: left;
+  text-transform: none;
+  text-decoration: none;
+  letter-spacing: 0px;
+}
