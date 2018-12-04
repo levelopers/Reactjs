@@ -1,0 +1,40 @@
+import React, { Component } from 'react'
+import '../stylesheets/photo.css'
+export default class Photo extends Component {
+  render() {
+    return (
+      <div className="photo-container" style={{backgroundImage:"url('/avatar_default.jpg')"}}>
+        {/* <img src={'/avatar_default.jpg'} alt=""/> */}
+        <Camera/>
+      </div>
+    )
+  }
+}
+
+function Camera(){
+    return (
+
+<svg width="250px" height="250px" viewBox="0 0 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+    <defs>
+        <rect id="path-1" x="0" y="0" width="250" height="250" rx="5"></rect>
+    </defs>
+    <g id="pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="profile_edit" transform="translate(-150.000000, -100.000000)">
+            <g id="avatar" transform="translate(150.000000, 100.000000)">
+                <g id="avatar_default">
+                    <mask id="mask-2" fill="white">
+                        <use href="#path-1"></use>
+                    </mask>
+                    <g id="Mask"></g>
+                </g>
+                <rect id="Rectangle-3" fill="#E9E7EF" opacity="0.5" x="0" y="0" width="250" height="250"></rect>
+                <text id="Edit-your-avatar" font-family="Roboto-Medium, Roboto" font-size="25" font-weight="400" fill="#FFFFFF">
+                    <tspan x="38" y="197">Edit your avatar</tspan>
+                </text>
+                <path d="M125,75 C116.715,75 110,81.718 110,90 C110,98.285 116.715,105 125,105 C133.283,105 140,98.285 140,90 C140,81.718 133.283,75 125,75 Z M165,60 L153,60 C151.35,60 149.572,58.72 149.051,57.154 L145.949,47.845 C145.426,46.28 143.65,45 142,45 L108,45 C106.35,45 104.572,46.28 104.051,47.846 L100.949,57.155 C100.426,58.72 98.65,60 97,60 L85,60 C79.5,60 75,64.5 75,70 L75,115 C75,120.5 79.5,125 85,125 L165,125 C170.5,125 175,120.5 175,115 L175,70 C175,64.5 170.5,60 165,60 Z M125,115 C111.193,115 100,103.807 100,90 C100,76.194 111.193,65 125,65 C138.805,65 150,76.194 150,90 C150,103.807 138.805,115 125,115 Z M161.5,76.993 C159.568,76.993 158,75.427 158,73.493 C158,71.561 159.568,69.993 161.5,69.993 C163.434,69.993 165,71.561 165,73.493 C165,75.427 163.433,76.993 161.5,76.993 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
+    )
+}

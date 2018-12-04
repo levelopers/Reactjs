@@ -2,23 +2,25 @@ import FormInput from './components/FormInput'
 import React, { Component } from 'react'
 import validation from './utils/validation'
 
-export default class Base extends Component {
 
-    constructor(props) {
-        super(props)
 
-    }
+ class Base extends Component{
+
+  constructor(props){
+    super(props)
+    this.state={}
+  }
 
     handleChange = (e) => {
         const targetName = e.target.name
         const targetValue = e.target.value
-    
-        this.props.setState({
+      
+        this.setState({
             [targetName]: {
-                ...this.props.state[targetName],
+                ...this.state[targetName],
                 value: targetValue
             }
-        })
+          })
     }
     
     //validate input text on blur
@@ -27,9 +29,9 @@ export default class Base extends Component {
         const value = e.target.value
     
         let { targetName, isValid, errorMessage } = validation(name, value)
-        this.props.setState({
+       this.setState({
             [targetName]: {
-                ...this.props.state[targetName],
+                ...this.state[targetName],
                 isValid: isValid,
                 errorMessage: errorMessage
             }
@@ -41,17 +43,18 @@ export default class Base extends Component {
         Object.entries(this.props.state).forEach(([key, val]) => {
             let { targetName, isValid, errorMessage } = validation(key, val.value)
     
-            this.props.setState({
+            this.setState({
                 [targetName]: {
-                    ...this.props.state[targetName],
+                    ...this.state[targetName],
                     isValid: isValid,
                     errorMessage: errorMessage
                 }
             })
         })
     }
-
-    render() {
+    render(){
+      console.log(this.state);
+      
         return (
             <div>
                 <FormInput
@@ -60,10 +63,13 @@ export default class Base extends Component {
                     handleChange={e => this.handleChange(e)}
                     handleBlur={e => this.handleBlur(e)}
                     value={this.props.value}
+                    eventState={this.props.eventState(this.state)}
                 />
             </div>
         )
     }
 }
+
+export default Base
 
 

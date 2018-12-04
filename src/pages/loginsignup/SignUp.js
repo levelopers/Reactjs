@@ -68,6 +68,12 @@ export default class SignUp extends Component {
   //   })
   // }
 
+  updateState=(state)=>{
+    this.setState(
+      state
+    )
+  }
+
   render() {
     console.log(this.state);
     return (
@@ -82,6 +88,7 @@ export default class SignUp extends Component {
                 name={attrName}
                 message={this.state[attrName].errorMessage}
                 value={this.state[attrName].value}
+                eventState={this.updateState}
               />
             )}
 

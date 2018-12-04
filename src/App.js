@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import {Layout} from './pages/loginsignup/Layout'
+import Profile from './pages/profile/Profile'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 class App extends Component {
   
@@ -15,13 +16,16 @@ class App extends Component {
     return (
  
         <div>
-        <Router>
+        {/* <Router>
           <Switch>
             <Layout>
             <Route exact path="/" component={Layout} />
             </Layout>
+            <Route exact path ="/" component={Profile}/>
+            
           </Switch>
-        </Router>
+        </Router> */}
+        <Profile/>
         </div>
 
     )

@@ -4,12 +4,12 @@ export default class Form extends Component {
   render() {
     const {
       name,
-      // message,
+      message,
       handleBlur,
       handleChange,
       value
     } = this.props;
-    let message = this.props.message;
+    // let message = this.props.message;
     let inputCssClass = ''
     let errorCssClass = ''
     if (message === "Required") {
