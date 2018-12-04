@@ -1,35 +1,33 @@
 import React, { Component } from 'react'
-import '../stylesheets/forminput.css'
-// import Pencil from '../stylesheets/pencil.svg'
 
-export default class FormInput extends Component {
-  render() {
-    return (
-      <div className="forminput">
-        <div className="title">
-          <input type="text" />
-          <a href="#"><Pencil />Edit</a>
+const FormShow = ({
+  classname,
+  lablename,
+  content,
+  hover,
+  leave,
+  isHover,
+  click,
+}) => {
+
+  return (
+        <div className={classname} onMouseLeave={leave}>
+          <div className="lable">
+            {lablename}
+          </div>
+          <div className="content">
+            <p onMouseOver={hover} >
+              {content}
+            </p>
+            {isHover &&
+              <a href='#' onClick={click}><Pencil />Edit</a>
+            }
+          </div>
         </div>
-
-        <div className="gender">
-          <label >Gender</label> &nbsp;
-          <form className="gender-input">
-            <input type="radio" id="male" name="male" value="male" />male &nbsp;
-          <input type="radio" id="female" name="female" value="female" />female &nbsp;
-          <a href="#"><Pencil />Edit</a>
-          </form>
-        </div>
-
-        <div className="description">
-          <label htmlFor="description">description</label>
-          <textarea name="description" id="description" cols="30" rows="5"></textarea>
-          <a href="#"><Pencil />Edit</a>
-
-        </div>
-      </div>
-    )
-  }
+  )
 }
+
+export default FormShow
 
 function Pencil() {
   return (

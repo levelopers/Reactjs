@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Header from './components/Header'
-import FormInput from './components/FormInput'
+import Form from './components/Form'
 import Photo from './components/Photo'
 import './stylesheets/profile.css'
 
@@ -14,7 +14,7 @@ export default class Profile extends Component {
         <div className="content">
           <div className="box">
             <Photo />
-            <FormInput />
+            <Form />
           </div>
         </div>
       </div>

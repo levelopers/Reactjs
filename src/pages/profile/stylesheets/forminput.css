@@ -50,6 +50,7 @@ input {
     font-family: Roboto-Regular;
     font-size: 25px;
     color: #424C50;
+    position: relative;
 }
 
 textarea {
