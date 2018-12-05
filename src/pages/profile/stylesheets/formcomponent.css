@@ -37,3 +37,10 @@ input::placeholder {
     font-size: 25px;
     color: #BBCDC5;
 }
+input[type=radio]{
+    background: #424C50;
+}
+
+.gender_inner{
+    
+}

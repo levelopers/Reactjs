@@ -7,24 +7,42 @@ const FormComponent = ({
     value,
     submit
 }) => {
-    let ph=''
-    switch(classname){
-        case "title":
-        ph='please enter your name'
-        break;
-        case "description":
-        ph='Short Description'
-        break;
-        default:
-        ph=''
+    let ph = ''
+    let checked;
+    if(value==="male"){
+        checked=true;
+    }else if(value==="female"){
+        checked=false;
     }
+    switch (classname) {
+        case "title":
+            ph = 'please enter your name'
+            break;
+        case "description":
+            ph = 'Short Description'
+            break;
+        
+        default:
+            ph = ''
+    }
+    
+    
     
     return (
         <div className={classname}>
-            <input type={type} onChange={change} value={value} placeholder={ph}/>
+            {classname === "gender" ?
+                <div className="gender_inner">
+                    <input type={type} onChange={change} value="male" checked={checked} /><label>male</label>
+                    <input type={type} onChange={change} value="female" checked={!checked} /><label>female</label>
+                </div>
+                :
+                <input type={type} onChange={change} value={value} placeholder={ph}/>
+
+            }
+
             <div className="formcomponent-btn">
-            <button name="save" onClick={submit}>save</button>
-            <button name="cancel" onClick={submit}> cancel</button>
+                <button name="save" onClick={submit}>save</button>
+                <button name="cancel" onClick={submit}> cancel</button>
             </div>
         </div>
     )
