@@ -3,9 +3,9 @@
     max-height: 382px;
     min-height: 382px;
     max-width: 1200px;
+    min-width: 1200px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     margin-top: 50px;
 }
 .profile{

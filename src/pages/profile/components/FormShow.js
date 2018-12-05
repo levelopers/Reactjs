@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../stylesheets/formshow.css'
 
 const FormShow = ({
   classname,
@@ -11,19 +12,31 @@ const FormShow = ({
 }) => {
 
   return (
-        <div className={classname} onMouseLeave={leave}>
+    <div className={classname}>
+
+      <div className="formshow-box" onMouseLeave={leave}>
+        { classname  !== "title" &&
           <div className="lable">
-            {lablename}
+            <p>{lablename}</p>
           </div>
-          <div className="content">
-            <p onMouseOver={hover} >
-              {content}
-            </p>
-            {isHover &&
-              <a href='#' onClick={click}><Pencil />Edit</a>
-            }
+        }
+
+        <div className="content" onMouseOver={hover}>
+          <p  >
+            {content}
+          </p>
+          {isHover &&
+          <div className="formshow-edit">
+            <a href='#' onClick={click}><Pencil />
+           <div>Edit</div> 
+            </a>
+
           </div>
+          }
         </div>
+      </div>
+    </div>
+
   )
 }
 

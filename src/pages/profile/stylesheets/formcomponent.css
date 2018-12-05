@@ -1,0 +1,39 @@
+button[name=save] {
+    width: 200px;
+    height: 50px;
+    font-family: Roboto-Regular;
+    font-size: 25px;
+    color: #FFFFFF;
+    text-align: center;
+    background: #ED5736;
+    border-radius: 10px;
+}
+
+button[name=cancel] {
+    width: 200px;
+    height: 50px;
+    font-family: Roboto-Regular;
+    font-size: 25px;
+    color: #424C50;
+    text-align: center;
+    background: #FFFFFF;
+    border: 1px solid #424C50;
+    border-radius: 10px;
+}
+
+button {
+    margin: 30px;
+    margin-left: 0;
+}
+
+input[type=text] {
+    font-family: Roboto-Regular;
+    font-size: 25px;
+    color: #424C50;
+}
+
+input::placeholder {
+    font-family: Roboto-Regular;
+    font-size: 25px;
+    color: #BBCDC5;
+}

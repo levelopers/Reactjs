@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../stylesheets/forminput.css'
+import '../stylesheets/form.css'
 import FormComponent from './FormComponent'
 import FromShow from './FormShow'
 
@@ -11,7 +11,7 @@ export default class Form extends Component {
         type: 'text',
         lablename: 'title',
         value: 'call me maybe',
-        valueBuffer:'',
+        valueBuffer: '',
         isHover: false,
         isEdit: false
       },
@@ -19,7 +19,7 @@ export default class Form extends Component {
         type: 'radio',
         lablename: 'gender',
         value: 'male',
-        valueBuffer:'',
+        valueBuffer: '',
         isHover: false,
         isEdit: false
       },
@@ -27,7 +27,7 @@ export default class Form extends Component {
         type: 'text',
         lablename: 'description',
         value: 'some descriptionsome descriptionsome descriptionsome description',
-        valueBuffer:'',
+        valueBuffer: '',
         isHover: false,
         isEdit: false
       }
@@ -35,15 +35,18 @@ export default class Form extends Component {
     }
   }
   handleClick = (e, name) => {
+    let buffer=this.state[name].value
+    if(name==="description"){
+      buffer=''
+    }
     this.setState({
       [name]: {
         ...this.state[name],
         isEdit: true,
-        isHover:false,
-        valueBuffer:this.state[name].value
+        isHover: false,
+        valueBuffer: buffer
       }
     })
-
   }
   handleHover = (e, name) => {
     this.setState({
@@ -53,7 +56,7 @@ export default class Form extends Component {
       }
     })
   }
-  handleLeave=(e,name)=>{
+  handleLeave = (e, name) => {
     this.setState({
       [name]: {
         ...this.state[name],
@@ -61,7 +64,7 @@ export default class Form extends Component {
       }
     })
   }
-  handleChange = (e,name) => {
+  handleChange = (e, name) => {
     this.setState({
       [name]: {
         ...this.state[name],
@@ -69,53 +72,58 @@ export default class Form extends Component {
       }
     })
   }
-  handleSubmit=(e,name)=>{
-    if(e.target.name==="save"){
+  handleSubmit = (e, name) => {
+    if (e.target.name === "save") {
       this.setState({
         [name]: {
           ...this.state[name],
-          isEdit:false,
+          isEdit: false,
           value: this.state[name].valueBuffer
         }
       })
-    }else{
+    } else {
       this.setState({
         [name]: {
           ...this.state[name],
-          isEdit:false,
+          isEdit: false,
         }
       })
     }
 
 
-    
+
   }
   render() {
     return (
-      <div>
+      <div className="form-box">
         {
           Object.entries(this.state).map(([name, obj]) =>
 
             obj.isEdit ?
-              <FormComponent
-                type={obj.type}
-                classname={obj.lablename}
-                labelName={obj.lablename}
-                change={e=>this.handleChange(e,name)}
-                submit={e=>this.handleSubmit(e,name)}
-                value={obj.valueBuffer}
-              />
+              <div className="formcomponent">
+                <FormComponent
+                  type={obj.type}
+                  classname={obj.lablename}
+                  labelName={obj.lablename}
+                  change={e => this.handleChange(e, name)}
+                  submit={e => this.handleSubmit(e, name)}
+                  value={obj.valueBuffer}
+                />
+              </div>
+              :
+              <div className="formshow">
+                <FromShow
+                  classname={obj.lablename}
+                  lablename={obj.lablename}
+                  content={obj.value}
+                  isHover={obj.isHover}
+                  isEdit={obj.isEdit}
+                  hover={(e) => this.handleHover(e, name)}
+                  leave={e => this.handleLeave(e, name)}
+                  click={(e) => this.handleClick(e, name)}
+                />
+              </div>
 
-              : <FromShow
-                classname={obj.lablename}
-                lablename={obj.lablename}
-                content={obj.value}
-                isHover={obj.isHover}
-                isEdit={obj.isEdit}
-                hover={(e) => this.handleHover(e, name)}
-                leave={e=>this.handleLeave(e,name)}
-                click={(e) => this.handleClick(e, name)}
-              />
           )
         }
       </div>

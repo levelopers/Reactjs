@@ -1,0 +1,71 @@
+.formshow-box {
+    font-family: Roboto-Medium;
+    font-size: 25px;
+    color: #424C50;
+    text-align: left;
+    font-family: Roboto-Regular;
+    font-size: 25px;
+    color: #424C50;
+    text-align: left;
+    width: 100%;
+}
+a{
+    margin-left: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.formshow-edit {
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.content {
+    margin-left: 100px;
+    font-family: Roboto-Regular;
+    font-size: 25px;
+    color: #424C50;
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+}
+
+.description .content p{
+    max-width: 290px;
+    min-width: 290px;
+}
+
+.lable {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: Roboto-Medium;
+    font-size: 25px;
+    color: #424C50;
+    text-align: left;
+}
+.title{
+    margin-bottom: 50px;
+    margin-top: 1px;
+}
+
+.title p {
+    font-family: Roboto-Medium;
+    font-size: 50px;
+    color: #424C50;
+    text-align: left;
+    margin: 0;
+}
+
+.title .content {
+    margin-left: 0;
+    min-width: 500px;
+    
+
+}
+.gender{
+}
