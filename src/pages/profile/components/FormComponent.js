@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import '../stylesheets/formcomponent.sass'
+import styles from '../stylesheets/formcomponent.sass'
+
 const FormComponent = ({
     type,
     classname,

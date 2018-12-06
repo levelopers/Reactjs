@@ -1,12 +1,22 @@
 import React, { Component } from 'react'
 import '../stylesheets/photo.css'
 export default class Photo extends Component {
+    
+    input_ref
+    handleClick=()=>{
+
+    }
   render() {
     return (
-      <div className="photo-container" style={{backgroundImage:"url('/avatar_default.jpg')"}}>
+        <div>
+
+      <div className="photo-container" onClick={e=>this.input_ref.click()} style={{backgroundImage:"url('/avatar_default.jpg')"}}>
         {/* <img src={'/avatar_default.jpg'} alt=""/> */}
         <Camera/>
       </div>
+      <input type="file" ref={ref=>{this.input_ref=ref}} style={{display:"none"}}/>
+      </div>
+
     )
   }
 }
