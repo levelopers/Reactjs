@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './stylesheets/LoginSignUp.css'
+import './stylesheets/LoginSignUp.sass'
 import { Link } from 'react-router-dom'
 import Base from './Base'
 
