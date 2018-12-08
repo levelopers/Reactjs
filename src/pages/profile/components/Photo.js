@@ -11,31 +11,49 @@ export default class Photo extends Component {
     handleChange = (e) => {
         const file = e.target.files[0]
         this.setState({
-            input_file:file
-        },()=>{
+            input_file: file
+        }, () => {
             const fd = new FormData
-            fd.append('test3',this.state.input_file,this.state.input_file.name)
-            console.log(fd);
-            axios.post('https://bigfish100.herokuapp.com/users/',{
-                "user": {
-                                "email": "input3@bigfish.com",
-                                "password": "Ab123456",
-                                "name": " input3",
-                                fd
-                              }
-            })
-            .then(res=>console.log(res))
+            fd.append('test5', this.state.input_file, this.state.input_file.name)
+            // console.log(fd.getAll('test4'));
+            // let fd_JSON = JSON.stringify(fd)
+            // console.log(fd_JSON);
+            const reader = new FileReader();
+            let result
+            // let set = this.set
+            reader.onload = function (e) {
+                result = reader.result
+                // set(result)
+                console.log(typeof result);
+                
+                axios.put('https://bigfish100.herokuapp.com/users/1', {
+
+                    user: {
+                        avatar_url: result
+                    }
+
+                })
+                    .then(res => console.log(res))
+
+            }
+            reader.readAsDataURL(file);
+
+
+
+
+            // axios.get('https://bigfish100.herokuapp.com/users/11')
+            // .then(res=>console.log(res))
         })
         // console.log(file);
         const reader = new FileReader();
         // let result
         // let set = this.set
         // reader.onload = function (e) {
-            // result = reader.result
-            // set(result)
-            
-            
-            
+        // result = reader.result
+        // set(result)
+
+
+
         // }
         // reader.readAsDataURL(file);
     }
@@ -69,7 +87,7 @@ export default class Photo extends Component {
     //     })
     // }
     // componentDidMount() {
-        
+
     // }
     render() {
         console.log(this.state);
