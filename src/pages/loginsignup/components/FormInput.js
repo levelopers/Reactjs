@@ -24,7 +24,7 @@ export default class Form extends Component {
 
     return (
       <span id={`form-${name}`} className="form-input" >
-        <input 
+        <input className="signup-forminput"
           id={`input-${name}`} 
           className={errorCssClass || inputCssClass} 
           type="text" 
