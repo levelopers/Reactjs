@@ -1,11 +1,9 @@
-
 .form-box{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     margin:30px;
 }
-
 
 .formshow div{
     display: flex;

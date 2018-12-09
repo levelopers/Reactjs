@@ -16,23 +16,19 @@ class App extends Component {
     return (
  
         <div>
-        {/* <Router>
+        <Router>
           <Switch>
             <Layout>
             <Route exact path="/" component={Layout} />
+        {/* <Profile/> */}
+
             </Layout>
-            <Route exact path ="/" component={Profile}/>
-            
           </Switch>
-        </Router> */}
-        <Profile/>
+        </Router>
+        {/* <Profile/> */}
         </div>
 
     )
   }
 }
-
-
-
-
 export default App;

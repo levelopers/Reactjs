@@ -7,6 +7,7 @@ import FromShow from './FormShow'
 
 //todo
 // server call?
+import axios from 'axios'
 
 export default class Form extends Component {
   constructor(props) {
@@ -15,34 +16,38 @@ export default class Form extends Component {
       title: {
         type: 'text',
         lablename: 'title',
-        value: 'call me maybe',
+        value: this.props.name || 'call me maybe',
         valueBuffer: '',
         isHover: false,
-        isEdit: false
+        isEdit: false,
+        api_name: 'name'
       },
       gender: {
         type: 'radio',
         lablename: 'gender',
-        value: 'male',
+        value: this.props.gender || 'male',
         valueBuffer: '',
         isHover: false,
-        isEdit: false
+        isEdit: false,
+        api_name: ''
       },
       description: {
         type: 'text',
         lablename: 'description',
-        value: 'some descriptionsome descriptionsome descriptionsome description',
+        value: this.props.description || 'some descriptionsome descriptionsome descriptionsome description',
         valueBuffer: '',
         isHover: false,
-        isEdit: false
+        isEdit: false,
+        api_name: 'description'
       }
 
     }
   }
+
   handleClick = (e, name) => {
-    let buffer=this.state[name].value
-    if(name==="description"){
-      buffer=''
+    let buffer = this.state[name].value
+    if (name === "description") {
+      buffer = ''
     }
     this.setState({
       [name]: {
@@ -85,6 +90,15 @@ export default class Form extends Component {
           isEdit: false,
           value: this.state[name].valueBuffer
         }
+      }, () => {
+        let put_obj = {
+          user: {}
+        }
+        put_obj.user[this.state[name].api_name] = this.state[name].value
+        console.log(put_obj);
+
+        axios.put(`https://bigfish100.herokuapp.com/users/${this.props.id.toString()}`, put_obj)
+          .then(res => console.log(res.data.user.name))
       })
     } else {
       this.setState({
@@ -99,13 +113,14 @@ export default class Form extends Component {
 
   }
   render() {
+    console.log(this.state);
+
     return (
       <div className="form-box">
         {
           Object.entries(this.state).map(([name, obj]) =>
-
             obj.isEdit ?
-              <div className="formcomponent">
+              <div className="formcomponent" key={`component-${name}`}>
               {/* todo: inner state? */}
                 <FormComponent
                   type={obj.type}
@@ -117,7 +132,7 @@ export default class Form extends Component {
                 />
               </div>
               :
-              <div className="formshow">
+              <div className="formshow" key={`show-${name}`}>
                 <FromShow
                   classname={obj.lablename}
                   lablename={obj.lablename}
@@ -129,7 +144,6 @@ export default class Form extends Component {
                   click={(e) => this.handleClick(e, name)}
                 />
               </div>
-
           )
         }
       </div>

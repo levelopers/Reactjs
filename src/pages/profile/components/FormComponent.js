@@ -26,21 +26,16 @@ const FormComponent = ({
         default:
             ph = ''
     }
-    
-    
-    
     return (
         <div className={classname}>
             {classname === "gender" ?
                 <div className="gender_inner">
-                    <input type={type} onChange={change} value="male" checked={checked} /><label>male</label>
-                    <input type={type} onChange={change} value="female" checked={!checked} /><label>female</label>
+                    <input type={type} onChange={change} value="male" checked={checked} /><label>Male</label>
+                    <input type={type} onChange={change} value="female" checked={!checked} /><label>Female</label>
                 </div>
                 :
                 <input type={type} onChange={change} value={value} placeholder={ph}/>
-
             }
-
             <div className="formcomponent-btn">
                 <button name="save" onClick={submit}>save</button>
                 <button name="cancel" onClick={submit}> cancel</button>

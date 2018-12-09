@@ -11,12 +11,13 @@
     outline: #FFFFFF;
     text-align: start;
 }
-.profile{
-    
+
+.profile {
     height: 100vh;
     background-color: antiquewhite;
 }
-.content{
+
+.content {
     display: flex;
     flex-direction: row;
     justify-content: center;
