@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../stylesheets/photo.css'
-import { ReactComponent as Camera } from '../stylesheets/camera.svg'
+import Camera from '../stylesheets/camera.svg'
 const Photo = (props) => {
   // constructor(props) {
   //   super(props)
@@ -65,7 +65,8 @@ const Photo = (props) => {
         onClick={e => input_ref.click()}
         style={{ backgroundImage: `url(${img_src})` }}
       >
-        <Camera />
+        {/* <Camera /> */}
+        <img src={Camera} />
       </div>
       <input
         type="file"

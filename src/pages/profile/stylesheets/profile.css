@@ -1,10 +1,8 @@
 /* todo */
 .box{
     background: #FFFFFF;
-    max-height: 382px;
     min-height: 382px;
-    max-width: 1200px;
-    min-width: 1200px;
+    width: 1200px; 
     display: flex;
     flex-direction: row;
     margin-top: 50px;

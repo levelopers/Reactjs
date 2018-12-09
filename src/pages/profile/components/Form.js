@@ -4,9 +4,16 @@ import FormComponent from './FormComponent'
 import FromShow from './FormShow'
 // todo
 // git work flow
+/** 
+ *  0. checkout new branch
+ *  1. dev new pages/features
+ *  2. branch -> pull request
+ *  3. review / comment 
+ *  4. merge
+ */
 
 //todo
-// server call?
+// server call? 
 import axios from 'axios'
 
 export default class Form extends Component {

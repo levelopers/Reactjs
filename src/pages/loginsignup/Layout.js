@@ -20,9 +20,7 @@ export  class Layout extends Component {
     return(
       <div>
         <Switch>
-          <Route path="/signup" component={SignUp} />
-          <Route path="/login" component={Login} />
-          <Route path="/profile" component={Profile} />
+
         </Switch>
       </div>
     )

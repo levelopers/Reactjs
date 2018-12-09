@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Layout} from './pages/loginsignup/Layout'
+import { Layout } from './pages/loginsignup/Layout'
 import Profile from './pages/profile/Profile'
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
+import SignUp from './pages/loginsignup/SignUp';
+import Login from './pages/loginsignup/Login';
+import Auth from './module/Auth';
 class App extends Component {
-  
+
 
   //password validate seperate
   //error message (white background color)
   //router --> component dupalicate
   //          route component variable
   //new repo, project structure 
-  
+
   render() {
     return (
- 
-        <div>
+
+      <div>
         <Router>
           <Switch>
-            <Layout>
-            <Route exact path="/" component={Layout} />
-        {/* <Profile/> */}
+            <Route  path="/signup" component={SignUp} />
+            <Route path="/login" component={Login} />
+            <Route path="/profile" component={Profile} />
 
-            </Layout>
+            <Redirect to="/login" />
           </Switch>
         </Router>
-        {/* <Profile/> */}
-        </div>
+      </div>
 
     )
   }

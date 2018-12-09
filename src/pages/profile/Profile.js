@@ -5,12 +5,13 @@ import Photo from './components/Photo'
 import axios from 'axios'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
+import Auth from '../../module/Auth';
 
 export default class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: Number,
+      id: null,
       name: '',
       email: '',
       gender: '',
@@ -20,7 +21,7 @@ export default class Profile extends Component {
       input_file_path: '',
       input_file: null,
       url: '',
-      progress: Number
+      progress: 0,
     }
   }
 
@@ -66,7 +67,8 @@ export default class Profile extends Component {
   }
 
   componentWillMount() {
-    axios.get('https://bigfish100.herokuapp.com/users/1')
+    if(Auth.isLoggedIn()){
+      axios.get('https://bigfish100.herokuapp.com/users/1')
       .then(res => {
         const user = res.data.user
         this.setState({
@@ -79,6 +81,11 @@ export default class Profile extends Component {
           done: true
         })
       })
+    } else {
+      this.props.history.push('/login')
+    }
+
+    
   }
 
   render() {
@@ -107,11 +114,22 @@ export default class Profile extends Component {
                 gender={this.state.gender}
                 description={this.state.description}
               />
+
+              <div style={{height:100, width: 100, backgroundColor:'blue'}} onClick={this.logout}>
+                log out!!!!
+              </div>
             </div>
           </div>
         </div>
       )
     }
-    return null
+    return <div>loading.....</div>
+  }
+
+
+  logout = () =>{
+    Auth.loggout(
+      () => this.props.history.push('/login')
+    )
   }
 }

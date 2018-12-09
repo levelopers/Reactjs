@@ -6,6 +6,8 @@ import validation from './utils/validation'
 import axios from 'axios'
 import Base from './Base'
 
+import Auth from '../../module/Auth'
+
 export default class Login extends Component {
   constructor(props) {
     super(props)
@@ -94,7 +96,7 @@ export default class Login extends Component {
   }
 
   handleClick = () => {
-    let canSubmit = Boolean
+    let canSubmit
     Object.entries(this.state).forEach(([key, val]) => {
       let { targetName, isValid, errorMessage } = validation(key, val.value)
       canSubmit = isValid && !!canSubmit
@@ -107,6 +109,7 @@ export default class Login extends Component {
       })
     })
     if (canSubmit) {
+      console.log(this.state.email.value, this.state.password.value)
       axios.post(`https://bigfish100.herokuapp.com/user_tokens`, {
         credential: {
           email: this.state.email.value,
@@ -116,6 +119,10 @@ export default class Login extends Component {
         //user_token.user_email
         //user_token.user_id
         .then(res => {
+          console.log(res)
+          const { data: { user_token: { key, user_id} } } = res
+          Auth.setUserId(user_id)
+          Auth.setUserToken(key)
           this.props.history.push("/profile");
         })
     }
@@ -124,7 +131,7 @@ export default class Login extends Component {
     // console.log(this.state);
     return (
       <div className="login" style={{ "backgroundImage": "url('/background.jpg')" }}>
-        <div oncli>
+        <div>
         </div>
         <div className="out-box">
           <div id="form-title">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../stylesheets/formshow.css'
-import { ReactComponent as Pencil } from '../stylesheets/pencil.svg'
+import Pencil from '../stylesheets/pencil.svg'
 
 const FormShow = ({
   classname,
@@ -27,7 +27,7 @@ const FormShow = ({
           {isHover &&
             <div className="formshow-edit">
               <a href='#' onClick={click}>
-                <Pencil />
+                <img src={Pencil} />
                 <div id='edit'>Edit</div>
               </a>
             </div>
