@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../stylesheets/header.css'
 
+// todo functional
 export default class Header extends Component {
   render() {
     return (

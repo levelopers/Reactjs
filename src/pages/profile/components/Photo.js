@@ -25,7 +25,7 @@ export default class Photo extends Component {
                 result = reader.result
                 // set(result)
                 console.log(typeof result);
-                
+                // todo server call packaging
                 axios.put('https://bigfish100.herokuapp.com/users/1', {
 
                     user: {
@@ -105,7 +105,7 @@ export default class Photo extends Component {
         )
     }
 }
-
+// todo use img
 function Camera() {
     return (
 

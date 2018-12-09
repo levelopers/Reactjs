@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import '../stylesheets/form.css'
 import FormComponent from './FormComponent'
 import FromShow from './FormShow'
+// todo
+// git work flow
+
+//todo
+// server call?
 
 export default class Form extends Component {
   constructor(props) {
@@ -101,6 +106,7 @@ export default class Form extends Component {
 
             obj.isEdit ?
               <div className="formcomponent">
+              {/* todo: inner state? */}
                 <FormComponent
                   type={obj.type}
                   classname={obj.lablename}

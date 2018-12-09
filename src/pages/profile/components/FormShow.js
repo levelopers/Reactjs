@@ -27,7 +27,9 @@ const FormShow = ({
           </p>
           {isHover &&
           <div className="formshow-edit">
+          {/* todo inline? */}
             <a href='#' onClick={click}><Pencil />
+            {/* todo 代码整洁 */}
            <div>Edit</div> 
             </a>
 
@@ -42,6 +44,7 @@ const FormShow = ({
 
 export default FormShow
 
+// todo no need
 function Pencil() {
   return (
     <svg width="26px" height="25px" viewBox="0 0 26 25" version="1.1" xmlns="http://www.w3.org/2000/svg" >
