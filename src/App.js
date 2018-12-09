@@ -16,32 +16,19 @@ class App extends Component {
     return (
  
         <div>
-        {/* <Router>
+        <Router>
           <Switch>
             <Layout>
             <Route exact path="/" component={Layout} />
+        {/* <Profile/> */}
+
             </Layout>
-            <Route exact path ="/" component={Profile}/>
-            
           </Switch>
-        </Router> */}
-        <Profile/>
-        {/* <RenderImg/> */}
+        </Router>
+        {/* <Profile/> */}
         </div>
 
     )
   }
 }
-
-
-// function RenderImg(){
-//   return (
-//     <div>
-//       <img src='https://firebasestorage.googleapis.com/v0/b/bigfish-firebase.appspot.com/o/images%2Fbackground.jpg?alt=media&token=418da9eb-14a8-4747-84d1-2f18108e74c8' alt=""/>
-//     </div>
-//   )
-// }
-
-
-
 export default App;

@@ -5,8 +5,6 @@ import Photo from './components/Photo'
 import axios from 'axios'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
-import { timingSafeEqual } from 'crypto';
-
 
 export default class Profile extends Component {
   constructor(props) {
@@ -25,20 +23,10 @@ export default class Profile extends Component {
       progress: Number
     }
   }
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     input_file_path:'',
-  //     input_file: null,
-  //     url: '',
-  //     progress: Number
-  //   }
-  // }
+
   handleChange = (e) => {
     const file = e.target.files[0]
     const img_path = (window.URL || window.webkitURL).createObjectURL(file)
-    console.log(img_path);
-
 
     this.setState({
       input_file: file,
@@ -62,9 +50,7 @@ export default class Profile extends Component {
           })
         });
     })
-
   }
-
   //after update state
   componentDidUpdate() {
     //update user avatar_url

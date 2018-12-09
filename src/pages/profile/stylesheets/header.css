@@ -16,14 +16,14 @@
   justify-content: center;
 }
 
-.portrait{
+.portrait {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-left: auto;
 }
 
-.portrait img{
+.portrait img {
   margin-right: 20px;
   max-width: 50px;
   max-height: 50px;

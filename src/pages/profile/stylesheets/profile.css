@@ -1,4 +1,4 @@
-.box{
+.box {
     background: #FFFFFF;
     max-height: 382px;
     min-height: 382px;
@@ -10,12 +10,13 @@
     outline: #FFFFFF;
     text-align: start;
 }
-.profile{
-    
+
+.profile {
     height: 100vh;
     background-color: antiquewhite;
 }
-.content{
+
+.content {
     display: flex;
     flex-direction: row;
     justify-content: center;

@@ -28,7 +28,10 @@ const validation = (targetName, targetValue) => {
         case !!targetValue.match(/(?=.{6,15})/g):
           errorMessage = 'length between 6 to 15'
           break;
+        default: isValid=true
       }
+    case 'name':
+      isValid=true
 
   }
 

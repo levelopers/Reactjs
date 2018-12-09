@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import '../stylesheets/LoginSignUp.sass'
 export default class Form extends Component {
   render() {
     const {
@@ -9,13 +9,14 @@ export default class Form extends Component {
       handleChange,
       value
     } = this.props;
-    // let message = this.props.message;
     let inputCssClass = ''
     let errorCssClass = ''
+    let display_message=''
+    display_message=message
     if (message === "Required") {
       inputCssClass = 'error-required'
       document.getElementById(`input-${name}`).placeholder = 'Required'
-      message = ''
+      display_message = ''
     } else if (message) {
       errorCssClass = 'error-message'
     } else {
@@ -36,7 +37,7 @@ export default class Form extends Component {
         />
 
         <span className={errorCssClass}>
-          {message}
+          {display_message}
         </span>
 
       </span>

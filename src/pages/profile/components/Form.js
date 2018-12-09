@@ -11,7 +11,7 @@ export default class Form extends Component {
       title: {
         type: 'text',
         lablename: 'title',
-        value:  this.props.name||'call me maybe',
+        value: this.props.name || 'call me maybe',
         valueBuffer: '',
         isHover: false,
         isEdit: false,
@@ -20,7 +20,7 @@ export default class Form extends Component {
       gender: {
         type: 'radio',
         lablename: 'gender',
-        value: this.props.gender||'male',
+        value: this.props.gender || 'male',
         valueBuffer: '',
         isHover: false,
         isEdit: false,
@@ -38,8 +38,7 @@ export default class Form extends Component {
 
     }
   }
-  
-  
+
   handleClick = (e, name) => {
     let buffer = this.state[name].value
     if (name === "description") {
@@ -110,13 +109,13 @@ export default class Form extends Component {
   }
   render() {
     console.log(this.state);
-    
+
     return (
       <div className="form-box">
         {
           Object.entries(this.state).map(([name, obj]) =>
             obj.isEdit ?
-              <div className="formcomponent">
+              <div className="formcomponent" key={`component-${name}`}>
                 <FormComponent
                   type={obj.type}
                   classname={obj.lablename}
@@ -127,7 +126,7 @@ export default class Form extends Component {
                 />
               </div>
               :
-              <div className="formshow">
+              <div className="formshow" key={`show-${name}`}>
                 <FromShow
                   classname={obj.lablename}
                   lablename={obj.lablename}
@@ -139,7 +138,6 @@ export default class Form extends Component {
                   click={(e) => this.handleClick(e, name)}
                 />
               </div>
-
           )
         }
       </div>
