@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import './stylesheets/LoginSignUp.module.sass'
+import styles from './stylesheets/signup.module.sass'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import validation from './utils/validation'
 import axios from 'axios'
 import Base from './Base'
-import Auth from '../profile/utils/token'
+import Auth from '../../modules/Auth'
 
 export default class Login extends Component {
   constructor(props) {
@@ -118,10 +118,13 @@ export default class Login extends Component {
         //user_token.user_id
         .then(res => {
           console.log(res);
-          Auth.token=(res.data.user_token)
-          // console.log(Auth.token);
-          
-          this.props.props.history.push("/profile");
+          Auth.set_token(res.data.user_token)
+          localStorage.setItem('id',Auth.id)
+          localStorage.setItem('email',Auth.email)
+
+          // console.log(Auth.id);
+          this.props.history.push("/profile");
+          return 
         })
         .catch(e=>console.log(e))
     }
@@ -129,12 +132,12 @@ export default class Login extends Component {
   render() {
     // console.log(this.state);
     return (
-      <div className="login" style={{ "backgroundImage": "url('/background.jpg')" }}>
-        <div className="out-box">
-          <div id="form-title">
+      <div className={styles.login} style={{ "backgroundImage": "url('/background.jpg')",backgroundSize:"cover" }}>
+        <div className={styles.outbox}>
+          <div className={styles.form_title}>
             BIGFISH
           </div>
-          <div>
+          <div className={styles.form_input}>
             {Object.keys(this.state).map(attrName =>
               <Base
                 name={attrName}
@@ -146,11 +149,11 @@ export default class Login extends Component {
               />
             )}
 
-            <button id="form-button" type="button" onClick={this.handleClick} >
+            <button className={styles.form_button} type="button" onClick={this.handleClick} >
               Login
             </button>
           </div>
-          <div className="footer">
+          <div className={styles.footer}>
             <span >
               Don't have an account?
               <Link to="/signup">SignUp</Link>

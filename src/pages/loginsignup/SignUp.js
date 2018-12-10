@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import  './stylesheets/LoginSignUp.module.sass'
+import  styles from './stylesheets/signup.module.sass'
 import { Link } from 'react-router-dom'
 import validation from './utils/validation'
 import axios from 'axios'
@@ -84,9 +84,9 @@ export default class SignUp extends Component {
   render() {
     console.log(this.state);
     return (
-      <div className="login" style={{ "backgroundImage": "url('/background.jpg')" }}>
-        <div className="out-box">
-          <div id="form-title">
+      <div className={styles.login} style={{ backgroundImage: "url('/background.jpg')",backgroundSize:"cover" }}>
+        <div className={styles.outbox}>
+          <div className={styles.form_title}>
             BIGFISH
           </div>
           <div>
@@ -100,11 +100,11 @@ export default class SignUp extends Component {
                 handleClick={this.handleClick}
               />
             )}
-            <button id="form-button" type="button" onClick={this.handleClick} >
+            <button className={styles.form_button} type="button" onClick={this.handleClick} >
               SignUp
             </button>
           </div>
-          <div className="footer">
+          <div className={styles.footer}>
             <span >
               Already have an account?
               <Link to="/login">Login</Link>

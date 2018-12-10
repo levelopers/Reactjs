@@ -3,7 +3,7 @@ import SignUp from './SignUp';
 import Login from './Login'
 import FormInput from './components/FormInput'
 import { Route, Switch, Link } from 'react-router-dom';
-import styles from './stylesheets/LoginSignUp.sass'
+import styles from './stylesheets/forminput.module.sass'
 import Profile from '../profile/Profile'
 
 

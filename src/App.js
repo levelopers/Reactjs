@@ -5,6 +5,8 @@ import Profile from './pages/profile/Profile'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import SignUp from './pages/loginsignup/SignUp';
 import Login from './pages/loginsignup/Login'
+import Question from './pages/question/question'
+
 class App extends Component {
   
 
@@ -23,11 +25,10 @@ class App extends Component {
             <Route  path="/login" component={Login} />
             <Route  path="/signup" component={SignUp} />
             <Route  path="/profile" component={Profile} />
-            <Route exact path="/" component={Login}/>
-        {/* <Profile/> */}
+            <Route exact path="/" component={Login}/> */}
           </Switch>
         </Router>
-        {/* <Profile/> */}
+        {/* <Question/> */}
         </div>
 
     )

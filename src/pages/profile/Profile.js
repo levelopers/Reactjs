@@ -5,15 +5,15 @@ import Photo from './components/Photo'
 import axios from 'axios'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
-import Auth from './utils/token'
 
 export default class Profile extends Component {
   constructor(props) {
+    
     super(props)
     this.state = {
-      id: Auth.id,
+      id: localStorage.getItem('id'),
       name: '',
-      email: Auth.email,
+      email: localStorage.getItem('email'),
       gender: '',
       avatar_url: '',
       description: '',
@@ -66,7 +66,8 @@ export default class Profile extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
+
     axios.get(`https://bigfish100.herokuapp.com/users/${this.state.id}`)
       .then(res => {
         const user = res.data.user
