@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import styles from './stylesheets/LoginSignUp.sass'
+import './stylesheets/LoginSignUp.module.sass'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import validation from './utils/validation'
 import axios from 'axios'
 import Base from './Base'
+import Auth from '../profile/utils/token'
 
 export default class Login extends Component {
   constructor(props) {
@@ -116,16 +117,19 @@ export default class Login extends Component {
         //user_token.user_email
         //user_token.user_id
         .then(res => {
-          this.props.history.push("/profile");
+          console.log(res);
+          Auth.token=(res.data.user_token)
+          // console.log(Auth.token);
+          
+          this.props.props.history.push("/profile");
         })
+        .catch(e=>console.log(e))
     }
   }
   render() {
     // console.log(this.state);
     return (
       <div className="login" style={{ "backgroundImage": "url('/background.jpg')" }}>
-        <div oncli>
-        </div>
         <div className="out-box">
           <div id="form-title">
             BIGFISH

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styles from './stylesheets/LoginSignUp.sass'
+import  './stylesheets/LoginSignUp.module.sass'
 import { Link } from 'react-router-dom'
 import validation from './utils/validation'
 import axios from 'axios'

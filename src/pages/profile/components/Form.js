@@ -7,6 +7,7 @@ import axios from 'axios'
 export default class Form extends Component {
   constructor(props) {
     super(props);
+    //decomposite to 3 small component
     this.state = {
       title: {
         type: 'text',
@@ -103,12 +104,10 @@ export default class Form extends Component {
         }
       })
     }
-
-
-
   }
+  
   render() {
-    console.log(this.state);
+    console.log(this.state.title.isEdit);
 
     return (
       <div className="form-box">

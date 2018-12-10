@@ -12,17 +12,14 @@ import Profile from '../profile/Profile'
 export  class Layout extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      response_obj:{}
-    }
   }
   render() {
+    console.log(this.state);
     return(
       <div>
         <Switch>
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
-          <Route path="/profile" component={Profile} />
         </Switch>
       </div>
     )

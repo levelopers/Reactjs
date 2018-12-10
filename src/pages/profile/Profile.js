@@ -5,14 +5,15 @@ import Photo from './components/Photo'
 import axios from 'axios'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
+import Auth from './utils/token'
 
 export default class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: Number,
+      id: Auth.id,
       name: '',
-      email: '',
+      email: Auth.email,
       gender: '',
       avatar_url: '',
       description: '',
@@ -23,7 +24,7 @@ export default class Profile extends Component {
       progress: Number
     }
   }
-
+  //change image
   handleChange = (e) => {
     const file = e.target.files[0]
     const img_path = (window.URL || window.webkitURL).createObjectURL(file)
@@ -66,7 +67,7 @@ export default class Profile extends Component {
   }
 
   componentWillMount() {
-    axios.get('https://bigfish100.herokuapp.com/users/1')
+    axios.get(`https://bigfish100.herokuapp.com/users/${this.state.id}`)
       .then(res => {
         const user = res.data.user
         this.setState({
@@ -78,11 +79,15 @@ export default class Profile extends Component {
           gender: user.gender,
           done: true
         })
+        console.log(res);
+        
       })
   }
 
   render() {
     console.log(this.state);
+    console.log(this.props.response);
+    
     if (this.state.done) {
       return (
         <div className="profile">
