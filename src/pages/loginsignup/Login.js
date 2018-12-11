@@ -95,7 +95,7 @@ export default class Login extends Component {
   }
 
   handleClick = () => {
-    let canSubmit = Boolean
+    let canSubmit = null;
     Object.entries(this.state).forEach(([key, val]) => {
       let { targetName, isValid, errorMessage } = validation(key, val.value)
       canSubmit = isValid && !!canSubmit
