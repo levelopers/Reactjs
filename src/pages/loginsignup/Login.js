@@ -7,7 +7,10 @@ import axios from 'axios'
 import Base from './Base'
 import Auth from '../../modules/Auth'
 
-export default class Login extends Component {
+import { connect } from 'react-redux';
+import { postToken } from '../../redux/actions/tokenActions';
+
+class Login extends Component {
   constructor(props) {
     super(props)
     console.log(this.props);
@@ -95,10 +98,14 @@ export default class Login extends Component {
   }
 
   handleClick = () => {
-    let canSubmit = Boolean
+    let canSubmit = null
     Object.entries(this.state).forEach(([key, val]) => {
       let { targetName, isValid, errorMessage } = validation(key, val.value)
+      console.log(`${key} ${isValid}`);
+      
       canSubmit = isValid && !!canSubmit
+      console.log(canSubmit);
+      
       this.setState({
         [targetName]: {
           ...this.state[targetName],
@@ -107,26 +114,31 @@ export default class Login extends Component {
         }
       })
     })
+    console.log('== post token ==', canSubmit)
     if (canSubmit) {
-      axios.post(`https://bigfish100.herokuapp.com/user_tokens`, {
-        credential: {
-          email: this.state.email.value,
-          password: this.state.password.value
-        }
-      })
-        //user_token.user_email
-        //user_token.user_id
-        .then(res => {
-          console.log(res);
-          Auth.set_token(res.data.user_token)
-          localStorage.setItem('id',Auth.id)
-          localStorage.setItem('email',Auth.email)
+      // axios.post(`https://bigfish100.herokuapp.com/user_tokens`, {
+      //   credential: {
+      //     email: this.state.email.value,
+      //     password: this.state.password.value
+      //   }
+      // })
+      //   //user_token.user_email
+      //   //user_token.user_id
+      //   .then(res => {
+      //     console.log(res);
+      //     Auth.set_token(res.data.user_token)
+      //     localStorage.setItem('token',Auth.token)
+      //     localStorage.setItem('id',Auth.id)
+      //     localStorage.setItem('email',Auth.email)
+      //     localStorage.setItem('key',Auth.key)
 
-          // console.log(Auth.id);
-          this.props.history.push("/profile");
-          return 
-        })
-        .catch(e=>console.log(e))
+      //     // console.log(Auth.id);
+      //     this.props.history.push("/profile");
+      //     return 
+      //   })
+      //   .catch(e=>console.log(e))
+      
+      // this.props.postToken(this.state.email.value,this.state.password.value)
     }
   }
   render() {
@@ -164,3 +176,4 @@ export default class Login extends Component {
     )
   }
 }
+export default connect(null,{postToken})(Login)
