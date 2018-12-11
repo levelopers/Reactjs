@@ -114,17 +114,12 @@ export default class Login extends Component {
           password: this.state.password.value
         }
       })
-        //user_token.user_email
-        //user_token.user_id
         .then(res => {
           console.log(res);
           Auth.set_token(res.data.user_token)
           localStorage.setItem('id',Auth.id)
           localStorage.setItem('email',Auth.email)
-
-          // console.log(Auth.id);
           this.props.history.push("/profile");
-          return 
         })
         .catch(e=>console.log(e))
     }
