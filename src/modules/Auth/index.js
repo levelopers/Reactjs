@@ -3,7 +3,6 @@ class Auth {
     this.token = null
     this.id = null
     this.key = null
-    this.isValid = null
   }
   set_token(token) {
     this.token = token
