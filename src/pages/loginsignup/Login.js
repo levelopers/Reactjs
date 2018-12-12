@@ -98,14 +98,11 @@ class Login extends Component {
   }
 
   handleClick = () => {
-    let canSubmit = null
+    let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
       let { targetName, isValid, errorMessage } = validation(key, val.value)
       console.log(`${key} ${isValid}`);
-      
       canSubmit = isValid && !!canSubmit
-      console.log(canSubmit);
-      
       this.setState({
         [targetName]: {
           ...this.state[targetName],
@@ -114,7 +111,6 @@ class Login extends Component {
         }
       })
     })
-    console.log('== post token ==', canSubmit)
     if (canSubmit) {
       // axios.post(`https://bigfish100.herokuapp.com/user_tokens`, {
       //   credential: {
@@ -138,7 +134,9 @@ class Login extends Component {
       //   })
       //   .catch(e=>console.log(e))
       
-      // this.props.postToken(this.state.email.value,this.state.password.value)
+      this.props.postToken(this.state.email.value,this.state.password.value)
+          this.props.history.push("/profile");
+
     }
   }
   render() {

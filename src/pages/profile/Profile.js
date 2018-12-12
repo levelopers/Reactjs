@@ -5,10 +5,14 @@ import Photo from './components/Photo'
 import axios from 'axios'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
+import { connect } from 'react-redux'
+import { getProfile } from '../../redux/actions/profileActions'
 
-export default class Profile extends Component {
+
+
+class Profile extends Component {
   constructor(props) {
-    
+
     super(props)
     this.state = {
       id: localStorage.getItem('id'),
@@ -23,6 +27,7 @@ export default class Profile extends Component {
       url: '',
       progress: Number
     }
+    
   }
   //change image
   handleChange = (e) => {
@@ -68,55 +73,67 @@ export default class Profile extends Component {
 
   componentDidMount() {
 
-    axios.get(`https://bigfish100.herokuapp.com/users/${this.state.id}`)
-      .then(res => {
-        const user = res.data.user
-        this.setState({
-          name: user.name,
-          email: user.email,
-          id: user.id,
-          avatar_url: user.avatar_url,
-          description: user.description,
-          gender: user.gender,
-          done: true
-        })
-        console.log(res);
-        
-      })
+    // axios.get(`https://bigfish100.herokuapp.com/users/${this.state.id}`)
+    //   .then(res => {
+    //     const user = res.data.user
+    //     this.setState({
+    //       name: user.name,
+    //       email: user.email,
+    //       id: user.id,
+    //       avatar_url: user.avatar_url,
+    //       description: user.description,
+    //       gender: user.gender,
+    //       done: true
+    //     })
+    //     console.log(res);
+
+    //   })
+    this.props.getProfile()
   }
 
   render() {
     console.log(this.state);
-    
-    if (this.state.done) {
+    {!localStorage.getItem('user_key') && this.props.history.push('/login')}
+
+    const user = this.props.user
       return (
         <div className="profile">
           <Header
-            img={this.state.avatar_url}
+            img={user.avatar_url}
             input_file_path={this.state.input_file_path}
-            id={this.state.id}
+            id={user.id}
             handleChange={this.handleChange}
           />
           <div className="content">
             <div className="box">
               <Photo
-                img={this.state.avatar_url}
+                img={user.avatar_url}
                 input_file_path={this.state.input_file_path}
-                id={this.state.id}
+                id={user.id}
                 handleChange={this.handleChange}
               />
               <Form
-                id={this.state.id}
-                email={this.state.email}
-                name={this.state.name}
-                gender={this.state.gender}
-                description={this.state.description}
+                id={user.id}
+                email={user.email}
+                name={user.name}
+                gender={user.gender}
+                description={user.description}
               />
             </div>
           </div>
         </div>
       )
-    }
-    return null
   }
 }
+
+const mapStoretoProps = state => ({
+  user: state.profile.user
+})
+
+// function mapStoretoProps(state){
+//   return function(){
+
+//   }
+// }
+
+export default connect(mapStoretoProps, { getProfile })(Profile)

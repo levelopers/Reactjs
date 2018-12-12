@@ -10,8 +10,8 @@ class question extends Component {
     console.log(this.props);
     
     this.state = {
-      user_id: localStorage.getItem('id'),
-      user_key: localStorage.getItem('key'),
+      user_id: this.props.token.user_id||localStorage.getItem('id'),
+      user_key: this.props.token.key||localStorage.getItem('key'),
       questions: [],
       answers: []
     }
@@ -74,6 +74,6 @@ class question extends Component {
 }
 
 const mapStatetoProps = state =>({
-  token:state.tokenReducer.token
+  token:state.token.token
 })
 export default connect(mapStatetoProps)(question)

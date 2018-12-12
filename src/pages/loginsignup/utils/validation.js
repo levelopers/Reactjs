@@ -26,25 +26,20 @@ const validation = (targetName, targetValue) => {
         case !!targetValue.match(/(?=.*[A-Z])/g):
           errorMessage = 'at least one Upper case'
           isValid=false
-
           break;
         case !!targetValue.match(/(?=.{6,15})/g):
           errorMessage = 'length between 6 to 15'
-          isValid=false
-
-          break;
-        case !!targetValue:
           isValid=false
           break;
         default: isValid=false
       }
     case 'name':
       isValid=true
-
   }
 
   if (!targetValue) {
     errorMessage = "Required"
+    isValid=false
   }
 
   return {
