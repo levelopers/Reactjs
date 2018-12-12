@@ -7,8 +7,8 @@ const URL = 'https://bigfish100.herokuapp.com'
 export const postToken= (email,password) =>dispatch=>{
     const body={
         "credential": {
-          "email": email || JSON.parse(localStorage.getItem('auth')).email,
-          "password": password || JSON.parse(localStorage.getItem('auth')).password
+          "email": email,
+          "password": password
         }
       }
     axios.post(`${URL}/user_tokens`,body)

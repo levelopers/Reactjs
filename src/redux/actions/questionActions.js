@@ -3,16 +3,14 @@ import axios from 'axios'
 
 const URL = 'https://bigfish100.herokuapp.com/questions'
 
-export const getQuestions =(id,key)=>dispatch=>{
-    let header
-    if(!!localStorage.getItem('auth')){
-     header = {
+export const getQuestions =(id,key)=>(dispatch,getState)=>{
+    const state = getState().token.token
+    const header = {
         "user_token": {
-          "user_id":id || JSON.parse(localStorage.getItem('auth')).id,
-          "key": key || JSON.parse(localStorage.getItem('auth')).key
+          "user_id":id || state.id,
+          "key": key || state.key
         }
       }
-    }
     axios.get(URL,{
         headers:{
             'Authorization':JSON.stringify(header)

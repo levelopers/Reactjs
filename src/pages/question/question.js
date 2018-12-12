@@ -36,7 +36,13 @@ class Question extends Component {
     //     })
     //   })
   }
-  // componentDidUpdate(){
+  componentDidUpdate(){
+    if(typeof this.props.status === 'number' && this.props.status!==200){
+      console.log('questions header authentications failed, redirect to login page');
+      this.props.history.push('/login')
+    }
+    console.log(this.props.questions);
+
   //   const questions=this.state.questions
   //   questions.map(ques=>{
   //     axios.get(`${this.URL}/${ques.id}/answers`,{
@@ -51,13 +57,13 @@ class Question extends Component {
   //         })
   //       })
   //   })
-  // }
-  render() {
-    if(typeof this.props.status === 'number' && this.props.status!==200){
-      console.log('questions header authentications failed, redirect to login page');
-      this.props.history.push('/login')
-    }
+  }
+  componentWillReceiveProps(){
     console.log(this.props.questions);
+
+  }
+  render() {
+    
     
     return (
       <div>
