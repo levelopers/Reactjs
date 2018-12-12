@@ -1,7 +1,7 @@
 import {POST_TOKEN} from '../actions/types'
 
 const initialState = {
-    token:{}
+    token:null
 }
 
 export default function(state=initialState, action){
@@ -11,6 +11,7 @@ export default function(state=initialState, action){
             ...state,
             token:action.payload
         }
-        default: return state
+        default: 
+        return state
     }
 }

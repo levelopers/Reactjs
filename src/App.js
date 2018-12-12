@@ -18,9 +18,10 @@ class App extends Component {
   //new repo, project structure 
   
   render() {
-    // console.log(localStorage.getItem('token'));
-    console.log(localStorage);
-    // localStorage.setItem('user_key','')
+    if(!!localStorage.getItem('auth')){
+    console.log('localstorage auth :');
+    console.log(JSON.parse(localStorage.getItem('auth')));
+    }
     return (
       
         <div>

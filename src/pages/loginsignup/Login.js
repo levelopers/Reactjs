@@ -13,7 +13,6 @@ import { postToken } from '../../redux/actions/tokenActions';
 class Login extends Component {
   constructor(props) {
     super(props)
-    console.log(this.props);
     this.state = {
       email: {
         value: '',
@@ -135,12 +134,21 @@ class Login extends Component {
       //   .catch(e=>console.log(e))
       
       this.props.postToken(this.state.email.value,this.state.password.value)
-          this.props.history.push("/profile");
 
     }
   }
+  
+  componentDidUpdate(){
+    if(this.props.token){
+      this.props.history.push("/question");
+    }
+  }
+  
   render() {
     // console.log(this.state);
+    console.log(!!this.props.token);
+
+    
     return (
       <div className={styles.login} style={{ "backgroundImage": "url('/background.jpg')",backgroundSize:"cover" }}>
         <div className={styles.outbox}>
@@ -174,4 +182,7 @@ class Login extends Component {
     )
   }
 }
-export default connect(null,{postToken})(Login)
+const mapStateToProps=state=>({
+  token:state.token.token
+})
+export default connect(mapStateToProps,{postToken})(Login)
