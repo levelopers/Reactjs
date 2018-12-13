@@ -1,10 +1,5 @@
 import { GET_ANSWERS, GET_ANSWER } from './types'
-import axios from 'axios'
 import { serverCall } from '../../modules/ServerCall'
-
-const URL = 'https://bigfish100.herokuapp.com/questions'
-
-
 
 export const getAnswers = () => (dispatch, getState) => {
   if (!getState().token.token && getState().questions.questions) return
@@ -18,11 +13,28 @@ export const getAnswers = () => (dispatch, getState) => {
         dispatch({
           type: GET_ANSWERS,
           payload: res,
-          status: res.status
+          question_id: ques.id
         })
       },
       e => { console.log(e) }
       )
   })
-
 }
+
+// const fetchQuestionBegin = () => ({
+//   type: FETCH_QUESTIONS_BEGIN
+// });
+
+//  const fetchQuestionSuccess = res => ({
+//   type: FETCH_QUESTIONS_SUCCESS,
+//   payload: res
+// });
+
+//  const fetchQuestionFail = error => ({
+//   type: FETCH_QUESTIONS_FAILURE,
+//   payload:  {error}
+// });
+
+// export const FETCH_QUESTIONS_BEGIN   = 'FETCH_QUESTIONS_BEGIN';
+// export const FETCH_QUESTIONS_SUCCESS = 'FETCH_QUESTIONS_SUCCESS';
+// export const FETCH_QUESTIONS_FAILURE = 'FETCH_QUESTIONS_FAILURE';

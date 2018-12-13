@@ -8,5 +8,5 @@ export default combineReducers({
     token,
     profile,
     questions,
-    answers
+    answers,
 })
