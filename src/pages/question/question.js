@@ -37,10 +37,10 @@ class Question extends Component {
     //   })
   }
   componentDidUpdate(){
-    if(typeof this.props.status === 'number' && this.props.status!==200){
-      console.log('questions header authentications failed, redirect to login page');
-      this.props.history.push('/login')
-    }
+    // if(typeof this.props.status === 'number' && this.props.status!==200){
+    //   console.log('questions header authentications failed, redirect to login page');
+    //   this.props.history.push('/login')
+    // }
     console.log(this.props.questions);
 
   //   const questions=this.state.questions
@@ -63,8 +63,6 @@ class Question extends Component {
 
   }
   render() {
-    
-    
     return (
       <div>
         <div>

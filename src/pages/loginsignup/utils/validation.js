@@ -35,6 +35,7 @@ const validation = (targetName, targetValue) => {
       }
     case 'name':
       isValid=true
+    default: return null
   }
 
   if (!targetValue) {

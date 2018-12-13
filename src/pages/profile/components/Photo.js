@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import '../stylesheets/photo.css'
 import { ReactComponent as Camera } from '../stylesheets/camera.svg'
 const Photo = (props) => {

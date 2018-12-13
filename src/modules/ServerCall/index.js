@@ -36,8 +36,8 @@ export const firstCall = (email, password,success,fail,loading) => {
       "password": password
     }
   }
-  let isLoading=true
-  loading(isLoading)
+  let isLoading=false
+  loading(isLoading=true)
   axios.post(`${URL}/user_tokens`, body)
     .then(res => {
       console.log(`post user_token:`);
@@ -46,7 +46,6 @@ export const firstCall = (email, password,success,fail,loading) => {
       success(res)
       Auth.set_token(res.data.user_token)
       localStorage.setItem('auth', JSON.stringify(Auth))
-      localStorage.setItem('user_key', Auth.key)
     })
     .catch(e=>{isLoading=false;fail(e)})
 }

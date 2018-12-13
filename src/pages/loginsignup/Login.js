@@ -84,7 +84,6 @@ class Login extends Component {
 
   render() {
     // console.log(this.state);
-    console.log(!!this.props.token);
     return (
       <div className={styles.login} style={{ "backgroundImage": "url('/background.jpg')", backgroundSize: "cover" }}>
         <div className={styles.outbox}>
