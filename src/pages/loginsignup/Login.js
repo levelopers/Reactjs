@@ -92,6 +92,7 @@ class Login extends Component {
           </div>
           <div className={styles.form_input}>
             {Object.keys(this.state).map(attrName =>
+              <div key={attrName}>
               <Base
                 name={attrName}
                 message={this.state[attrName].errorMessage}
@@ -100,6 +101,7 @@ class Login extends Component {
                 handleBlur={this.handleBlur}
                 handleClick={this.handleClick}
               />
+              </div>
             )}
 
             <button className={styles.form_button} type="button" onClick={this.handleClick} >
