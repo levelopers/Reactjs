@@ -7,12 +7,13 @@ import Login from './pages/loginsignup/Login'
 import Question from './pages/question/question'
 import { insertToken } from './redux/actions/tokenActions'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 
 
 class App extends Component {
   render() {
+  console.log('localstorage auth:');
   console.log(JSON.parse(localStorage.getItem('auth')))
-
    this.props.insertToken()
     return (
         <div>
@@ -29,7 +30,4 @@ class App extends Component {
     )
   }
 }
-const mapStatetoProps = state =>({
-  token:state.token.token
-})
-export default connect(mapStatetoProps,{ insertToken })(App)
+export default connect(null,{ insertToken })(App)

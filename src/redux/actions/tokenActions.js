@@ -32,7 +32,7 @@ export const postToken = (email, password) => dispatch => {
       type: POST_TOKEN,
       payload: res.data.user_token
     }),
-    e => console.log(e),
+    e =>{ console.log(e);},
     isLoading => console.log(isLoading)
   )
 }

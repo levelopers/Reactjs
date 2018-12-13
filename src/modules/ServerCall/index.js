@@ -3,29 +3,34 @@ import Auth from '../Auth'
 
 const URL = 'https://bigfish100.herokuapp.com'
 
-export const serverCall = (token) => {
+export const serverCall = (token,name) => {
   const header = {
     "user_token": {
-      "user_id": token.id,
+      "user_id": token.user_id,
       "key": token.key
     }
   }
-
-  const serverGet = (url, success, fail) => {
-    axios.get(`${URL}/${url}`, {
-      headers: {
-        "Authorization": JSON.stringify(header)
-      }
-    }).then(res => success(res)).catch(e => fail(e))
+  switch(name){
+    case 'serverGet':
+    return (url, success, fail) => {
+      axios.get(`${URL}/${url}`, {
+        headers: {
+          "Authorization": JSON.stringify(header)
+        }
+      }).then(res => success(res)).catch(e => fail(e))
+    }
+    case 'serverPost':
+    return (url, success, fail) => {
+      axios.post(`${URL}/${url}`, {
+        headers: {
+          "Authorization": JSON.stringify(header)
+        }
+      }).then(res => success(res)).catch(e => fail(e))
+    }
+    default:return null
   }
+  
 
-  const serverPost = (url, success, fail) => {
-    axios.post(`${URL}/${url}`, {
-      headers: {
-        "Authorization": JSON.stringify(header)
-      }
-    }).then(res => success(res)).catch(e => fail(e))
-  }
 
 }
 
