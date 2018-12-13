@@ -4,13 +4,15 @@ import Header from '../../components/header'
 import styles from './stylesheets/question.module.sass'
 import { connect } from 'react-redux';
 import { getQuestions } from '../../redux/actions/questionActions'
-
+import { getAnswer } from '../../redux/actions/answerActions'
+import { getAnswers } from '../../redux/actions/answersActions'
 class Question extends Component {
   constructor(props) {
     super(props)
   }
   componentDidMount() {
     this.props.getQuestions()
+    this.props.getAnswers()
   }
   componentDidUpdate(){
     console.log(this.props.questions);
@@ -28,7 +30,14 @@ class Question extends Component {
             <div key={ques.id} className={styles.title}>
               {ques.title}
             </div>
+            
           )}
+           {/* {this.prop.answers.map(ans =>
+            <div key={ans.id} className={styles.title}>
+              {ans.title}
+            </div>
+            
+          )} */}
         </div>
       </div>
 
@@ -38,6 +47,8 @@ class Question extends Component {
 
 const mapStatetoProps = state =>({
   questions:state.questions.questions,
-  status:state.questions.status
+  status:state.questions.status,
+  answers:state.answers.answers,
+  answer:state.answers.answer
 })
-export default connect(mapStatetoProps,{ getQuestions })(Question)
+export default connect(mapStatetoProps,{ getQuestions, getAnswer, getAnswers })(Question)
