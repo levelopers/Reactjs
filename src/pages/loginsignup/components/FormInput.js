@@ -27,7 +27,7 @@ export default class Form extends Component {
       <div id={`form_${name}`} className={styles.outbox} >
         <input className={styles.form_input}
           id={`input_${name}`} 
-          className={errorCssClass || inputCssClass} 
+          // className={errorCssClass || inputCssClass} 
           type="text" 
           name={name} 
           placeholder={name[0].toUpperCase() + name.slice(1)}

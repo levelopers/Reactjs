@@ -23,8 +23,10 @@ export const serverCall = (token, name) => {
           .catch(e => fail(e))
       }
     case 'serverPost':
-      return (url, success, fail) => {
-        axios.post(`${URL}/${url}`, {
+      return (url, body, success, fail) => {
+        axios.post(`${URL}/${url}`,
+        body,
+         {
           headers: {
             "Authorization": JSON.stringify(header)
           }

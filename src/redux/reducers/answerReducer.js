@@ -12,7 +12,6 @@ export default function (state = initialState, action) {
         answer: action.payload.data
       }
     case GET_ANSWERS:
-      console.log(state);
       return {
         answers: [...state.answers, {
           question_id:action.question_id,

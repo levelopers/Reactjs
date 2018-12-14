@@ -4,11 +4,13 @@ import {
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTIONS_FAILURE
 } from '../actions/questionActions';
+import {POST_QUESTION} from '../actions/types'
 
 const initialState = {
   questions: [],
   loading: false,
-  error: null
+  error: null,
+  postStatus:null
 };
 
 export default function (state = initialState, action) {
@@ -43,6 +45,11 @@ export default function (state = initialState, action) {
         error: action.payload.error,
         questions: []
       };
+    case POST_QUESTION:
+      return {
+        ...state,
+        postStatus:action.payload.data
+      }
 
     default:
       // ALWAYS have a default case in a reducer

@@ -61,7 +61,7 @@ class Login extends Component {
   handleClick = () => {
     let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
-      let { targetName, isValid, errorMessage } = validation(key, val.value)
+      let {  isValid } = validation(key, val.value)
       canSubmit = isValid && !!canSubmit
       // this.setState({
       //   [targetName]: {

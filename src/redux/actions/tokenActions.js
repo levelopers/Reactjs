@@ -1,9 +1,5 @@
 import { POST_TOKEN } from './types'
-import axios from 'axios'
-import Auth from '../../modules/Auth'
 import { firstCall } from '../../modules/ServerCall'
-
-const URL = 'https://bigfish100.herokuapp.com'
 
 export const postToken = (email, password) => dispatch => {
   // const body={

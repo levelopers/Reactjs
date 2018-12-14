@@ -1,5 +1,5 @@
 export const GET_QUESTIONS = 'GET_QUESTIONS'
-export const POST_QUESTIONS = 'POST_QUESTIONS'
+export const POST_QUESTION = 'POST_QUESTION'
 export const POST_TOKEN = 'POST_TOKEN'
 export const GET_PROFILE = 'GET_PROFILE'
 export const GET_ANSWERS = 'GET_ANSWERS'
