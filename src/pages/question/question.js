@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import Header from '../../components/header'
 import Form from '../../components/form'
 import styles from './stylesheets/question.module.sass'
+import post_button from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
 import { getQuestions } from '../../redux/actions/questionActions'
 import { getAnswers } from '../../redux/actions/answersActions'
@@ -27,32 +29,39 @@ class Question extends Component {
   componentWillUpdate() {
   }
   showPostClick = () => {
-    this.popupRef.style.display = "block"
+
+    this.popupRef.style.display = "flex"
   }
   fillFormClick = (e) => {
     e.stopPropagation()
   }
   submitPostClick = (e) => {
+    //quit modal
     this.cancelModal()
-    this.props.postQuestion()
+    //post questions
+    this.props.postQuestion(this.state.title.value, this.state.content.value)
 
+  }
+  handleParagraphClick=(e,ques_id)=>{
+    console.log(ques_id);
+    this.props.history.push(`/answers/${ques_id}`)
   }
   cancelModal = () => {
     this.popupRef.style.display = "none"
   }
-  handleContentChange=(e)=>{
+  handleContentChange = (e) => {
     this.setState({
       ...this.state,
-      content:{
-        value:e.target.value
+      content: {
+        value: e.target.value
       }
     })
   }
-  handleTitleChange=(e)=>{
+  handleTitleChange = (e) => {
     this.setState({
       ...this.state,
-      title:{
-        value:e.target.value
+      title: {
+        value: e.target.value
       }
     })
   }
@@ -66,11 +75,13 @@ class Question extends Component {
           {/* <button onClick={e => { localStorage.clear(); this.props.history.push('/login') }}>logout</button> */}
         </div>
         <div className={styles.btn}>
-          <button onClick={this.showPostClick}>button</button>
+          <button onClick={this.showPostClick}>
+            <img src={post_button} alt="" />
+          </button>
         </div>
         <div className={styles.outbox}>
           {this.props.questions && this.props.questions.map(ques =>
-            <div key={ques.id} className={styles.paragraph}>
+            <div key={ques.id} className={styles.paragraph} onClick={e=>this.handleParagraphClick(e,ques.id)}>
               <div className={styles.title}>
                 {ques.title}
               </div>
@@ -85,7 +96,6 @@ class Question extends Component {
                   <div
                     key={ans.question_id}
                     className={styles.blank}>
-
                   </div>
               )}
             </div>
@@ -97,27 +107,29 @@ class Question extends Component {
 
         <div className={styles.popup_box} onClick={this.cancelModal} ref={ref => this.popupRef = ref}>
           <div className={styles.popup_content} onClick={this.fillFormClick}>
-            <span>asdfasdfasdfasdfasdfasdf</span>
-            <Form
-              configs={[
-                {
-                  type: 'text',
-                  placeholder: 'Title',
-                  handleChange: this.handleTitleChange,
-                  value:this.state.title.value
-                },
-                {
-                  type: 'textArea',
-                  placeholder: 'Content',
-                  cols: 20,
-                  handleChange: this.handleContentChange,
-                  value:this.state.content.value
-                }
-              ]}
-              handleButton={this.submitPostClick}
-              button={'Ask'}
-              styles={styles} />
+            <div className={styles.modal_outbox}>
+              <Form
+                configs={[
+                  {
+                    type: 'text',
+                    placeholder: 'Title',
+                    handleChange: this.handleTitleChange,
+                    value: this.state.title.value
+                  },
+                  {
+                    type: 'textArea',
+                    placeholder: 'Content',
+                    cols: 20,
+                    handleChange: this.handleContentChange,
+                    value: this.state.content.value
+                  }
+                ]}
+                handleButton={this.submitPostClick}
+                button={'Ask'}
+                styles={styles} />
+            </div>
           </div>
+
         </div>
       </div>
 

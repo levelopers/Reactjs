@@ -77,9 +77,9 @@ class Login extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.token) {
-      this.props.history.push("/question");
-    }
+    // if (this.props.token) {
+    //   this.props.history.push("/question");
+    // }
   }
 
   render() {

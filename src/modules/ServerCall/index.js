@@ -1,9 +1,11 @@
 import axios from 'axios'
 import Auth from '../Auth'
+// import { Navigation } from './history'
 
 const URL = 'https://bigfish100.herokuapp.com'
 
 export const serverCall = (token, name) => {
+  //
   const header = {
     "user_token": {
       "user_id": token.user_id,
@@ -20,7 +22,13 @@ export const serverCall = (token, name) => {
         })
           .then(handleError)
           .then(res => success(res))
-          .catch(e => fail(e))
+          .catch(e => {
+            // if(e 满足 某个调价){
+            //   navigation.push('./asdas')
+            // }
+            fail(e)
+          
+          })
       }
     case 'serverPost':
       return (url, body, success, fail) => {
@@ -67,3 +75,32 @@ function handleError(response) {
   }
   return response;
 }
+
+
+// // module history.js
+// export let navigation = null;
+
+// export default class History extends Component {
+//   push = (path) => {
+//     this.props.history.push(path)
+//   }
+
+//   render(){
+//     return null
+//   }
+// }
+
+// export default withRouter(History);
+
+
+// // app.js
+// import History, { navigation } from '/modles.history'
+// render(){
+//   return(
+//     <div>
+//       {/* blabka */}
+
+//       <History ref={ref => navigation = ref}/>
+//     </div>
+//   )
+// }

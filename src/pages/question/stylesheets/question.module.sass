@@ -27,13 +27,13 @@
     margin-right: 29px
     margin-bottom: 42px
 .popup_box
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
   display: none
   position: fixed
   z-index: 1
-  display: flex
-  flex-direction: row
-  justify-content: center
-  align-items: center
   left: 0
   top: 0
   width: 100%
@@ -44,12 +44,63 @@
 .popup_content
   background-color: #fefefe
   margin: auto
-  padding: 20px
   border: 1px solid #888
-  width: 80%
+  width: 900px
+  height: 400px
+.modal_outbox
+  margin-left: 100px
+  margin-right: 100px
 .form_outbox
   display: flex
   flex-direction: column
+  align-items: flex-end
 .form_form
   display: flex
   flex-direction: column
+  font-family: Roboto-Regular
+  font-size: 25px
+  color: #424C50
+  ::placeholder
+    font-family: Roboto-Regular
+    font-size: 25px
+    color: #BBCDC5
+.form_input
+  width: 700px
+  height: 35px
+  margin-top: 36px
+  border: 0
+  outline: 0
+  background: transparent
+  border-bottom: 1px solid rgba(100, 100, 100, 0.3)
+.form_textArea
+  width: 700px
+  height: 161px
+  margin-top: 34px
+  margin-bottom: 59px
+  border: 0
+  outline: 0
+  background: transparent
+  border-bottom: 1px solid rgba(100, 100, 100, 0.3)
+.form_button
+  width: 386px
+  height: 50px
+  font-family: Roboto-Regular
+  font-size: 25px
+  background: #ED5736
+  color: #FFFFFF
+  text-align: center
+  border-radius: 10px
+  margin-bottom: 25px
+.btn
+  text-decoration: none
+  border: none
+  position: absolute
+  right: 0
+  bottom: 0
+  margin-right: 25px
+  margin-bottom: 25px
+  button
+    background: transparent
+    background-color: rgba(100,100,100,0.1)
+    padding: 0
+    border: 0
