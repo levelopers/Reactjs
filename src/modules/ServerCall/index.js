@@ -2,79 +2,69 @@ import axios from 'axios'
 import Auth from '../Auth'
 // import { Navigation } from './history'
 
-const URL = 'https://bigfish100.herokuapp.com'
+const URL = 'https://bigfish100.herokuapp.com/'
 
-export const serverCall = (token, name) => {
-  //
+export const serverCall = (config, history) => {
+  // if(localStorage.getItem('auth')){
+  const token = JSON.parse(localStorage.getItem('auth')).token
   const header = {
     "user_token": {
       "user_id": token.user_id,
       "key": token.key
     }
   }
-  switch (name) {
-    case 'serverGet':
-      return (url, success, fail) => {
-        axios.get(`${URL}/${url}`, {
-          headers: {
-            "Authorization": JSON.stringify(header)
-          }
-        })
-          .then(handleError)
-          .then(res => success(res))
-          .catch(e => {
-            // if(e 满足 某个调价){
-            //   navigation.push('./asdas')
-            // }
-            fail(e)
-          
-          })
-      }
-    case 'serverPost':
-      return (url, body, success, fail) => {
-        axios.post(`${URL}/${url}`,
-        body,
-         {
-          headers: {
-            "Authorization": JSON.stringify(header)
-          }
-        })
-          .then(handleError)
-          .then(res => success(res))
-          .catch(e => fail(e))
-      }
-    default: return null
+  config.baseURL = URL
+  config.headers = {
+    "Authorization": JSON.stringify(header)
   }
+// }
+  config.transformResponse = [function (data) {
+    if (data && data.code === 'invalid_user_token') {
+      history.push('/login')
+      data.is_pre_handled = true
+    }
+    return data;
+  }]
+  let cancel
+  config.cancelToken = new axios.CancelToken(function (c) {
+    cancel = c
+  })
 
-
-
+  return {
+    request: axios(config),
+    cancel: cancel
+  }
 }
 
-export const firstCall = (email, password, success, fail) => {
+
+export const firstCall = (email, password) => {
   const body = {
     "credential": {
       "email": email,
       "password": password
     }
   }
-  axios.post(`${URL}/user_tokens`, body)
-    .then(handleError)
-    .then(res => {
-      console.log(`post user_token:`);
-      console.log(res);
-      success(res)
-      Auth.set_token(res.data.user_token)
-      localStorage.setItem('auth', JSON.stringify(Auth))
-    })
-    .catch(e => { fail(e) })
+  return serverCall(
+    {
+      method: 'post',
+      url: 'user_tokens',
+      data: body
+    }
+  ).request.then(res=>{
+    console.log('token posted')
+    Auth.set_token(res.data.user_token)
+  }).catch(err=>{
+    handleError(err)    
+  })
 }
+ 
 
-function handleError(response) {
-  if (!response.statusText==='OK') {
-    throw Error(response.statusText);
+  function handleError(response) {
+    if (!response.statusText === 'OK') {
+      throw Error(response.statusText);
+    }
+    return response;
   }
-  return response;
-}
 
 
 // // module history.js

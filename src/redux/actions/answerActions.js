@@ -39,18 +39,21 @@ export const getAnswer = () => (dispatch, getState) => {
     //     })
     //   })
     questions.map(ques => {
-      serverCall(token, 'serverGet')
-        (
-        `questions/${ques.id}/answers/1`,
-        res => {
+     
+        return serverCall({
+          method:'get',
+          url:`questions/${ques.id}/answers/1`
+        }).request
+        .then( res => {
           dispatch({
             type: GET_ANSWER,
             payload: res,
             status: res.status
           })
-        },
-        e => { console.log(e) }
-        )
+        })
+        .catch(err=>{
+          console.log(err);
+        })
     })
   
   }

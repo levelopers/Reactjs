@@ -7,17 +7,20 @@ export const getQuestions = () => (dispatch, getState) => {
   const token = getState().token.token
   //begin
   dispatch(fetchQuestionBegin())
-  serverCall(token, 'serverGet')
-    ('questions',
-      res => {
-        //success
-        dispatch(fetchQuestionSuccess(res))
-        //send get answers request
-        dispatch(getAnswers())
-      },
-      //error
-      e => { console.log(e); dispatch(fetchQuestionFail(e)) }
-    )
+    return serverCall({
+      method:'GET',
+      url:`/questions`
+    }).request
+    .then( res => {
+       //success
+       dispatch(fetchQuestionSuccess(res))
+       //send get answers request
+       dispatch(getAnswers())
+    })
+    .catch(err=>{
+      console.log(err);
+      dispatch(fetchQuestionFail(err)) 
+    })
 }
 const fetchQuestionBegin = () => ({
   type: FETCH_QUESTIONS_BEGIN

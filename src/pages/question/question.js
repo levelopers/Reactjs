@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import {Redirect} from 'react-router-dom'
 import Header from '../../components/header'
-import Form from '../../components/form'
+import Form from './components/Form'
 import styles from './stylesheets/question.module.sass'
 import post_button from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
@@ -9,6 +8,7 @@ import { getQuestions } from '../../redux/actions/questionActions'
 import { getAnswers } from '../../redux/actions/answersActions'
 import { getProfile } from '../../redux/actions/profileActions'
 import { postQuestion } from '../../redux/actions/questionActions'
+import {navigation} from '../../modules/navigation'
 class Question extends Component {
   constructor(props) {
     super(props)
@@ -29,7 +29,6 @@ class Question extends Component {
   componentWillUpdate() {
   }
   showPostClick = () => {
-
     this.popupRef.style.display = "flex"
   }
   fillFormClick = (e) => {
@@ -42,7 +41,7 @@ class Question extends Component {
     this.props.postQuestion(this.state.title.value, this.state.content.value)
 
   }
-  handleParagraphClick=(e,ques_id)=>{
+  handleParagraphClick = (e, ques_id) => {
     console.log(ques_id);
     this.props.history.push(`/answers/${ques_id}`)
   }
@@ -65,9 +64,10 @@ class Question extends Component {
       }
     })
   }
-
-
   render() {
+    console.log(navigation);
+    
+    // navigation.push('/login')    
     return (
       <div className={styles.page}>
         <div className={styles.header}>
@@ -81,17 +81,15 @@ class Question extends Component {
         </div>
         <div className={styles.outbox}>
           {this.props.questions && this.props.questions.map(ques =>
-            <div key={ques.id} className={styles.paragraph} onClick={e=>this.handleParagraphClick(e,ques.id)}>
+            <div key={ques.id} className={styles.paragraph} onClick={e => this.handleParagraphClick(e, ques.id)}>
               <div className={styles.title}>
                 {ques.title}
               </div>
               {this.props.answers && this.props.answers.map(ans =>
                 ans.question_id === ques.id ?
-                  // ans.answers.map(ans =>
                   <div key={ans.answers[0].id} className={styles.answer}>
                     {ans.answers[0].content}
                   </div>
-                  // )
                   :
                   <div
                     key={ans.question_id}
@@ -100,81 +98,29 @@ class Question extends Component {
               )}
             </div>
           )}
-          {/* {this.props.answers&&
-          <MapQA questions={this.props.questions} answers={this.props.answers}/>
-          } */}
         </div>
-
         <div className={styles.popup_box} onClick={this.cancelModal} ref={ref => this.popupRef = ref}>
           <div className={styles.popup_content} onClick={this.fillFormClick}>
             <div className={styles.modal_outbox}>
               <Form
-                configs={[
-                  {
-                    type: 'text',
-                    placeholder: 'Title',
-                    handleChange: this.handleTitleChange,
-                    value: this.state.title.value
-                  },
-                  {
-                    type: 'textArea',
-                    placeholder: 'Content',
-                    cols: 20,
-                    handleChange: this.handleContentChange,
-                    value: this.state.content.value
-                  }
-                ]}
-                handleButton={this.submitPostClick}
-                button={'Ask'}
-                styles={styles} />
+                {
+                ...{
+                  inputValue: this.state.title.value,
+                  textareaValue: this.state.content.value,
+                  handleTitleChange: this.handleTitleChange,
+                  handleContentChange: this.handleContentChange,
+                  handleButton: this.handleButton
+                }
+                }
+              />
             </div>
           </div>
-
         </div>
       </div>
 
     )
   }
 }
-// function MapQA({questions,answers}) {
-//   console.log(questions);
-
-
-
-//   for (let question of questions) {
-//     let ques_id = question.id
-//     let ques_title = question.title
-
-//     for (let ans of answers) {
-//       console.log(ans.question_id,ques_id);
-
-//       if (ans.question_id === ques_id) {
-//         return (
-//           <div key={ques_id}>
-//           <div>===================</div>
-//           <div>******</div>
-//             {ques_title}
-//             <div>*********</div>
-//             {ans.answers.map(ans => 
-//               <div key={ans.id}>
-//             <div>!!!!!!!!!!!</div>
-
-//                 {ans.content}
-//               <div>!!!!!!!!!!!!!!</div>
-
-//               </div>
-//             )}
-//             <div>===================</div>
-//           </div>
-//         )
-//       }
-
-//     }
-//     return null
-//   }
-//   return null
-
-// }
 
 const mapStatetoProps = state => ({
   answers: state.answers.answers,

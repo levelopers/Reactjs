@@ -107,8 +107,6 @@ export default class Form extends Component {
   }
   
   render() {
-    console.log(this.state.title.isEdit);
-
     return (
       <div className="form-box">
         {
