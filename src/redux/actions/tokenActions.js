@@ -2,15 +2,23 @@ import { POST_TOKEN } from './types'
 import { firstCall } from '../../modules/ServerCall'
 
 export const postToken = (email, password) => dispatch => {
-  firstCall(
+  return firstCall(
     email,
-    password,
-   
-  )
+    password
+  ).then(res=>{
+    console.log(res);
+    dispatch({
+    type: POST_TOKEN,
+    payload:res
+  })
+})
 }
 
 export const insertToken = () => dispatch => {
+  // localStorage.clear()
   if (localStorage.getItem('auth')) {
+    console.log(JSON.parse(localStorage.getItem('auth')))
+    
     dispatch({
       type: POST_TOKEN,
       payload: JSON.parse(localStorage.getItem('auth')).token

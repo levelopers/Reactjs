@@ -15,7 +15,7 @@ export default function (state = initialState, action) {
       return {
         answers: [...state.answers, {
           question_id:action.question_id,
-          answers:action.payload.data.answers,
+          answers:JSON.parse(action.payload.data).answers,
         }]
       }
     default:

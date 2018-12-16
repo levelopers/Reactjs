@@ -21,9 +21,9 @@ class App extends Component {
             <Route path="/signup" component={SignUp} />
             <Route path="/profile" component={Profile} />
             <Route path="/question" component={Question} />
-            <Route path="/answers/:id" component={Answers} />
+            <Route path="/answers/:ques_id" component={Answers} />
             <Route exact path="/" component={Login} />
-            <History ref={ref => navigation = ref} />
+            {/* <History ref={ref => navigation = ref} /> */}
           </Switch>
         </Router>
 

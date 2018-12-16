@@ -9,7 +9,7 @@ export default function(state=initialState, action){
         case GET_PROFILE:
         return {
             ...state,
-            user:action.payload.data.user
+            user:JSON.parse(action.payload.data).user
         }
         default: 
         return state

@@ -5,19 +5,19 @@ import Auth from '../Auth'
 const URL = 'https://bigfish100.herokuapp.com/'
 
 export const serverCall = (config, history) => {
-  // if(localStorage.getItem('auth')){
-  const token = JSON.parse(localStorage.getItem('auth')).token
-  const header = {
-    "user_token": {
-      "user_id": token.user_id,
-      "key": token.key
+  if (localStorage.getItem('auth')) {
+    const token = JSON.parse(localStorage.getItem('auth')).token
+    const header = {
+      "user_token": {
+        "user_id": token.user_id,
+        "key": token.key
+      }
+    }
+    config.headers = {
+      "Authorization": JSON.stringify(header)
     }
   }
   config.baseURL = URL
-  config.headers = {
-    "Authorization": JSON.stringify(header)
-  }
-// }
   config.transformResponse = [function (data) {
     if (data && data.code === 'invalid_user_token') {
       history.push('/login')
@@ -36,7 +36,6 @@ export const serverCall = (config, history) => {
   }
 }
 
-
 export const firstCall = (email, password) => {
   const body = {
     "credential": {
@@ -46,25 +45,27 @@ export const firstCall = (email, password) => {
   }
   return serverCall(
     {
-      method: 'post',
-      url: 'user_tokens',
+      method: 'POST',
+      url: '/user_tokens',
       data: body
     }
-  ).request.then(res=>{
-    console.log('token posted')
-    Auth.set_token(res.data.user_token)
-  }).catch(err=>{
-    handleError(err)    
-  })
+  ).request
+    .then(res => {
+      Auth.set_token(JSON.parse(res.data).user_token)
+      localStorage.setItem('auth',JSON.stringify(Auth))
+    })
+    // .catch(err => {
+    //   // handleError(err)
+    // })
 }
- 
 
-  function handleError(response) {
-    if (!response.statusText === 'OK') {
-      throw Error(response.statusText);
-    }
-    return response;
-  }
+
+// function handleError(response) {
+//   if (!response.statusText === 'OK') {
+//     throw Error(response.statusText);
+//   }
+//   return response;
+// }
 
 
 // // module history.js

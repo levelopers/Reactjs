@@ -73,6 +73,7 @@ class Login extends Component {
     })
     if (canSubmit) {
       this.props.postToken(this.state.email.value, this.state.password.value)
+      // this.props.history.push('/question')
     }
   }
 

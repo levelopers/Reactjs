@@ -1,25 +1,23 @@
 import { serverCall } from '../../modules/ServerCall'
 import { getAnswers } from './answersActions'
-import {POST_QUESTION} from './types'
+import { POST_QUESTION } from './types'
 
 export const getQuestions = () => (dispatch, getState) => {
   if (!getState().token.token) return
-  const token = getState().token.token
   //begin
   dispatch(fetchQuestionBegin())
-    return serverCall({
-      method:'GET',
-      url:`/questions`
-    }).request
-    .then( res => {
-       //success
-       dispatch(fetchQuestionSuccess(res))
-       //send get answers request
-       dispatch(getAnswers())
+  serverCall({
+    method: 'GET',
+    url: `/questions`
+  }).request
+    .then(res => {
+      //success
+      dispatch(fetchQuestionSuccess(res))
+      //send get answers request
+      dispatch(getAnswers())
     })
-    .catch(err=>{
-      console.log(err);
-      dispatch(fetchQuestionFail(err)) 
+    .catch(err => {
+      dispatch(fetchQuestionFail(err))
     })
 }
 const fetchQuestionBegin = () => ({
@@ -36,28 +34,28 @@ const fetchQuestionFail = error => ({
   payload: { error }
 });
 
-export const postQuestion = (title,content) => (dispatch, getState) => {
+export const postQuestion = (title, content) => (dispatch, getState) => {
   if (!getState().token.token) return
-  const token = getState().token.token
-  const body={
+  const body = {
     "question": {
       "title": title,
       content: content
     }
   }
-  serverCall(token, 'serverPost')
-    ('questions',
-      body,
-      res => {
-        //success
-        dispatch({
-          type: POST_QUESTION,
-          payload: res
-        })
-      },
-      //error
-      e => { console.log(e)}
-    )
+  return serverCall({
+    method: 'post',
+    url: `/questions`,
+    data: body
+  }).request
+    .then(res => {
+      dispatch({
+        type: POST_QUESTION,
+        payload: res
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 export const FETCH_QUESTIONS_BEGIN = 'FETCH_QUESTIONS_BEGIN';

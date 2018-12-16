@@ -65,8 +65,6 @@ class Question extends Component {
     })
   }
   render() {
-    console.log(navigation);
-    
     // navigation.push('/login')    
     return (
       <div className={styles.page}>
@@ -109,7 +107,7 @@ class Question extends Component {
                   textareaValue: this.state.content.value,
                   handleTitleChange: this.handleTitleChange,
                   handleContentChange: this.handleContentChange,
-                  handleButton: this.handleButton
+                  handleButton: this.submitPostClick
                 }
                 }
               />

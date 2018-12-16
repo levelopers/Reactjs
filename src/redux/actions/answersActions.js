@@ -2,22 +2,26 @@ import { GET_ANSWERS, GET_ANSWER } from './types'
 import { serverCall } from '../../modules/ServerCall'
 
 export const getAnswers = () => (dispatch, getState) => {
-  if (!getState().token.token && getState().questions.questions) return
-  const token = getState().token.token
+  if (!getState().token.token || !getState().questions.questions) return
   const questions = getState().questions.questions
-  questions.map(ques => {
-    serverCall(token, 'serverGet')
-      (
-      `questions/${ques.id}/answers`,
-      res => {
+  questions.map((ques,index) => {
+      if(index>10)return
+      return serverCall({
+        method:'get',
+        url:`/questions/${ques.id}/answers`,
+      }).request
+      .then( res => {
+        console.log(res.status);
+        
         dispatch({
           type: GET_ANSWERS,
           payload: res,
           question_id: ques.id
         })
-      },
-      e => { console.log(e) }
-      )
+      })
+      .catch(err=>{
+          console.log(err);
+      })
   })
 }
 

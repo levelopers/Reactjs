@@ -30,7 +30,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        questions: action.payload.data.questions
+        questions:JSON.parse(action.payload.data).questions
       };
 
     case FETCH_QUESTIONS_FAILURE:
