@@ -2,11 +2,16 @@ import { GET_PROFILE } from './types'
 import { serverCall } from '../../modules/ServerCall'
 
 
-export const getProfile = () => (dispatch, getState) => {
+export const getProfile = (id) => (dispatch, getState) => {
   const token = getState().token.token
+
+  let url=`/users/${token.user_id}`
+  if(id){
+    url=`/users/${id}`
+  }
     return serverCall({
       method:'get',
-      url:`/users/${token.user_id}`
+      url:url
     }).request
     .then( res => {
       dispatch({

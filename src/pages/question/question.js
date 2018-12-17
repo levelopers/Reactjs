@@ -5,7 +5,7 @@ import styles from './stylesheets/question.module.sass'
 import post_button from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
 import { getQuestions } from '../../redux/actions/questionActions'
-import { getAnswers } from '../../redux/actions/answersActions'
+import  {getAnswers}  from '../../redux/actions/answersActions'
 import { getProfile } from '../../redux/actions/profileActions'
 import { postQuestion } from '../../redux/actions/questionActions'
 import {navigation} from '../../modules/navigation'
@@ -42,7 +42,6 @@ class Question extends Component {
 
   }
   handleParagraphClick = (e, ques_id) => {
-    console.log(ques_id);
     this.props.history.push(`/answers/${ques_id}`)
   }
   cancelModal = () => {

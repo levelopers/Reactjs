@@ -23,7 +23,7 @@ export const serverCall = (config, history) => {
       history.push('/login')
       data.is_pre_handled = true
     }
-    return data;
+    return JSON.parse(data);
   }]
   let cancel
   config.cancelToken = new axios.CancelToken(function (c) {
@@ -51,7 +51,7 @@ export const firstCall = (email, password) => {
     }
   ).request
     .then(res => {
-      Auth.set_token(JSON.parse(res.data).user_token)
+      Auth.set_token(res.data.user_token)
       localStorage.setItem('auth',JSON.stringify(Auth))
     })
     // .catch(err => {

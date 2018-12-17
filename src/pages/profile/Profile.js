@@ -93,7 +93,7 @@ class Profile extends Component {
 
   render() {
     console.log(this.state);
-    {!localStorage.getItem('user_key') && this.props.history.push('/login')}
+    // {!localStorage.getItem('user_key') && this.props.history.push('/login')}
 
     const user = this.props.user
       return (

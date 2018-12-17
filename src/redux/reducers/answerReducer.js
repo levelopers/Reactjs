@@ -1,4 +1,4 @@
-import { GET_ANSWER, GET_ANSWERS } from '../actions/types'
+import { GET_QUES_ANSWERS, GET_ANSWERS } from '../actions/types'
 
 const initialState = {
   answers: [],
@@ -6,16 +6,18 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case GET_ANSWER:
+    case GET_QUES_ANSWERS:
       return {
         ...state,
-        answer: action.payload.data
+        answers:[
+          action.payload.data.answers
+        ]
       }
     case GET_ANSWERS:
       return {
         answers: [...state.answers, {
           question_id:action.question_id,
-          answers:JSON.parse(action.payload.data).answers,
+          answers:action.payload.data.answers,
         }]
       }
     default:

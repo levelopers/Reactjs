@@ -1,5 +1,5 @@
 import { serverCall } from '../../modules/ServerCall'
-import { getAnswers } from './answersActions'
+import  {getAnswers}  from './answersActions'
 import { POST_QUESTION } from './types'
 
 export const getQuestions = () => (dispatch, getState) => {
