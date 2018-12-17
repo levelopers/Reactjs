@@ -1,5 +1,7 @@
-import { GET_PROFILE } from './types'
+import { GET_PROFILE,GET_PROFILES } from './types'
+
 import { serverCall } from '../../modules/ServerCall'
+
 
 
 export const getProfile = (id) => (dispatch, getState) => {
@@ -22,4 +24,24 @@ export const getProfile = (id) => (dispatch, getState) => {
     .catch(err=>{
       console.log(err);
     })
+}
+
+export const getProfiles = (id_array) => (dispatch, getState) => {
+  id_array.map(id=>{
+    const url=`/users/${id}`
+    return serverCall({
+      method:'get',
+      url:url
+    }).request
+    .then( res => {
+      dispatch({
+        type: GET_PROFILES,
+        payload: res
+      })
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  })
+    
 }

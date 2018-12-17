@@ -1,7 +1,8 @@
-import {GET_PROFILE} from '../actions/types'
+import {GET_PROFILE,GET_PROFILES} from '../actions/types'
 
 const initialState = {
-    user:{}
+    user:{},
+    users:[]
 }
 
 export default function(state=initialState, action){
@@ -11,6 +12,12 @@ export default function(state=initialState, action){
             ...state,
             user:action.payload.data.user
         }
+        case GET_PROFILES:
+        return {
+            users: [...state.users, 
+              action.payload.data.user,
+            ]
+          }
         default: 
         return state
     }

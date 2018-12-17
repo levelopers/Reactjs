@@ -16,6 +16,7 @@ export const postToken = (email, password) => dispatch => {
 
 export const insertToken = () => dispatch => {
   // localStorage.clear()
+  
   if (localStorage.getItem('auth')) {
     dispatch({
       type: POST_TOKEN,
