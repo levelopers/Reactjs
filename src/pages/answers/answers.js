@@ -2,32 +2,36 @@ import React, { Component } from 'react'
 import styles from './stylesheets/answers.module.sass'
 import Header from '../../components/header'
 import { connect } from 'react-redux';
-import { getAnswerWithQuestionId } from '../../redux/actions/ques_answerAction'
+import { getAnswers } from '../../redux/actions/answersActions'
 import { getProfile, getProfiles } from '../../redux/actions/profileActions'
 class Answers extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      local_answers: null,
+      local_answers: [],
       question_id: parseInt(this.props.match.params.ques_id)
     }
   }
   componentDidMount() {
-    console.log(this.props.answers);
     //if refresh
-    if (this.props.answers.length<1) {
-      this.props.getAnswerWithQuestionId(this.state.question_id)
+    if (this.props.answers.length < 1) {
+      this.props.getAnswers(this.state.question_id)
     }
-     
-      //from question page
-      else{
-      const local_answers = this.props.answers.filter(
+    //from question page
+    else {
+      const local_answers = this.props.answers.find(
         ans => {
           return ans.question_id === this.state.question_id
         }
       )
+      const user_ids = []
+      for (let ans of local_answers.answers) {
+        user_ids.push(ans.user_id)
+      }
+      //send request
+      this.props.getProfiles(user_ids)
       this.setState({
-        local_answers: local_answers[0].answers
+        local_answers: local_answers.answers
       })
     }
 
@@ -35,23 +39,23 @@ class Answers extends Component {
   }
   componentDidUpdate() {
     //state null wait for redux updating props
-    console.log(this.props.user);
-
-    if (!this.state.local_answers && this.props.answers[0]) {
+    if (this.state.local_answers.length < 1
+      && this.props.answers.length > 0) {
       //request user name & avatar_url
+      const local_answers = this.props.answers[0]
       const user_ids = []
-      for (let ans of this.props.answers[0]) {
+      for (let ans of local_answers) {
         user_ids.push(ans.user_id)
       }
+      //send request
       this.props.getProfiles(user_ids)
       //request get ansers once
       this.setState({
-        local_answers: this.props.answers[0]
+        local_answers: local_answers
       })
     }
-    
-
-    if (Object.keys(this.props.user).length<1) {
+    if (Object.keys(this.props.user).length < 1
+      && !this.props.profile_loading) {
       this.props.getProfile(this.props.token.user_id)
     }
   }
@@ -59,6 +63,7 @@ class Answers extends Component {
 
 
   render() {
+    console.log(this.state.local_answers);
 
     return (
       <div className={styles.page}>
@@ -84,8 +89,11 @@ class Answers extends Component {
 const mapStatetoProps = (state) => ({
   token: state.token.token,
   answers: state.answers.answers,
+  answers_loading: state.answers.answers_loading,
   user: state.profile.user,
   users: state.profile.users,
+  profile_loading: state.profile.profile_loading,
+  profiles_loading: state.profile.profiles_loading
 })
 
-export default connect(mapStatetoProps, { getAnswerWithQuestionId, getProfile, getProfiles })(Answers)
+export default connect(mapStatetoProps, { getAnswers, getProfile, getProfiles })(Answers)
