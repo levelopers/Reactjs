@@ -80,7 +80,7 @@ class Answers extends Component {
             {this.props.questions &&
               <Question questions={this.props.questions} question_id={this.state.question_id} />}
             <div ref={ref => this.form_ref = ref} className={styles.post_outbox}>
-              <Form />
+              <Form question_id={this.state.question_id} />
             </div>
             {this.state.local_answers && !this.answers_loading && !this.profiles_loading &&
               <Answer answers={this.state.local_answers} users={this.props.users} />

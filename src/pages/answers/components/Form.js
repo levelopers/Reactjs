@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import styles from '../stylesheets/form.module.sass'
-
-export default class Form extends Component {
+import {postAnswer} from '../../../redux/actions/answersActions'
+ class Form extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: null
+      value: ''
     }
   }
   
   PostAnswerSubmit = (e) => {
-    // this.props.postAnswer()
+    this.props.postAnswer(this.state.value,this.props.question_id)
   }
   handleContentChange=(e)=>{
     this.setState({
@@ -28,11 +29,12 @@ export default class Form extends Component {
             onChange={e => this.handleContentChange(e)}
             value={this.state.value} />
         </form>
-        <button className={styles.form_button} onClick={this.PostAnswerSubmit()}>
+        <button className={styles.form_button} onClick={e=>this.PostAnswerSubmit(e)}>
         button
         </button>
       </div>
     )
-
   }
 }
+
+export default connect(null,{postAnswer})(Form)
