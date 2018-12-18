@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styles from './stylesheets/answers.module.sass'
 import Header from '../../components/header'
+import Answer from './components/answer'
 import { connect } from 'react-redux';
 import { getAnswers } from '../../redux/actions/answersActions'
 import { getProfile, getProfiles } from '../../redux/actions/profileActions'
@@ -70,7 +71,7 @@ class Answers extends Component {
         <div>
           <Header img={this.props.user && this.props.user.avatar_url} />
         </div>
-        {this.state.local_answers && this.state.local_answers.map(ans =>
+        {/* {this.state.local_answers && this.state.local_answers.map(ans =>
           this.props.users.map(user =>
             ans.user_id === user.id &&
             <div key={`${ans.id}-${user.id}`}>
@@ -79,7 +80,10 @@ class Answers extends Component {
               {ans.content}
             </div>
           )
-        )}
+        )} */}
+        {this.state.local_answers &&
+        <Answer answers={this.state.local_answers} users={this.props.users}/>
+        }
       </div>
 
     )
