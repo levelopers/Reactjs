@@ -1,23 +1,26 @@
 import React from 'react'
 import User from './user'
-
+import styles from '../stylesheets/answer.module.sass'
 const Answer = ({
   answers,
   users
 }) => {
 
   return (
-    <div>
-      {answers.map(ans =>
-        <div>
-          <User users={users} user_id={ans.user_id} />
-          <div key={`${ans.id}`}>
-            {ans.content}
+    <div className={styles.answer_outbox}>
+      <div className={styles.answer_innerbox}>
+        {answers.map(ans =>
+          <div key={`${ans.id}`} className={styles.answer}>
+            <User users={users} user_id={ans.user_id} />
+            <div className={styles.content}>
+              {ans.content}
+            </div>
           </div>
-        </div>
-      )
-      }
+        )
+        }
+      </div>
     </div>
+
   )
 }
 export default Answer

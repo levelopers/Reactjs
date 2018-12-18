@@ -34,6 +34,29 @@ export const getAnswers = (ques_id) => (dispatch, getState) => {
   })
 }
 
+export const postAnswer = (content,id) => (dispatch, getState) => {
+  if (!getState().token.token) return
+  const body = {
+    "answer": {
+      "content": content
+    }
+  }
+  return serverCall({
+    method: 'post',
+    url: `questions/${id}/answers`,
+    data: body
+  }).request
+    .then(res => {
+      dispatch({
+        type: POST_ANSWER,
+        payload: res
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
 
 const fetchAnswersBegin = () => ({
   type: FETCH_ANSWERS_BEGIN
@@ -49,6 +72,7 @@ const fetchAnswersFail = error => ({
   type: FETCH_ANSWERS_FAILURE,
   payload: error
 });
+export const POST_ANSWER = 'POST_ANSWER'
 
 export const FETCH_ANSWERS_BEGIN = 'FETCH_ANSWERS_BEGIN';
 export const FETCH_ANSWERS_SUCCESS = 'FETCH_ANSWERS_SUCCESS';

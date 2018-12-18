@@ -5,12 +5,14 @@ import {
   FETCH_ANSWER_BEGIN,
   FETCH_ANSWER_SUCCESS,
   FETCH_ANSWER_FAILURE,
+  POST_ANSWER
 } from '../actions/answersActions'
 
 const initialState = {
   answers: [],
   answers_loading: false,
-  answer_loading:false
+  answer_loading:false,
+  postAnswer:null
 }
 
 export default function (state = initialState, action) {
@@ -72,6 +74,11 @@ export default function (state = initialState, action) {
         answers_loading: false,
         error: action.payload,
       };
+    case POST_ANSWER:
+    return {
+      ...state,
+      postAnswer:action.payload
+    }
     default:
       return state
   }
