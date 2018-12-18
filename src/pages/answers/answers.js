@@ -28,29 +28,32 @@ class Answers extends Component {
   }
   componentDidUpdate() {
     //state null wait for redux updating props
-    if (!this.state.local_answers) {
+    if (!this.state.local_answers&&this.props.answers[0]) {
       //request user name & avatar_url
       const user_ids = []
       for (let ans of this.props.answers[0]) {
         user_ids.push(ans.user_id)
       }
       this.props.getProfiles(user_ids)
-
       //request get ansers once
       this.setState({
         local_answers: this.props.answers[0]
       })
+    }
+    if(!this.props.user&&this.props.token){
+      this.props.getProfile(this.props.token.user_id)
     }
     
   }
 
 
   render() {
-    console.log(this.props.users);
 
     return (
       <div className={styles.page}>
-      
+      <div>
+        <Header img={this.props.user&&this.props.user.avatar_url}/>
+      </div>
         {this.state.local_answers && this.state.local_answers.map(ans =>
           this.props.users.map(user =>
             ans.user_id === user.id &&
@@ -68,13 +71,10 @@ class Answers extends Component {
 }
 
 const mapStatetoProps = (state) => ({
-
   answers: state.answers.answers,
-  
   user: state.profile.user,
   users: state.profile.users,
-  token:state.token.token,
-
+  token:state.token.token
 })
 
 export default connect(mapStatetoProps, { getAnswerWithQuestionId, getProfile, getProfiles })(Answers)
