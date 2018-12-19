@@ -3,41 +3,56 @@ import { serverCall } from '../../modules/ServerCall'
 export const getAnswers = (ques_id) => (dispatch, getState) => {
   if (ques_id) {
     if (!getState().token.token) return
-    dispatch(fetchAnswerBegin())
+    dispatch({
+      type: FETCH_ANSWER_BEGIN
+    })
     return serverCall({
       method: 'get',
       url: `/questions/${ques_id}/answers`,
     }).request
       .then(res => {
-        dispatch(fetchAnswerSuccess(res))
+        dispatch({
+          type: FETCH_ANSWER_SUCCESS,
+          payload: res
+        })
       })
       .catch(err => {
-        dispatch(fetchAnswerFail(err))
+        dispatch({
+          type: FETCH_ANSWER_FAILURE,
+          payload: { err }
+        })
       })
   }
 
   if (!getState().token.token || !getState().questions.questions) return
   const questions = getState().questions.questions
-  dispatch(fetchAnswersBegin())
+  dispatch({
+    type: FETCH_ANSWERS_BEGIN
+  })
   questions.map((ques, index) => {
-    if (index > 10) return
-    const call=serverCall({
+    const call = serverCall({
       method: 'get',
       url: `/questions/${ques.id}/answers`,
     })
     return call.request
       .then(res => {
-        dispatch(fetchAnswersSuccess(res,ques.id))
+        dispatch({
+          type: FETCH_ANSWERS_SUCCESS,
+          payload: res,
+          question_id: ques.id
+        })
       })
       .catch(err => {
-        dispatch(fetchAnswersFail(err))
-        // console.log(err.response.status);
-         call.cancel()
+        dispatch({
+          type: FETCH_ANSWERS_FAILURE,
+          payload: err
+        })
+        call.cancel()
       })
   })
 }
 
-export const postAnswer = (content,id) => (dispatch, getState) => {
+export const postAnswer = (content, id) => (dispatch, getState) => {
   if (!getState().token.token) return
   const body = {
     "answer": {
@@ -54,46 +69,17 @@ export const postAnswer = (content,id) => (dispatch, getState) => {
         type: POST_ANSWER,
         payload: res
       })
+      return res
     })
     .catch(err => {
       console.log(err);
     })
 }
 
-
-const fetchAnswersBegin = () => ({
-  type: FETCH_ANSWERS_BEGIN
-});
-
-const fetchAnswersSuccess = (res,ques_id) => ({
-  type: FETCH_ANSWERS_SUCCESS,
-  payload: res,
-  question_id:ques_id
-});
-
-const fetchAnswersFail = error => ({
-  type: FETCH_ANSWERS_FAILURE,
-  payload: error
-});
 export const POST_ANSWER = 'POST_ANSWER'
-
 export const FETCH_ANSWERS_BEGIN = 'FETCH_ANSWERS_BEGIN';
 export const FETCH_ANSWERS_SUCCESS = 'FETCH_ANSWERS_SUCCESS';
 export const FETCH_ANSWERS_FAILURE = 'FETCH_ANSWERS_FAILURE';
-
-const fetchAnswerBegin = () => ({
-  type: FETCH_ANSWER_BEGIN
-});
-
-const fetchAnswerSuccess = res => ({
-  type: FETCH_ANSWER_SUCCESS,
-  payload: res
-});
-
-const fetchAnswerFail = error => ({
-  type: FETCH_ANSWER_FAILURE,
-  payload: { error }
-});
 
 export const FETCH_ANSWER_BEGIN = 'FETCH_ANSWER_BEGIN';
 export const FETCH_ANSWER_SUCCESS = 'FETCH_ANSWER_SUCCESS';

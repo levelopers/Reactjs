@@ -13,7 +13,6 @@ const FormShow = ({
 }) => {
   return (
     <div className={classname}>
-
       <div className="formshow-box" onMouseLeave={leave}>
         {classname !== "title" &&
           <div className="lable">

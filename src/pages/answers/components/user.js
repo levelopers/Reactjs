@@ -4,8 +4,10 @@ const User = ({
   users,
   user_id
 }) => {
-  const user=users.find(userObj=>user_id===userObj.id)
-  if(!user) return null
+  const user = users.find(userObj => user_id === userObj.id)
+
+  if (!user) return null
+
   return (
     <div>
       {
@@ -18,12 +20,12 @@ const User = ({
               {user.name}
             </div>
             <div className={styles.date}>
-              Answered&nbsp; 
+              Answered&nbsp;
               {new Date(user.updated_at).toString().split(' ').slice(1, 3).join(' ')
-              .concat(',')
-              .concat(
-                new Date(user.updated_at).toString().split(' ').slice(3, 4)
-              )}
+                .concat(',')
+                .concat(
+                  new Date(user.updated_at).toString().split(' ').slice(3, 4)
+                )}
             </div>
           </div>
         </div>

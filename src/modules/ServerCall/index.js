@@ -1,6 +1,5 @@
 import axios from 'axios'
 import Auth from '../Auth'
-// import { Navigation } from './history'
 
 const URL = 'https://bigfish100.herokuapp.com/'
 
@@ -44,46 +43,6 @@ export const firstCall = (email, password) => {
   ).request
     .then(res => {
       Auth.set_token(res.data.user_token)
-      localStorage.setItem('auth',JSON.stringify(Auth))
+      localStorage.setItem('auth', JSON.stringify(Auth))
     })
-    // .catch(err => {
-    //   // handleError(err)
-    // })
 }
-
-
-// function handleError(response) {
-//   if (!response.statusText === 'OK') {
-//     throw Error(response.statusText);
-//   }
-//   return response;
-// }
-
-
-// // module history.js
-// export let navigation = null;
-
-// export default class History extends Component {
-//   push = (path) => {
-//     this.props.history.push(path)
-//   }
-
-//   render(){
-//     return null
-//   }
-// }
-
-// export default withRouter(History);
-
-
-// // app.js
-// import History, { navigation } from '/modles.history'
-// render(){
-//   return(
-//     <div>
-//       {/* blabka */}
-
-//       <History ref={ref => navigation = ref}/>
-//     </div>
-//   )
-// }

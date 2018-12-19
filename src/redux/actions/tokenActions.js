@@ -5,19 +5,17 @@ export const postToken = (email, password) => dispatch => {
   return firstCall(
     email,
     password
-  ).then(res=>{
-    console.log(res);
+  ).then(res => {
     dispatch({
-    type: POST_TOKEN,
-    payload:res
+      type: POST_TOKEN,
+      payload: res
+    })
+    return res
   })
-})
 }
 
 export const insertToken = () => dispatch => {
-  // localStorage.clear()
-  
-  if (localStorage.getItem('auth')) {
+  if (!!localStorage.getItem('auth')) {
     dispatch({
       type: POST_TOKEN,
       payload: JSON.parse(localStorage.getItem('auth')).token

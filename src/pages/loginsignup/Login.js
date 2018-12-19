@@ -22,15 +22,6 @@ class Login extends Component {
       }
     }
   }
-  //   //1. setState 
-  //   /**
-  //    *  @param {function|object} haha first param
-  //    *  @param {function} fn callback when setstate complete
-  //    */
-
-  //   // this.setState(prevState => ({
-  //   //   a: prevState.a + 1
-  //   // }))
   handleChange = (e) => {
     const targetName = e.target.name
     const targetValue = e.target.value
@@ -42,12 +33,9 @@ class Login extends Component {
       }
     })
   }
-
-  //validate input text on blur
   handleBlur = (e) => {
     const name = e.target.name
     const value = e.target.value
-
     let { targetName, isValid, errorMessage } = validation(name, value)
     this.setState({
       [targetName]: {
@@ -61,26 +49,16 @@ class Login extends Component {
   handleClick = () => {
     let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
-      let {  isValid } = validation(key, val.value)
+      let { isValid } = validation(key, val.value)
       canSubmit = isValid && !!canSubmit
-      // this.setState({
-      //   [targetName]: {
-      //     ...this.state[targetName],
-      //     isValid: isValid,
-      //     errorMessage: errorMessage
-      //   }
-      // })
     })
     if (canSubmit) {
-      this.props.postToken(this.state.email.value, this.state.password.value)
-      // this.props.history.push('/question')
+      this.props.postToken(this.state.email.value, this.state.password.value).then(res=>{
+        console.log(res)
+        this.props.history.push('/question')
+      })
+      
     }
-  }
-
-  componentDidUpdate() {
-    // if (this.props.token) {
-    //   this.props.history.push("/question");
-    // }
   }
 
   render() {
@@ -94,17 +72,16 @@ class Login extends Component {
           <div className={styles.form_input}>
             {Object.keys(this.state).map(attrName =>
               <div key={attrName}>
-              <Base
-                name={attrName}
-                message={this.state[attrName].errorMessage}
-                value={this.state[attrName].value}
-                handleChange={this.handleChange}
-                handleBlur={this.handleBlur}
-                handleClick={this.handleClick}
-              />
+                <Base
+                  name={attrName}
+                  message={this.state[attrName].errorMessage}
+                  value={this.state[attrName].value}
+                  handleChange={this.handleChange}
+                  handleBlur={this.handleBlur}
+                  handleClick={this.handleClick}
+                />
               </div>
             )}
-
             <button className={styles.form_button} type="button" onClick={this.handleClick} >
               Login
             </button>
@@ -120,7 +97,7 @@ class Login extends Component {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps  = state => ({
   token: state.token.token
 })
-export default connect(mapStateToProps, { postToken })(Login)
+export default connect(mapStateToProps , { postToken })(Login)

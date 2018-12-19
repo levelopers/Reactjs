@@ -1,12 +1,8 @@
-import { GET_PROFILE,GET_PROFILES } from './types'
-
 import { serverCall } from '../../modules/ServerCall'
 
-
-
 export const getProfile = (id) => (dispatch, getState) => {
+  if (!getState().token.token) return
   const token = getState().token.token
-
   let url=`/users/${token.user_id}`
   if(id){
     url=`/users/${id}`
@@ -39,7 +35,6 @@ const fetchProfileFail = error => ({
 export const FETCH_PROFILE_BEGIN = 'FETCH_PROFILE_BEGIN';
 export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
-
 
 export const getProfiles = (id_array) => (dispatch, getState) => {
   dispatch(fetchProfilesBegin())

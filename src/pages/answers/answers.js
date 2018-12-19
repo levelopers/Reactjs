@@ -12,57 +12,46 @@ import { getQuestions } from '../../redux/actions/questionActions'
 class Answers extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      local_answers: [],
-      question_id: parseInt(this.props.match.params.ques_id),
-    }
-    this.form_ref=null
+    this.local_answers = []
+    this.question_id = parseInt(this.props.match.params.ques_id)
+    this.form_ref = null
   }
   PostAnswerClick = (e) => {
-    this.form_ref.style.display="block"
+    this.form_ref.style.display = "block"
   }
 
   componentDidMount() {
-    //if refresh
     if (this.props.answers.length < 1 || this.props.questions.length < 1) {
-      this.props.getAnswers(this.state.question_id)
+      this.props.getAnswers(this.question_id)
       this.props.getQuestions()
     }
-    //from question page
     else {
       const local_answers = this.props.answers.find(
         ans => {
-          return ans.question_id === this.state.question_id
+          return ans.question_id === this.question_id
         }
       )
+      if (!local_answers) return null
       const user_ids = []
       for (let ans of local_answers.answers) {
         user_ids.push(ans.user_id)
       }
-      //send request
       this.props.getProfiles(user_ids)
-      this.setState({
-        local_answers: local_answers.answers
-      })
+      this.local_answers = local_answers.answers
     }
   }
   componentDidUpdate() {
-    //state null wait for redux updating props
-    if (this.state.local_answers.length < 1
+    if (this.local_answers.length < 1
       && this.props.users.length < 1
       && this.props.answers.length > 0) {
-      //request user name & avatar_url
       const local_answers = this.props.answers[0]
       const user_ids = []
+      if (typeof local_answers !== 'array') return null
       for (let ans of local_answers) {
         user_ids.push(ans.user_id)
       }
-      //send request
       this.props.getProfiles(user_ids)
-      //request get ansers once
-      this.setState({
-        local_answers: local_answers
-      })
+      this.local_answers = local_answers
     }
     if (Object.keys(this.props.user).length < 1
       && !this.props.profile_loading) {
@@ -71,28 +60,29 @@ class Answers extends Component {
   }
 
   render() {
-
     return (
       <div className={styles.page}>
         <Header img={this.props.user && this.props.user.avatar_url} />
         <div className={styles.outbox}>
           <div>
             {this.props.questions &&
-              <Question questions={this.props.questions} question_id={this.state.question_id} />}
+              <Question questions={this.props.questions} question_id={this.question_id} />}
             <div ref={ref => this.form_ref = ref} className={styles.post_outbox}>
-              <Form question_id={this.state.question_id} />
+              <Form question_id={this.question_id} answers_props={this.props} />
             </div>
-            {this.state.local_answers 
-            && !this.answers_loading 
-            && !this.profiles_loading 
-            && this.props.users.length>1
-            &&
-              <Answer answers={this.state.local_answers} users={this.props.users} />
+            {this.local_answers
+              && !this.props.answers_loading
+              && !this.props.profiles_loading
+              && this.props.users.length > 1
+              &&
+              <Answer
+                answers={this.local_answers}
+                users={this.props.users} />
             }
           </div>
         </div>
         <div className={styles.button}>
-          <button className={styles.btn} onClick={e=>this.PostAnswerClick(e)}>
+          <button className={styles.btn} onClick={e => this.PostAnswerClick(e)}>
             <img src={btn} alt="" />
           </button>
         </div>
@@ -101,7 +91,7 @@ class Answers extends Component {
   }
 }
 
-const mapStatetoProps = (state) => ({
+const mapStateToProps = (state) => ({
   token: state.token.token,
   answers: state.answers.answers,
   answers_loading: state.answers.answers_loading,
@@ -112,4 +102,4 @@ const mapStatetoProps = (state) => ({
   questions: state.questions.questions
 })
 
-export default connect(mapStatetoProps, { getAnswers, postAnswer, getProfile, getProfiles, getQuestions })(Answers)
+export default connect(mapStateToProps, { getAnswers, postAnswer, getProfile, getProfiles, getQuestions })(Answers)

@@ -5,10 +5,9 @@ import styles from './stylesheets/question.module.sass'
 import post_button from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
 import { getQuestions } from '../../redux/actions/questionActions'
-import  {getAnswers}  from '../../redux/actions/answersActions'
+import { getAnswers } from '../../redux/actions/answersActions'
 import { getProfile } from '../../redux/actions/profileActions'
 import { postQuestion } from '../../redux/actions/questionActions'
-import {navigation} from '../../modules/navigation'
 class Question extends Component {
   constructor(props) {
     super(props)
@@ -18,9 +17,9 @@ class Question extends Component {
       },
       content: {
         value: ''
-      }
+      },
+      popupRef:'none'
     }
-    this.popupRef = null
   }
   componentDidMount() {
     this.props.getQuestions()
@@ -29,23 +28,26 @@ class Question extends Component {
   componentWillUpdate() {
   }
   showPostClick = () => {
-    this.popupRef.style.display = "flex"
+    this.setState({
+      ...this.state,
+      popupRef:'flex'
+    })
   }
   fillFormClick = (e) => {
     e.stopPropagation()
   }
   submitPostClick = (e) => {
-    //quit modal
     this.cancelModal()
-    //post questions
     this.props.postQuestion(this.state.title.value, this.state.content.value)
-
   }
   handleParagraphClick = (e, ques_id) => {
     this.props.history.push(`/answers/${ques_id}`)
   }
   cancelModal = () => {
-    this.popupRef.style.display = "none"
+    this.setState({
+      ...this.state,
+      popupRef:'none'
+    })
   }
   handleContentChange = (e) => {
     this.setState({
@@ -64,12 +66,10 @@ class Question extends Component {
     })
   }
   render() {
-    // navigation.push('/login')    
     return (
       <div className={styles.page}>
         <div className={styles.header}>
           <Header img={this.props.user.avatar_url} />
-          {/* <button onClick={e => { localStorage.clear(); this.props.history.push('/login') }}>logout</button> */}
         </div>
         <div className={styles.btn}>
           <button onClick={this.showPostClick}>
@@ -96,7 +96,9 @@ class Question extends Component {
             </div>
           )}
         </div>
-        <div className={styles.popup_box} onClick={this.cancelModal} ref={ref => this.popupRef = ref}>
+        <div className={styles.popup_box} 
+        onClick={this.cancelModal} 
+        style={{display:this.state.popupRef}}>
           <div className={styles.popup_content} onClick={this.fillFormClick}>
             <div className={styles.modal_outbox}>
               <Form
@@ -114,15 +116,17 @@ class Question extends Component {
           </div>
         </div>
       </div>
-
     )
   }
 }
 
-const mapStatetoProps = state => ({
+const mapStateToProps  = state => ({
   answers: state.answers.answers,
   questions: state.questions.questions,
   user: state.profile.user,
   postQuestionStatus: state.questions.postStatus
 })
-export default connect(mapStatetoProps, { getProfile, getQuestions, postQuestion, getAnswers })(Question)
+const mapDispatchtoProps={
+  getProfile, getQuestions, postQuestion, getAnswers 
+}
+export default connect(mapStateToProps , mapDispatchtoProps)(Question)
