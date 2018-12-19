@@ -17,13 +17,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    // case GET_QUES_ANSWERS:
-    //   return {
-    //     ...state,
-    //     answers: [
-    //       action.payload.data.answers
-    //     ]
-    //   }
       case FETCH_ANSWER_BEGIN:
       return {
         ...state,
@@ -45,13 +38,6 @@ export default function (state = initialState, action) {
         error: action.payload.error,
         answers: []
       };
-    // case GET_ANSWERS:
-    //   return {
-    //     answers: [...state.answers, {
-    //       question_id: action.question_id,
-    //       answers: action.payload.data.answers,
-    //     }]
-    //   }
     case FETCH_ANSWERS_BEGIN:
       return {
         ...state,

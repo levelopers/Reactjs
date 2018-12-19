@@ -18,21 +18,13 @@ export const serverCall = (config, history) => {
     }
   }
   config.baseURL = URL
-  config.transformResponse = [function (data) {
-    if (data && data.code === 'invalid_user_token') {
-      history.push('/login')
-      data.is_pre_handled = true
-    }
-    return JSON.parse(data);
-  }]
   let cancel
   config.cancelToken = new axios.CancelToken(function (c) {
     cancel = c
   })
-
   return {
     request: axios(config),
-    cancel: cancel
+    cancel: cancel,
   }
 }
 

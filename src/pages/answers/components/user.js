@@ -4,11 +4,12 @@ const User = ({
   users,
   user_id
 }) => {
+  const user=users.find(userObj=>user_id===userObj.id)
+  if(!user) return null
   return (
     <div>
-      {users.map(user =>
-        user_id === user.id &&
-        <div key={`${user.id}`} className={styles.user_box}>
+      {
+        <div key={`${user_id}`} className={styles.user_box}>
           <div className={styles.img_box}>
             <img src={user.avatar_url} alt="portrait" className={styles.img} />
           </div>
@@ -23,11 +24,10 @@ const User = ({
               .concat(
                 new Date(user.updated_at).toString().split(' ').slice(3, 4)
               )}
-
             </div>
           </div>
         </div>
-      )}
+      }
     </div>
   )
 }

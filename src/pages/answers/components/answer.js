@@ -13,7 +13,7 @@ const Answer = ({
           <div key={`${ans.id}`} className={styles.answer}>
             <User users={users} user_id={ans.user_id} />
             <div className={styles.content}>
-              {ans.content}
+            <p>{ans.content}</p>
             </div>
           </div>
         )

@@ -12,7 +12,6 @@ import { getProfile } from '../../redux/actions/profileActions'
 
 class Profile extends Component {
   constructor(props) {
-
     super(props)
     this.state = {
       id: localStorage.getItem('id'),
@@ -27,7 +26,6 @@ class Profile extends Component {
       url: '',
       progress: Number
     }
-    
   }
   //change image
   handleChange = (e) => {
@@ -89,10 +87,11 @@ class Profile extends Component {
 
     //   })
     this.props.getProfile()
+    console.log(111);
+    
   }
 
   render() {
-    console.log(this.state);
     // {!localStorage.getItem('user_key') && this.props.history.push('/login')}
 
     const user = this.props.user
@@ -130,10 +129,6 @@ const mapStoretoProps = state => ({
   user: state.profile.user
 })
 
-// function mapStoretoProps(state){
-//   return function(){
 
-//   }
-// }
 
 export default connect(mapStoretoProps, { getProfile })(Profile)

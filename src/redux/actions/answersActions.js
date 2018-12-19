@@ -21,15 +21,18 @@ export const getAnswers = (ques_id) => (dispatch, getState) => {
   dispatch(fetchAnswersBegin())
   questions.map((ques, index) => {
     if (index > 10) return
-    return serverCall({
+    const call=serverCall({
       method: 'get',
       url: `/questions/${ques.id}/answers`,
-    }).request
+    })
+    return call.request
       .then(res => {
         dispatch(fetchAnswersSuccess(res,ques.id))
       })
       .catch(err => {
         dispatch(fetchAnswersFail(err))
+        // console.log(err.response.status);
+         call.cancel()
       })
   })
 }
