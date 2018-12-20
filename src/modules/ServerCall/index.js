@@ -3,9 +3,9 @@ import Auth from '../Auth'
 
 const URL = 'https://bigfish100.herokuapp.com/'
 
-export const serverCall = (config, history) => {
-  if (localStorage.getItem('auth')) {
-    const token = JSON.parse(localStorage.getItem('auth')).token
+export const serverCall = (config) => {
+  if (Auth.get_token()) {
+    const token = Auth.get_token()
     const header = {
       "user_token": {
         "user_id": token.user_id,
@@ -43,6 +43,5 @@ export const firstCall = (email, password) => {
   ).request
     .then(res => {
       Auth.set_token(res.data.user_token)
-      localStorage.setItem('auth', JSON.stringify(Auth))
     })
 }

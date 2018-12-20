@@ -1,13 +1,14 @@
 class Auth {
   constructor() {
-    this.token = null
-    this.id = null
-    this.key = null
+    this.token = JSON.parse(localStorage.getItem('auth'))
   }
-  set_token(token) {
-    this.token = token
-    this.id = token.user_id
-    this.key = token.key
+  get_token = () => this.token
+  set_token(new_token) {
+    this.token = new_token
+    localStorage.setItem('auth', JSON.stringify(new_token))
+  }
+  loggout = () => {
+    localStorage.removeItem('auth')
   }
 }
 export default new Auth()

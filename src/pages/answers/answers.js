@@ -12,12 +12,16 @@ import { getQuestions } from '../../redux/actions/questionActions'
 class Answers extends Component {
   constructor(props) {
     super(props)
+    this.state={
+      form_ref:null
+    }
     this.local_answers = []
     this.question_id = parseInt(this.props.match.params.ques_id)
-    this.form_ref = null
   }
-  PostAnswerClick = (e) => {
-    this.form_ref.style.display = "block"
+  postAnswerClick = (e) => {
+    this.setState({
+      form_ref:'block'
+    })
   }
 
   componentDidMount() {
@@ -46,7 +50,8 @@ class Answers extends Component {
       && this.props.answers.length > 0) {
       const local_answers = this.props.answers[0]
       const user_ids = []
-      if (typeof local_answers !== 'array') return null
+      //return null if no answers 
+      if (!local_answers.length) return null
       for (let ans of local_answers) {
         user_ids.push(ans.user_id)
       }
@@ -67,7 +72,7 @@ class Answers extends Component {
           <div>
             {this.props.questions &&
               <Question questions={this.props.questions} question_id={this.question_id} />}
-            <div ref={ref => this.form_ref = ref} className={styles.post_outbox}>
+            <div style={{display:this.state.form_ref}} className={styles.post_outbox}>
               <Form question_id={this.question_id} answers_props={this.props} />
             </div>
             {this.local_answers
@@ -82,7 +87,7 @@ class Answers extends Component {
           </div>
         </div>
         <div className={styles.button}>
-          <button className={styles.btn} onClick={e => this.PostAnswerClick(e)}>
+          <button className={styles.btn} onClick={this.postAnswerClick}>
             <img src={btn} alt="" />
           </button>
         </div>

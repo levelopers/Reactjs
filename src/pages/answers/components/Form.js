@@ -10,7 +10,7 @@ class Form extends Component {
     }
   }
 
-  PostAnswerSubmit = (e) => {
+  postAnswerSubmit = (e) => {
     this.props.postAnswer(this.state.value, this.props.question_id)
       .then(res => {
         window.location.reload()
@@ -29,10 +29,10 @@ class Form extends Component {
             className={styles.form_textArea}
             placeholder='Write your answer'
             cols={20}
-            onChange={e => this.handleContentChange(e)}
+            onChange={this.handleContentChange}
             value={this.state.value} />
         </form>
-        <button className={styles.form_button} onClick={e => this.PostAnswerSubmit(e)}>
+        <button className={styles.form_button} onClick={this.postAnswerSubmit}>
           button
         </button>
       </div>

@@ -18,7 +18,7 @@ class Question extends Component {
       content: {
         value: ''
       },
-      popupRef:'none'
+      popupRef: 'none'
     }
   }
   componentDidMount() {
@@ -29,8 +29,7 @@ class Question extends Component {
   }
   showPostClick = () => {
     this.setState({
-      ...this.state,
-      popupRef:'flex'
+      popupRef: 'flex'
     })
   }
   fillFormClick = (e) => {
@@ -45,13 +44,11 @@ class Question extends Component {
   }
   cancelModal = () => {
     this.setState({
-      ...this.state,
-      popupRef:'none'
+      popupRef: 'none'
     })
   }
   handleContentChange = (e) => {
     this.setState({
-      ...this.state,
       content: {
         value: e.target.value
       }
@@ -59,7 +56,6 @@ class Question extends Component {
   }
   handleTitleChange = (e) => {
     this.setState({
-      ...this.state,
       title: {
         value: e.target.value
       }
@@ -96,21 +92,17 @@ class Question extends Component {
             </div>
           )}
         </div>
-        <div className={styles.popup_box} 
-        onClick={this.cancelModal} 
-        style={{display:this.state.popupRef}}>
+        <div className={styles.popup_box}
+          onClick={this.cancelModal}
+          style={{ display: this.state.popupRef }}>
           <div className={styles.popup_content} onClick={this.fillFormClick}>
             <div className={styles.modal_outbox}>
               <Form
-                {
-                ...{
-                  inputValue: this.state.title.value,
-                  textareaValue: this.state.content.value,
-                  handleTitleChange: this.handleTitleChange,
-                  handleContentChange: this.handleContentChange,
-                  handleButton: this.submitPostClick
-                }
-                }
+                inputValue={this.state.title.value}
+                textareaValue={this.state.content.value}
+                handleTitleChange={this.handleTitleChange}
+                handleContentChange={this.handleContentChange}
+                handleButton={this.submitPostClick}
               />
             </div>
           </div>
@@ -120,13 +112,13 @@ class Question extends Component {
   }
 }
 
-const mapStateToProps  = state => ({
+const mapStateToProps = state => ({
   answers: state.answers.answers,
   questions: state.questions.questions,
   user: state.profile.user,
   postQuestionStatus: state.questions.postStatus
 })
-const mapDispatchtoProps={
-  getProfile, getQuestions, postQuestion, getAnswers 
+const mapDispatchtoProps = {
+  getProfile, getQuestions, postQuestion, getAnswers
 }
-export default connect(mapStateToProps , mapDispatchtoProps)(Question)
+export default connect(mapStateToProps, mapDispatchtoProps)(Question)

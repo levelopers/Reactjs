@@ -1,6 +1,6 @@
 import { POST_TOKEN } from './types'
 import { firstCall } from '../../modules/ServerCall'
-
+import Auth from '../../modules/Auth'
 export const postToken = (email, password) => dispatch => {
   return firstCall(
     email,
@@ -15,10 +15,10 @@ export const postToken = (email, password) => dispatch => {
 }
 
 export const insertToken = () => dispatch => {
-  if (!!localStorage.getItem('auth')) {
+  if (!!Auth.get_token()) {
     dispatch({
       type: POST_TOKEN,
-      payload: JSON.parse(localStorage.getItem('auth')).token
+      payload: Auth.get_token()
     })
   }
 }

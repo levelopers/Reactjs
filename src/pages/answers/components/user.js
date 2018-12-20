@@ -5,9 +5,8 @@ const User = ({
   user_id
 }) => {
   const user = users.find(userObj => user_id === userObj.id)
-
   if (!user) return null
-
+  var options = { year: 'numeric', month: 'short', day: 'numeric' };
   return (
     <div>
       {
@@ -21,11 +20,7 @@ const User = ({
             </div>
             <div className={styles.date}>
               Answered&nbsp;
-              {new Date(user.updated_at).toString().split(' ').slice(1, 3).join(' ')
-                .concat(',')
-                .concat(
-                  new Date(user.updated_at).toString().split(' ').slice(3, 4)
-                )}
+              {new Date(user.updated_at).toLocaleDateString('en-US', options)}
             </div>
           </div>
         </div>
