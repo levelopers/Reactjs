@@ -15,10 +15,10 @@ export const postToken = (email, password) => dispatch => {
 }
 
 export const insertToken = () => dispatch => {
-  if (!!Auth.get_token()) {
+  if (!!Auth.getToken()) {
     dispatch({
       type: POST_TOKEN,
-      payload: Auth.get_token()
+      payload: Auth.getToken()
     })
   }
 }

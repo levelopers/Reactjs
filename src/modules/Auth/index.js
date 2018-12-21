@@ -2,8 +2,8 @@ class Auth {
   constructor() {
     this.token = JSON.parse(localStorage.getItem('auth'))
   }
-  get_token = () => this.token
-  set_token(new_token) {
+  getToken = () => this.token
+  setToken(new_token) {
     this.token = new_token
     localStorage.setItem('auth', JSON.stringify(new_token))
   }

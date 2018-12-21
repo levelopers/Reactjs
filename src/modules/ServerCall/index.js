@@ -4,8 +4,8 @@ import Auth from '../Auth'
 const URL = 'https://bigfish100.herokuapp.com/'
 
 export const serverCall = (config) => {
-  if (Auth.get_token()) {
-    const token = Auth.get_token()
+  if (Auth.getToken()) {
+    const token = Auth.getToken()
     const header = {
       "user_token": {
         "user_id": token.user_id,
@@ -42,7 +42,7 @@ export const firstCall = (email, password) => {
     }
   ).request
     .then(res => {
-      Auth.set_token(res.data.user_token)
+      Auth.setToken(res.data.user_token)
       return res
     })
 }

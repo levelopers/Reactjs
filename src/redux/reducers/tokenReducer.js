@@ -2,7 +2,7 @@ import {POST_TOKEN} from '../actions/types'
 import Auth from '../../modules/Auth'
 
 const initialState = {
-    token:Auth.get_token()
+    token:Auth.getToken()
 }
 
 export default function(state=initialState, action){

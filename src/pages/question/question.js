@@ -18,7 +18,7 @@ class Question extends Component {
       content: {
         value: ''
       },
-      popupRef: 'none'
+      modalDisplay: 'none'
     }
   }
   componentDidMount() {
@@ -27,7 +27,7 @@ class Question extends Component {
   }
   showPostClick = () => {
     this.setState({
-      popupRef: 'flex'
+      modalDisplay: 'flex'
     })
   }
   fillFormClick = (e) => {
@@ -42,7 +42,7 @@ class Question extends Component {
   }
   cancelModal = () => {
     this.setState({
-      popupRef: 'none'
+      modalDisplay: 'none'
     })
   }
   handleContentChange = (e) => {
@@ -92,7 +92,7 @@ class Question extends Component {
         </div>
         <div className={styles.popup_box}
           onClick={this.cancelModal}
-          style={{ display: this.state.popupRef }}>
+          style={{ display: this.state.modalDisplay }}>
           <div className={styles.popup_content} onClick={this.fillFormClick}>
             <div className={styles.modal_outbox}>
               <Form

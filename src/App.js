@@ -8,19 +8,17 @@ import Question from './pages/question/question'
 import Answers from './pages/answers/answers'
 import { insertToken } from './redux/actions/tokenActions'
 import { connect } from 'react-redux';
-import Auth from './modules/Auth'
 
 class App extends Component {
   render() {
     // Auth.loggout()
-    this.token = this.props.token
     return (
       <div>
         <Router>
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
-            {this.token && [
+            {this.props.token && [
               <Route key="profile" path="/profile" component={Profile} />,
               <Route key="question" path="/question" component={Question} />,
               <Route key="answer" path="/answers/:ques_id" component={Answers} />
