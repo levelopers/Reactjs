@@ -22,10 +22,8 @@ class Question extends Component {
     }
   }
   componentDidMount() {
-    this.props.getQuestions()
-    this.props.getProfile()
-  }
-  componentWillUpdate() {
+    if(this.props.questions.length<1) this.props.getQuestions()
+    if(Object.keys(this.props.user).length) this.props.getProfile()
   }
   showPostClick = () => {
     this.setState({

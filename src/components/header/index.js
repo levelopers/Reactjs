@@ -2,24 +2,6 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import './header.css'
 
-// const Header = (props) => {
-//   console.log(this.props);
-
-
-//   return (
-//     <div className="header">
-//       <div className="logo">
-//         <h3>BIG FISH</h3>
-//       </div>
-//       <div className="portrait" onClick={e=>handleClick(e,props)}>
-//         <img src={img_src} alt="portrait" />
-//       </div>
-//     </div>
-//   )
-// }
-
-
-
 class Header extends Component {
   constructor(props) {
     super(props)
@@ -41,6 +23,5 @@ class Header extends Component {
     )
   }
 }
-
 
 export default withRouter(Header)

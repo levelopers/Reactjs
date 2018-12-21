@@ -25,8 +25,9 @@ class Answers extends Component {
   }
 
   componentDidMount() {
-    if (this.props.answers.length < 1 || this.props.questions.length < 1) {
+    if (this.props.answers.length < 1) {
       this.props.getAnswers(this.question_id)
+    }else if(this.props.questions.length < 1){
       this.props.getQuestions()
     }
     else {
@@ -40,7 +41,7 @@ class Answers extends Component {
       for (let ans of local_answers.answers) {
         user_ids.push(ans.user_id)
       }
-      this.props.getProfiles(user_ids)
+      if(this.props.users.length<1) this.props.getProfiles(user_ids)
       this.local_answers = local_answers.answers
     }
   }
@@ -62,6 +63,10 @@ class Answers extends Component {
       && !this.props.profile_loading) {
       this.props.getProfile(this.props.token.user_id)
     }
+    if(this.props.questions.length < 1 
+      && !this.props.questions_loading){
+      this.props.getQuestions()
+    }
   }
 
   render() {
@@ -75,13 +80,13 @@ class Answers extends Component {
             <div style={{display:this.state.form_ref}} className={styles.post_outbox}>
               <Form question_id={this.question_id} answers_props={this.props} />
             </div>
-            {this.local_answers
+            {this.props.answers[0]
               && !this.props.answers_loading
               && !this.props.profiles_loading
               && this.props.users.length > 1
               &&
               <Answer
-                answers={this.local_answers}
+                answers={this.props.answers[0]}
                 users={this.props.users} />
             }
           </div>
@@ -104,7 +109,8 @@ const mapStateToProps = (state) => ({
   users: state.profile.users,
   profile_loading: state.profile.profile_loading,
   profiles_loading: state.profile.profiles_loading,
-  questions: state.questions.questions
+  questions: state.questions.questions,
+  questions_loading:state.questions.loading
 })
 
 export default connect(mapStateToProps, { getAnswers, postAnswer, getProfile, getProfiles, getQuestions })(Answers)
