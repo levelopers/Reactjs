@@ -39,7 +39,13 @@ a {
 }
 
 .description .content p {
+    line-height: 1.8rem;
+    word-wrap: break-word;
     max-width: 290px;
+    max-height: 87px;
+    overflow: hidden;
+    font-size: 25px;
+    color: #424C50;
 }
 
 .lable {

@@ -54,8 +54,8 @@ export default class Form extends Component {
       buffer = ''
     }
     //transform to isEdit state and set others is not edited
-    Object.entries(this.state).map(([attr_name,obj])=>{
-      if(attr_name===name){
+    Object.entries(this.state).map(([attr_name, obj]) => {
+      if (attr_name === name) {
         this.setState({
           [name]: {
             ...this.state[name],
@@ -64,9 +64,9 @@ export default class Form extends Component {
             valueBuffer: buffer
           }
         })
-      }else{
+      } else {
         this.setState({
-          [attr_name]:{
+          [attr_name]: {
             ...this.state[attr_name],
             isEdit: false,
             isHover: false,
@@ -74,7 +74,7 @@ export default class Form extends Component {
         })
       }
     })
-    
+
   }
   handleHover = (e, name) => {
     this.setState({
@@ -113,7 +113,7 @@ export default class Form extends Component {
         //put request update user info
         const attr = this.state[name].api_name
         this.props.updateProfile({
-          [attr] :this.state[name].value
+          [attr]: this.state[name].value
         })
       })
     } else {
@@ -130,12 +130,12 @@ export default class Form extends Component {
       <div className="form-box">
         {
           Object.entries(this.state).map(([name, obj]) =>
-          //render components upon isEdit state
+            //render components upon isEdit state
             obj.isEdit ?
               <div className="formcomponent" key={`component-${name}`}>
                 <FormComponent
                   type={obj.type}
-                  labelName={obj.lablename}
+                  lablename={obj.lablename}
                   change={e => this.handleChange(e, name)}
                   submit={e => this.handleSubmit(e, name)}
                   value={obj.valueBuffer}
