@@ -2,39 +2,47 @@ import React, { Component } from 'react'
 import '../stylesheets/form.css'
 import FormComponent from './FormComponent'
 import FromShow from './FormShow'
-import axios from 'axios'
 
 export default class Form extends Component {
   constructor(props) {
     super(props);
-    //decomposite to 3 small component
+    //input configs
+    this.title = {
+      type: 'text',
+      lablename: 'title',
+      api_name: 'name',
+    }
+    this.gender = {
+      type: 'radio',
+      lablename: 'gender',
+      api_name: '',
+    }
+    this.description = {
+      type: 'text',
+      lablename: 'description',
+      api_name: 'description'
+    }
     this.state = {
       title: {
-        type: 'text',
-        lablename: 'title',
+        ...this.title,
         value: this.props.name || 'call me maybe',
         valueBuffer: '',
         isHover: false,
         isEdit: false,
-        api_name: 'name'
       },
       gender: {
-        type: 'radio',
-        lablename: 'gender',
+        ...this.gender,
         value: this.props.gender || 'male',
         valueBuffer: '',
         isHover: false,
         isEdit: false,
-        api_name: ''
       },
       description: {
-        type: 'text',
-        lablename: 'description',
+        ...this.description,
         value: this.props.description || 'some descriptionsome descriptionsome descriptionsome description',
         valueBuffer: '',
         isHover: false,
         isEdit: false,
-        api_name: 'description'
       }
 
     }
@@ -45,14 +53,28 @@ export default class Form extends Component {
     if (name === "description") {
       buffer = ''
     }
-    this.setState({
-      [name]: {
-        ...this.state[name],
-        isEdit: true,
-        isHover: false,
-        valueBuffer: buffer
+    //transform to isEdit state and set others is not edited
+    Object.entries(this.state).map(([attr_name,obj])=>{
+      if(attr_name===name){
+        this.setState({
+          [name]: {
+            ...this.state[name],
+            isEdit: true,
+            isHover: false,
+            valueBuffer: buffer
+          }
+        })
+      }else{
+        this.setState({
+          [attr_name]:{
+            ...this.state[attr_name],
+            isEdit: false,
+            isHover: false,
+          }
+        })
       }
     })
+    
   }
   handleHover = (e, name) => {
     this.setState({
@@ -79,6 +101,7 @@ export default class Form extends Component {
     })
   }
   handleSubmit = (e, name) => {
+    //save input values and send update request
     if (e.target.name === "save") {
       this.setState({
         [name]: {
@@ -87,14 +110,11 @@ export default class Form extends Component {
           value: this.state[name].valueBuffer
         }
       }, () => {
-        let put_obj = {
-          user: {}
-        }
-        put_obj.user[this.state[name].api_name] = this.state[name].value
-        console.log(put_obj);
-
-        axios.put(`https://bigfish100.herokuapp.com/users/${this.props.id.toString()}`, put_obj)
-          .then(res => console.log(res.data.user.name))
+        //put request update user info
+        const attr = this.state[name].api_name
+        this.props.updateProfile({
+          [attr] :this.state[name].value
+        })
       })
     } else {
       this.setState({
@@ -105,17 +125,16 @@ export default class Form extends Component {
       })
     }
   }
-  
   render() {
     return (
       <div className="form-box">
         {
           Object.entries(this.state).map(([name, obj]) =>
+          //render components upon isEdit state
             obj.isEdit ?
               <div className="formcomponent" key={`component-${name}`}>
                 <FormComponent
                   type={obj.type}
-                  classname={obj.lablename}
                   labelName={obj.lablename}
                   change={e => this.handleChange(e, name)}
                   submit={e => this.handleSubmit(e, name)}
@@ -125,7 +144,6 @@ export default class Form extends Component {
               :
               <div className="formshow" key={`show-${name}`}>
                 <FromShow
-                  classname={obj.lablename}
                   lablename={obj.lablename}
                   content={obj.value}
                   isHover={obj.isHover}

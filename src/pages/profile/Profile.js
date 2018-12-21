@@ -2,75 +2,52 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 import Form from './components/Form'
 import Photo from './components/Photo'
-import axios from 'axios'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
 import { connect } from 'react-redux'
-import { getProfile } from '../../redux/actions/profileActions'
+import { getProfile, updateProfile } from '../../redux/actions/profileActions'
 
 class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: localStorage.getItem('id'),
-      name: '',
-      email: localStorage.getItem('email'),
-      gender: '',
-      avatar_url: '',
-      description: '',
       done: false,
       input_file_path: '',
-      input_file: null,
       url: '',
       progress: Number
     }
-    // this.user_id=this.props.token.user_id
-    // this.user_email=this.props.token.email
   }
   handleChange = (e) => {
     const file = e.target.files[0]
-    const img_path = (window.URL || window.webkitURL).createObjectURL(file)
-
     this.setState({
-      input_file: file,
-      input_file_path: img_path
-    }, () => {
-      const { input_file } = this.state
-      const uploadTask = firebase_storage.ref(`images/${input_file.name}`).put(input_file);
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          this.setState({ progress });
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          firebase_storage.ref('images').child(input_file.name).getDownloadURL().then(url => {
-            console.log(url);
-            this.setState({ url });
-          })
-        });
+      input_file_path:(window.URL || window.webkitURL).createObjectURL(file)
     })
+    //upload to firebase and fetch image url
+    const uploadTask = firebase_storage.ref(`images/${file.name}`).put(file);
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        this.setState({ progress });
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        firebase_storage.ref('images').child(file.name).getDownloadURL().then(url => {
+          this.setState({ url });
+          //send put request to update user info
+          this.props.updateProfile({
+            "avatar_url": url
+          }).catch(err=> alert("unexpected image format"))
+        })
+      });
   }
-  componentDidUpdate() {
-    if (this.state.url) {
-      axios.put(`https://bigfish100.herokuapp.com/users/${this.state.id.toString()}`, {
-        user: {
-          avatar_url: this.state.url
-        }
-      })
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
-    }
-  }
-
   componentDidMount() {
-    if(Object.keys(this.props.user).length<1){
-    this.props.getProfile()
+    //send get profile request if haven't had 
+    if (Object.keys(this.props.user).length < 1) {
+      this.props.getProfile()
     }
   }
-
   render() {
     const user = this.props.user
     return (
@@ -89,13 +66,15 @@ class Profile extends Component {
               id={user.id}
               handleChange={this.handleChange}
             />
-            <Form
+            {Object.keys(user).length > 1 &&
+             <Form
               id={user.id}
               email={user.email}
               name={user.name}
               gender={user.gender}
               description={user.description}
-            />
+              updateProfile={this.props.updateProfile}
+            />}
           </div>
         </div>
       </div>
@@ -105,7 +84,7 @@ class Profile extends Component {
 
 const mapStoretoProps = state => ({
   user: state.profile.user,
-  token:state.token.token
+  token: state.token.token
 })
 
-export default connect(mapStoretoProps, { getProfile })(Profile)
+export default connect(mapStoretoProps, { getProfile,updateProfile })(Profile)

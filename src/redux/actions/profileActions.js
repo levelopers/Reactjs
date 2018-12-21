@@ -53,6 +53,40 @@ export const getProfiles = (id_array) => (dispatch, getState) => {
   })
     
 }
+
+export const updateProfile = (obj) => (dispatch, getState) => {
+  if (!getState().token.token) return
+  const token = getState().token.token
+  dispatch({
+    type: UPDATE_PROFILE_BEGIN
+  })
+    return serverCall({
+      method:'put',
+      url:`/users/${token.user_id}`,
+      data:{
+        "user": {
+          ...obj
+        }
+      }
+    }).request
+    .then( res => {
+      dispatch({
+        type: UPDATE_PROFILE_SUCCESS,
+        payload:res
+      })
+      return res
+    })
+    .catch(err=>{
+      dispatch({
+        type: UPDATE_PROFILE_FAIL,
+        payload:{err}
+      })
+    })
+}
+export const UPDATE_PROFILE_BEGIN = 'UPDATE_PROFILE_BEGIN'
+export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS'
+export const UPDATE_PROFILE_FAIL = 'UPDATE_PROFILE_FAIL'
+
 const fetchProfilesBegin = () => ({
   type: FETCH_PROFILES_BEGIN
 });

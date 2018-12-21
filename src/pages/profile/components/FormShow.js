@@ -1,9 +1,8 @@
 import React from 'react'
 import '../stylesheets/formshow.css'
-import { ReactComponent as Pencil } from '../stylesheets/pencil.svg'
+import Pencil from '../stylesheets/pencil.svg'
 
 const FormShow = ({
-  classname,
   lablename,
   content,
   hover,
@@ -12,23 +11,23 @@ const FormShow = ({
   click,
 }) => {
   return (
-    <div className={classname}>
+    <div className={lablename}>
       <div className="formshow-box" onMouseLeave={leave}>
-        {classname !== "title" &&
+        {lablename !== "title" &&
           <div className="lable">
             <p>{lablename}</p>
           </div>
         }
         <div className="content" onMouseOver={hover}>
-          <p  >
+          <p>
             {content}
           </p>
           {isHover &&
             <div className="formshow-edit">
-              <a href='' onClick={click}>
-                <Pencil />
+              <div onClick={click}>
+                <img src={Pencil} alt="" />
                 <div id='edit'>Edit</div>
-              </a>
+              </div>
             </div>
           }
         </div>
