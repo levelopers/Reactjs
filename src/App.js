@@ -13,11 +13,7 @@ import Auth from './modules/Auth'
 class App extends Component {
   render() {
     // Auth.loggout()
-    if (!this.props.token) {
-      this.props.insertToken()
-    }else{
-     this.token=this.props.token
-    }
+    this.token = this.props.token
     return (
       <div>
         <Router>

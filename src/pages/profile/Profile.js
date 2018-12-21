@@ -24,6 +24,8 @@ class Profile extends Component {
       url: '',
       progress: Number
     }
+    // this.user_id=this.props.token.user_id
+    // this.user_email=this.props.token.email
   }
   handleChange = (e) => {
     const file = e.target.files[0]
@@ -64,7 +66,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
+    if(Object.keys(this.props.user).length<1){
     this.props.getProfile()
+    }
   }
 
   render() {
@@ -100,7 +104,8 @@ class Profile extends Component {
 }
 
 const mapStoretoProps = state => ({
-  user: state.profile.user
+  user: state.profile.user,
+  token:state.token.token
 })
 
 export default connect(mapStoretoProps, { getProfile })(Profile)

@@ -53,9 +53,14 @@ class Login extends Component {
       canSubmit = isValid && !!canSubmit
     })
     if (canSubmit) {
-      this.props.postToken(this.state.email.value, this.state.password.value).then(res=>{
+      this.props.postToken(this.state.email.value, this.state.password.value)
+      .then(res=>{
         console.log(res)
-        this.props.history.push('/question')
+        return this.props.history.push('/question')
+      }).catch(err=>{
+        if(err.response.data.errors[0].code==="invalid_credential"){
+        alert('invalid email or password')
+        }
       })
       
     }

@@ -43,5 +43,6 @@ export const firstCall = (email, password) => {
   ).request
     .then(res => {
       Auth.set_token(res.data.user_token)
+      return res
     })
 }
