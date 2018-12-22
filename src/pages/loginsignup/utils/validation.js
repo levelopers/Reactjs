@@ -8,8 +8,6 @@
 const validation = (targetName, targetValue) => {
   let isValid = false
   let errorMessage = ''
-
-
   switch (targetName) {
     case 'email':
       isValid = !!targetValue.match(/[\w-]+@([\w-]+\.)+[\w-]+/i)
@@ -29,7 +27,7 @@ const validation = (targetName, targetValue) => {
           errorMessage = 'length between 6 to 15'
           isValid=false
           break;
-        default: isValid=false
+        default: isValid=true
       }
       break;
     case 'name':

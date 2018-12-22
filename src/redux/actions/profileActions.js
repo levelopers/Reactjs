@@ -97,4 +97,39 @@ export const UPDATE_PROFILE_BEGIN = 'UPDATE_PROFILE_BEGIN'
 export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS'
 export const UPDATE_PROFILE_FAIL = 'UPDATE_PROFILE_FAIL'
 
+export const signUp = (email, password, name) => dispatch => {
+  dispatch({
+    type: POST_SIGNUP_BEGIN
+  })
+  return serverCall({
+    method: 'post',
+    url: `/users`,
+    data: {
+      "user": {
+        "email": email,
+        "password": password,
+        "name": name || '',
+      }
+    }
+  }).request
+    .then(res => {
+      dispatch({
+        type: POST_SIGNUP_SUCCESS,
+        payload: res
+      })
+      //update redux store 
+      return res
+    })
+    .catch(err => {
+      dispatch({
+        type: POST_SIGNUP_FAIL,
+        payload: { err }
+      })
+    })
+}
+export const UPDATE_REDUX_PROFILE_SUCCESS = 'UPDATE_REDUX_PROFILE_SUCCESS'
+export const POST_SIGNUP_BEGIN = 'POST_SIGNUP_BEGIN'
+export const POST_SIGNUP_SUCCESS = 'POST_SIGNUP_SUCCESS'
+export const POST_SIGNUP_FAIL = 'POST_SIGNUP_FAIL'
+
 

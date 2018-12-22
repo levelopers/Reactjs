@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import  styles from './stylesheets/signup.module.sass'
+import styles from './stylesheets/loginsignup.module.sass'
 import { Link } from 'react-router-dom'
 import validation from './utils/validation'
-import axios from 'axios'
-import Base from './Base'
+import Forminput from './components/FormInput'
+import { connect } from 'react-redux';
+import { signUp } from '../../redux/actions/profileActions';
+import { postToken } from '../../redux/actions/tokenActions';
 
-export default class SignUp extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,7 +28,6 @@ export default class SignUp extends Component {
       }
     }
   }
-
   // set input value to state
   handleChange = (e) => {
     const targetName = e.target.name
@@ -39,7 +40,6 @@ export default class SignUp extends Component {
       }
     })
   }
-
   //validate input text on blur
   handleBlur = (e) => {
     const name = e.target.name
@@ -54,43 +54,35 @@ export default class SignUp extends Component {
       }
     })
   }
-
   //validate input text on submit
   handleClick = () => {
-    let canSubmit=Boolean
+    let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
-      let { targetName, isValid, errorMessage } = validation(key, val.value)
-      canSubmit=isValid && !!canSubmit
-      this.setState({
-        [targetName]: {
-          ...this.state[targetName],
-          isValid: isValid,
-          errorMessage: errorMessage
-        }
-      })
+      let { isValid } = validation(key, val.value)
+      canSubmit = isValid && !!canSubmit
     })
-    if(canSubmit){
-      axios.post('https://bigfish100.herokuapp.com/users',{
-        user:{
-            "email": this.state.email.value,
-            "password": this.state.password.value,
-            "name": this.state.name.value,
-        }
-      })
-      .then(res=>console.log(res))
+    if (canSubmit && !this.props.signup_loading) {
+      const { email, password, name } = this.state
+      this.props.signUp(email.value, password.value, name.value)
+        .then(res => {
+          this.props.postToken(email.value, password.value)
+            .then(res => this.props.history.push('/question'))
+            .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
     }
   }
 
   render() {
     return (
-      <div className={styles.login} style={{ backgroundImage: "url('/background.jpg')",backgroundSize:"cover" }}>
+      <div className={styles.login} style={{ backgroundImage: "url('/background.jpg')", backgroundSize: "cover" }}>
         <div className={styles.outbox}>
           <div className={styles.form_title}>
             BIGFISH
           </div>
-          <div>
+          <div className={styles.form}>
             {Object.keys(this.state).map(attrName =>
-              <Base
+              <Forminput
                 name={attrName}
                 message={this.state[attrName].errorMessage}
                 value={this.state[attrName].value}
@@ -105,12 +97,18 @@ export default class SignUp extends Component {
           </div>
           <div className={styles.footer}>
             <span >
-              Already have an account?
-              <Link to="/login">Login</Link>
+              Already have an account?&nbsp;
             </span>
+            <Link to="/login">Login</Link>
           </div>
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  token: state.token.token,
+  signup_loading: state.profile.signup_loading
+})
+export default connect(mapStateToProps, { signUp, postToken })(SignUp)

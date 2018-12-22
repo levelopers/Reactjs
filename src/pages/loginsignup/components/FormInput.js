@@ -10,25 +10,24 @@ export default class Form extends Component {
       value
     } = this.props;
     let inputCssClass = ''
-    let errorCssClass = ''
-    let display_message=''
-    display_message=message
+    let type = 'text'
+    let display_message=message
     if (message === "Required") {
-      inputCssClass = styles.error_required
+      inputCssClass = styles.error
       document.getElementById(`input_${name}`).placeholder = 'Required'
       display_message = ''
     } else if (message) {
-      errorCssClass = styles.error_message
+      inputCssClass = styles.error
     } else {
-      inputCssClass = 'form'
+      inputCssClass = styles.form_input
     }
+    if(name==='password') type='password'
 
     return (
       <div id={`form_${name}`} className={styles.outbox} >
-        <input className={styles.form_input}
+        <input className={inputCssClass}
           id={`input_${name}`} 
-          // className={errorCssClass || inputCssClass} 
-          type="text" 
+          type={type} 
           name={name} 
           placeholder={name[0].toUpperCase() + name.slice(1)}
           onChange={handleChange}

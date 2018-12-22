@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import styles from './stylesheets/signup.module.sass'
+import styles from './stylesheets/loginsignup.module.sass'
 import { Link } from 'react-router-dom'
 import validation from './utils/validation'
-import Base from './Base'
+import Forminput from './components/FormInput'
 import { connect } from 'react-redux';
 import { postToken } from '../../redux/actions/tokenActions';
 
@@ -45,38 +45,42 @@ class Login extends Component {
       }
     })
   }
-
   handleClick = () => {
     let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
       let { isValid } = validation(key, val.value)
       canSubmit = isValid && !!canSubmit
     })
-    if (canSubmit) {
+    if (canSubmit&&!this.props.token_loading) {
       this.props.postToken(this.state.email.value, this.state.password.value)
-      .then(res=>{
-        return this.props.history.push('/question')
-      }).catch(err=>{
-        if(err.response.data.errors[0].code==="invalid_credential"){
-        alert('invalid email or password')
-        }
-      })
-      
+        .then(res => {
+          if(res.response.statusText==='OK') this.props.history.push('/question')
+          return res
+        }).catch(err => {
+            alert(err)
+          this.setState({
+            email:{
+              value:''
+            },
+            password:{
+              value:''
+            }
+          })
+        })
     }
   }
 
   render() {
-    // console.log(this.state);
     return (
       <div className={styles.login} style={{ "backgroundImage": "url('/background.jpg')", backgroundSize: "cover" }}>
         <div className={styles.outbox}>
           <div className={styles.form_title}>
             BIGFISH
           </div>
-          <div className={styles.form_input}>
+          <div className={styles.form}>
             {Object.keys(this.state).map(attrName =>
               <div key={attrName}>
-                <Base
+                <Forminput
                   name={attrName}
                   message={this.state[attrName].errorMessage}
                   value={this.state[attrName].value}
@@ -92,16 +96,17 @@ class Login extends Component {
           </div>
           <div className={styles.footer}>
             <span >
-              Don't have an account?
-              <Link to="/signup">SignUp</Link>
+              Don't have an account?&nbsp;
             </span>
+            <Link to="/signup">SignUp</Link>
           </div>
         </div>
       </div>
     )
   }
 }
-const mapStateToProps  = state => ({
-  token: state.token.token
+const mapStateToProps = state => ({
+  token: state.token.token,
+  token_loading:state.token.token_loading
 })
-export default connect(mapStateToProps , { postToken })(Login)
+export default connect(mapStateToProps, { postToken })(Login)
