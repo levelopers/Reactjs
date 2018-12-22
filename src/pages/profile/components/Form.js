@@ -73,6 +73,7 @@ export default class Form extends Component {
           }
         })
       }
+      return null
     })
 
   }

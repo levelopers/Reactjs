@@ -1,38 +1,32 @@
 import { serverCall } from '../../modules/ServerCall'
-import  {getAnswers}  from './answersActions'
 import { POST_QUESTION } from './types'
 
 export const getQuestions = () => (dispatch, getState) => {
   if (!getState().token.token) return
   //begin
-  dispatch(fetchQuestionBegin())
+  dispatch({
+    type: FETCH_QUESTIONS_BEGIN
+  })
   return serverCall({
     method: 'GET',
     url: `/questions`
   }).request
     .then(res => {
       //success
-      dispatch(fetchQuestionSuccess(res))
+      dispatch({
+        type: FETCH_QUESTIONS_SUCCESS,
+        payload: res
+      })
       //send get answers request
       return res
     })
-    .catch(err => {
-      dispatch(fetchQuestionFail(err))
+    .catch(error => {
+      dispatch({
+        type: FETCH_QUESTIONS_FAILURE,
+        payload: { error }
+      })
     })
 }
-const fetchQuestionBegin = () => ({
-  type: FETCH_QUESTIONS_BEGIN
-});
-
-const fetchQuestionSuccess = res => ({
-  type: FETCH_QUESTIONS_SUCCESS,
-  payload: res
-});
-
-const fetchQuestionFail = error => ({
-  type: FETCH_QUESTIONS_FAILURE,
-  payload: { error }
-});
 
 export const postQuestion = (title, content) => (dispatch, getState) => {
   if (!getState().token.token) return

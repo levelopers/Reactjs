@@ -82,7 +82,6 @@ export default class SignUp extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className={styles.login} style={{ backgroundImage: "url('/background.jpg')",backgroundSize:"cover" }}>
         <div className={styles.outbox}>

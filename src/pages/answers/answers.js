@@ -6,7 +6,7 @@ import Answer from './components/answer'
 import Form from './components/Form'
 import btn from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
-import { getAnswer, postAnswer, POST_ANSWER } from '../../redux/actions/answersActions'
+import { getAnswer, postAnswer } from '../../redux/actions/answersActions'
 import { getProfile, getProfiles } from '../../redux/actions/profileActions'
 import { getQuestions } from '../../redux/actions/questionActions'
 class Answers extends Component {
@@ -26,33 +26,43 @@ class Answers extends Component {
 
   componentDidMount() {
     //when refresh /answers send requests
-    if (this.props.all_answers.length < 1) {
+    if (this.props.all_answers.length < 1 && this.props.answers.length < 1) {
       this.props.getAnswer(this.question_id)
     } else if (this.props.questions.length < 1) {
       this.props.getQuestions()
     }
     //when redirect from question dont send request
     else {
-      const local_answers = this.props.all_answers.find(
-        ans => {
-          return ans.question_id === this.question_id
-        }
-      )
-      if (!local_answers) return null
-      const user_ids = []
-      for (let ans of local_answers.all_answers) {
+      let local_answers
+      let user_ids = []
+      if (this.props.answers.length > 0 && this.props.answers[0].question_id === this.question_id) {
+        local_answers = this.props.answers
+      } else {
+        local_answers = this.props.all_answers.find(
+          ans => {
+            return ans.question_id === this.question_id
+          }
+        )
+        if (!local_answers) return null
+        local_answers = local_answers.all_answers
+      }
+      for (let ans of local_answers) {
         user_ids.push(ans.user_id)
       }
-      if (this.props.users.length < 1) this.props.getProfiles(user_ids)
+      //search for user profiles which are not in store and send requests
+      let mySet = new Set(this.props.users.map(user => user.id))
+      let diff = user_ids.filter(id => {
+        return !mySet.has(id)
+      })
+      if (diff.length > 0) this.props.getProfiles(diff)
       this.setState({
-        answers: local_answers.all_answers
+        answers: local_answers
       })
     }
   }
   componentDidUpdate() {
     //when get responses
     if (this.state.answers.length < 1
-      && this.props.users.length < 1
       && !this.props.profiles_loading
       && (this.props.answers.length > 0
         || this.props.all_answers.length > 0)) {
@@ -63,7 +73,7 @@ class Answers extends Component {
       for (let ans of local_answers) {
         user_ids.push(ans.user_id)
       }
-      this.props.getProfiles(user_ids)
+      if (this.props.users.length < 1) this.props.getProfiles(user_ids)
       this.setState({
         answers: local_answers
       })

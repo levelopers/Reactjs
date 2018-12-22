@@ -15,9 +15,7 @@ const validation = (targetName, targetValue) => {
       isValid = !!targetValue.match(/[\w-]+@([\w-]+\.)+[\w-]+/i)
       errorMessage = isValid ? '' : 'invalid email'
       break;
-
     case 'password':
-      
       switch (false) {
         case !!targetValue.match(/(?=.*[a-z])/g):
           errorMessage = 'at least one lower case'
@@ -33,8 +31,11 @@ const validation = (targetName, targetValue) => {
           break;
         default: isValid=false
       }
+      break;
     case 'name':
       isValid=true
+      break;
+    default: return null
   }
 
   if (!targetValue) {

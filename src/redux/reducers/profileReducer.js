@@ -14,11 +14,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    // case GET_PROFILE:
-    //   return {
-    //     ...state,
-    //     user: action.payload.data.user
-    //   }
     case FETCH_PROFILE_BEGIN:
       return {
         ...state,
@@ -38,13 +33,6 @@ export default function (state = initialState, action) {
         error: action.payload.error,
         user: {}
       };
-    // case GET_PROFILES:
-    //   return {
-    //     ...state,
-    //     users: [...state.users,
-    //     action.payload.data.user,
-    //     ]
-    //   }
       case FETCH_PROFILES_BEGIN:
       return {
         ...state,

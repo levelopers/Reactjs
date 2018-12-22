@@ -9,16 +9,16 @@ import {
 } from '../actions/answersActions'
 
 const initialState = {
-  answers:[],
+  answers: [],
   all_answers: [],
   answers_loading: false,
-  answer_loading:false,
-  postAnswer:null
+  answer_loading: false,
+  postAnswer: null
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
-      case FETCH_ANSWER_BEGIN:
+    case FETCH_ANSWER_BEGIN:
       return {
         ...state,
         answer_loading: true,
@@ -28,9 +28,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         answer_loading: false,
-        answers: 
+        answers:
           action.payload.data.answers
-        
       };
     case FETCH_ANSWER_FAILURE:
       return {
@@ -61,10 +60,10 @@ export default function (state = initialState, action) {
         error: action.payload,
       };
     case POST_ANSWER:
-    return {
-      ...state,
-      postAnswer:action.payload
-    }
+      return {
+        ...state,
+        postAnswer: action.payload
+      }
     default:
       return state
   }
