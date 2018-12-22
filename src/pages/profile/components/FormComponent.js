@@ -77,6 +77,7 @@ export default class FormComponent extends Component {
     } = this.props
     return (
       <div className={styles.input_outbox}>
+        {/* custom type radio input by css */}
         {lablename === "gender" ?
           <div className={styles.gender_inner}>
             <div className={styles.genders}>
@@ -93,6 +94,7 @@ export default class FormComponent extends Component {
             </div>
           </div>
           :
+          // render type text input
           <div className={styles.input}>
             <input type={type} onChange={change} value={value} placeholder={this.placeholder} />
           </div>

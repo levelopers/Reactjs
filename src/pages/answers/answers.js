@@ -6,50 +6,57 @@ import Answer from './components/answer'
 import Form from './components/Form'
 import btn from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
-import { getAnswers, postAnswer, POST_ANSWER } from '../../redux/actions/answersActions'
+import { getAnswer, postAnswer, POST_ANSWER } from '../../redux/actions/answersActions'
 import { getProfile, getProfiles } from '../../redux/actions/profileActions'
 import { getQuestions } from '../../redux/actions/questionActions'
 class Answers extends Component {
   constructor(props) {
     super(props)
-    this.state={
-      form_ref:null
+    this.state = {
+      form_style: null,
+      answers: []
     }
-    this.local_answers = []
     this.question_id = parseInt(this.props.match.params.ques_id)
   }
   postAnswerClick = (e) => {
     this.setState({
-      form_ref:'block'
+      form_style: 'block'
     })
   }
 
   componentDidMount() {
-    if (this.props.answers.length < 1) {
-      this.props.getAnswers(this.question_id)
-    }else if(this.props.questions.length < 1){
+    //when refresh /answers send requests
+    if (this.props.all_answers.length < 1) {
+      this.props.getAnswer(this.question_id)
+    } else if (this.props.questions.length < 1) {
       this.props.getQuestions()
     }
+    //when redirect from question dont send request
     else {
-      const local_answers = this.props.answers.find(
+      const local_answers = this.props.all_answers.find(
         ans => {
           return ans.question_id === this.question_id
         }
       )
       if (!local_answers) return null
       const user_ids = []
-      for (let ans of local_answers.answers) {
+      for (let ans of local_answers.all_answers) {
         user_ids.push(ans.user_id)
       }
-      if(this.props.users.length<1) this.props.getProfiles(user_ids)
-      this.local_answers = local_answers.answers
+      if (this.props.users.length < 1) this.props.getProfiles(user_ids)
+      this.setState({
+        answers: local_answers.all_answers
+      })
     }
   }
   componentDidUpdate() {
-    if (this.local_answers.length < 1
+    //when get responses
+    if (this.state.answers.length < 1
       && this.props.users.length < 1
-      && this.props.answers.length > 0) {
-      const local_answers = this.props.answers[0]
+      && !this.props.profiles_loading
+      && (this.props.answers.length > 0
+        || this.props.all_answers.length > 0)) {
+      const local_answers = this.props.answers
       const user_ids = []
       //return null if no answers 
       if (!local_answers.length) return null
@@ -57,14 +64,16 @@ class Answers extends Component {
         user_ids.push(ans.user_id)
       }
       this.props.getProfiles(user_ids)
-      this.local_answers = local_answers
+      this.setState({
+        answers: local_answers
+      })
     }
     if (Object.keys(this.props.user).length < 1
       && !this.props.profile_loading) {
       this.props.getProfile(this.props.token.user_id)
     }
-    if(this.props.questions.length < 1 
-      && !this.props.questions_loading){
+    if (this.props.questions.length < 1
+      && !this.props.questions_loading) {
       this.props.getQuestions()
     }
   }
@@ -77,16 +86,16 @@ class Answers extends Component {
           <div>
             {this.props.questions &&
               <Question questions={this.props.questions} question_id={this.question_id} />}
-            <div style={{display:this.state.form_ref}} className={styles.post_outbox}>
+            <div style={{ display: this.state.form_style }} className={styles.post_outbox}>
               <Form question_id={this.question_id} answers_props={this.props} />
             </div>
-            {this.props.answers[0]
+            {this.state.answers.length > 0
               && !this.props.answers_loading
               && !this.props.profiles_loading
-              && this.props.users.length > 1
+              && this.props.users.length > 0
               &&
               <Answer
-                answers={this.props.answers[0]}
+                answers={this.state.answers}
                 users={this.props.users} />
             }
           </div>
@@ -104,13 +113,14 @@ class Answers extends Component {
 const mapStateToProps = (state) => ({
   token: state.token.token,
   answers: state.answers.answers,
+  all_answers: state.answers.all_answers,
   answers_loading: state.answers.answers_loading,
   user: state.profile.user,
   users: state.profile.users,
   profile_loading: state.profile.profile_loading,
   profiles_loading: state.profile.profiles_loading,
   questions: state.questions.questions,
-  questions_loading:state.questions.loading
+  questions_loading: state.questions.loading
 })
 
-export default connect(mapStateToProps, { getAnswers, postAnswer, getProfile, getProfiles, getQuestions })(Answers)
+export default connect(mapStateToProps, { getAnswer, postAnswer, getProfile, getProfiles, getQuestions })(Answers)

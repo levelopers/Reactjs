@@ -6,7 +6,7 @@ export const getQuestions = () => (dispatch, getState) => {
   if (!getState().token.token) return
   //begin
   dispatch(fetchQuestionBegin())
-  serverCall({
+  return serverCall({
     method: 'GET',
     url: `/questions`
   }).request
@@ -14,7 +14,7 @@ export const getQuestions = () => (dispatch, getState) => {
       //success
       dispatch(fetchQuestionSuccess(res))
       //send get answers request
-      dispatch(getAnswers())
+      return res
     })
     .catch(err => {
       dispatch(fetchQuestionFail(err))

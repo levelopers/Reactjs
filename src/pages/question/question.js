@@ -22,8 +22,13 @@ class Question extends Component {
     }
   }
   componentDidMount() {
-    if(this.props.questions.length<1) this.props.getQuestions()
-    if(Object.keys(this.props.user).length) this.props.getProfile()
+    if (this.props.questions.length < 1) {
+      this.props.getQuestions().then(res => {
+        if (this.props.all_answers.length < 1) this.props.getAnswers()
+      })
+    }
+    if (this.props.all_answers.length < 1) this.props.getAnswers()
+    if (!!!Object.keys(this.props.user).length) this.props.getProfile()
   }
   showPostClick = () => {
     this.setState({
@@ -76,10 +81,11 @@ class Question extends Component {
               <div className={styles.title}>
                 {ques.title}
               </div>
-              {this.props.answers && this.props.answers.map(ans =>
+              {this.props.all_answers && this.props.all_answers.map(ans =>
                 ans.question_id === ques.id ?
-                  <div key={ans.answers[0].id} className={styles.answer}>
-                    {ans.answers[0].content}
+                  //display first answer of the question
+                  <div key={ans.all_answers[0].id} className={styles.answer}>
+                    {ans.all_answers[0].content}
                   </div>
                   :
                   <div
@@ -111,7 +117,7 @@ class Question extends Component {
 }
 
 const mapStateToProps = state => ({
-  answers: state.answers.answers,
+  all_answers: state.answers.all_answers,
   questions: state.questions.questions,
   user: state.profile.user,
   postQuestionStatus: state.questions.postStatus

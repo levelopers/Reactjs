@@ -9,7 +9,8 @@ import {
 } from '../actions/answersActions'
 
 const initialState = {
-  answers: [],
+  answers:[],
+  all_answers: [],
   answers_loading: false,
   answer_loading:false,
   postAnswer:null
@@ -27,16 +28,15 @@ export default function (state = initialState, action) {
       return {
         ...state,
         answer_loading: false,
-        answers: [
+        answers: 
           action.payload.data.answers
-        ]
+        
       };
     case FETCH_ANSWER_FAILURE:
       return {
         ...state,
         answers_loading: false,
         error: action.payload.error,
-        answers: []
       };
     case FETCH_ANSWERS_BEGIN:
       return {
@@ -48,9 +48,9 @@ export default function (state = initialState, action) {
       return {
         ...state,
         answers_loading: false,
-        answers: [...state.answers, {
+        all_answers: [...state.all_answers, {
           question_id: action.question_id,
-          answers: action.payload.data.answers,
+          all_answers: action.payload.data.answers,
         }]
       };
     case FETCH_ANSWERS_FAILURE:

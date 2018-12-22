@@ -1,29 +1,6 @@
 import { serverCall } from '../../modules/ServerCall'
 
-export const getAnswers = (ques_id) => (dispatch, getState) => {
-  if (ques_id) {
-    if (!getState().token.token) return
-    dispatch({
-      type: FETCH_ANSWER_BEGIN
-    })
-    return serverCall({
-      method: 'get',
-      url: `/questions/${ques_id}/answers`,
-    }).request
-      .then(res => {
-        dispatch({
-          type: FETCH_ANSWER_SUCCESS,
-          payload: res
-        })
-      })
-      .catch(err => {
-        dispatch({
-          type: FETCH_ANSWER_FAILURE,
-          payload: { err }
-        })
-      })
-  }
-
+export const getAnswers = () => (dispatch, getState) => {
   if (!getState().token.token || !getState().questions.questions) return
   const questions = getState().questions.questions
   dispatch({
@@ -50,6 +27,29 @@ export const getAnswers = (ques_id) => (dispatch, getState) => {
         call.cancel()
       })
   })
+}
+
+export const getAnswer = (ques_id) => (dispatch, getState) => {
+  if (!!!ques_id) return null
+  dispatch({
+    type: FETCH_ANSWER_BEGIN
+  })
+  return serverCall({
+    method: 'get',
+    url: `/questions/${ques_id}/answers`,
+  }).request
+    .then(res => {
+      dispatch({
+        type: FETCH_ANSWER_SUCCESS,
+        payload: res
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: FETCH_ANSWER_FAILURE,
+        payload: { err }
+      })
+    })
 }
 
 export const postAnswer = (content, id) => (dispatch, getState) => {
