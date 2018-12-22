@@ -18,6 +18,10 @@ a {
 }
 #edit{
     margin-left: 15.91px;
+    font-family: Helvetica;
+    font-size: 25px;
+    color: #ED5736;
+    
 }
 
 .formshow-edit {
@@ -25,11 +29,11 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-left: 30px;
 }
 
 .content {
     margin-left: 100px;
-    font-family: Roboto-Regular;
     font-size: 25px;
     color: #424C50;
     text-align: justify;

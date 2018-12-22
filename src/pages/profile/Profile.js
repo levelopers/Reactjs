@@ -55,7 +55,7 @@ class Profile extends Component {
           id={user.id}
           handleChange={this.handleChange}
         />
-        <div className="content">
+        <div className="profile_content">
           <div className="box">
             <Photo
               img={user.avatar_url}

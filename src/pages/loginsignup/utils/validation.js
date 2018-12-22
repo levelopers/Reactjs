@@ -31,7 +31,12 @@ const validation = (targetName, targetValue) => {
       }
       break;
     case 'name':
-      isValid=true
+      if(targetValue.length>200) {
+        errorMessage='shorter than 200'
+        isValid=false;
+      }else{
+        isValid=true
+      }
       break;
     default: return null
   }

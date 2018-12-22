@@ -14,7 +14,8 @@ const initialState = {
   users: [],
   profile_loading: false,
   profiles_loading: false,
-  signup_loading: false
+  signup_loading: false,
+  error: null
 }
 
 export default function (state = initialState, action) {

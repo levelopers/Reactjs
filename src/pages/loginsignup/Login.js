@@ -48,22 +48,30 @@ class Login extends Component {
   handleClick = () => {
     let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
-      let { isValid } = validation(key, val.value)
+      let { targetName, isValid, errorMessage } = validation(key, val.value)
+      this.setState({
+        [targetName]: {
+          ...this.state[targetName],
+          isValid: isValid,
+          errorMessage: errorMessage
+        }
+      })
       canSubmit = isValid && !!canSubmit
     })
-    if (canSubmit&&!this.props.token_loading) {
+    if (canSubmit && !this.props.token_loading) {
       this.props.postToken(this.state.email.value, this.state.password.value)
         .then(res => {
-          if(res.response.statusText==='OK') this.props.history.push('/question')
-          return res
+          this.props.history.push('/question')
         }).catch(err => {
-            alert(err)
+          alert(err)
           this.setState({
-            email:{
-              value:''
+            email: {
+              ...this.state.email,
+              isValid: false,
             },
-            password:{
-              value:''
+            password: {
+              ...this.state.password,
+              isValid: false,
             }
           })
         })
@@ -107,6 +115,7 @@ class Login extends Component {
 }
 const mapStateToProps = state => ({
   token: state.token.token,
-  token_loading:state.token.token_loading
+  token_loading: state.token.token_loading,
+  login_err: state.token.error
 })
 export default connect(mapStateToProps, { postToken })(Login)

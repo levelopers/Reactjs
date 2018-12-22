@@ -4,11 +4,13 @@
   height: 80px;
   display: flex;
   flex-direction: row;
+  position: fixed;
+  width: 100%;
 }
 
 .logo {
   margin-left: 20px;
-  font-family: RussoOne-Regular;
+  font-family: Helvetica;
   font-size: 35px;
   color: #ED5736;
   display: flex;

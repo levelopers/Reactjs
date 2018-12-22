@@ -8,6 +8,7 @@ import {
 const initialState = {
   token: Auth.getToken(),
   token_loading: false,
+  error:null
 }
 
 export default function (state = initialState, action) {
@@ -28,7 +29,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         token_loading: false,
-        error: action.payload
+        error: action.payload.error
       }
     default:
       return state

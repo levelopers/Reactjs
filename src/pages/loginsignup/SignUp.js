@@ -59,17 +59,35 @@ class SignUp extends Component {
     let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
       let { isValid } = validation(key, val.value)
-      canSubmit = isValid && !!canSubmit
+      canSubmit = isValid && canSubmit
     })
     if (canSubmit && !this.props.signup_loading) {
       const { email, password, name } = this.state
       this.props.signUp(email.value, password.value, name.value)
-        .then(res => {
+        .then(signup_res => {
           this.props.postToken(email.value, password.value)
-            .then(res => this.props.history.push('/question'))
-            .catch(err => console.log(err))
+            .then(token_res => {
+              this.props.history.push('/question')
+            })
+            .catch(err => alert(err))
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          alert(err)
+          this.setState({
+            email: {
+              ...this.state.email,
+              isValid: false,
+            },
+            password: {
+              ...this.state.password,
+              isValid: false,
+            },
+            name: {
+              ...this.state.name,
+              isValid: false
+            }
+          })
+        })
     }
   }
 
@@ -109,6 +127,7 @@ class SignUp extends Component {
 
 const mapStateToProps = state => ({
   token: state.token.token,
-  signup_loading: state.profile.signup_loading
+  signup_loading: state.profile.signup_loading,
+  signup_err: state.profile.error
 })
 export default connect(mapStateToProps, { signUp, postToken })(SignUp)

@@ -14,12 +14,12 @@ export const postToken = (email, password) => dispatch => {
       payload: res
     })
     return res
-  }).catch(err => {
+  }).catch(error => {
     dispatch({
       type: POST_TOKEN_FAILURE,
-      payload: { err }
+      payload: { error }
     })
-    return err
+    throw error
   })
 }
 export const POST_TOKEN_BEGIN = 'POST_TOKEN_BEGIN'

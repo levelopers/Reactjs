@@ -117,14 +117,14 @@ export const signUp = (email, password, name) => dispatch => {
         type: POST_SIGNUP_SUCCESS,
         payload: res
       })
-      //update redux store 
       return res
     })
-    .catch(err => {
+    .catch(error => {
       dispatch({
         type: POST_SIGNUP_FAIL,
-        payload: { err }
+        payload: { error }
       })
+      throw error
     })
 }
 export const UPDATE_REDUX_PROFILE_SUCCESS = 'UPDATE_REDUX_PROFILE_SUCCESS'
