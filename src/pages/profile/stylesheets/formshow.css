@@ -10,18 +10,11 @@
     width: 100%;
 }
 
-a {
-    margin-left: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-}
 #edit{
     margin-left: 15.91px;
     font-family: Helvetica;
     font-size: 25px;
     color: #ED5736;
-    
 }
 
 .formshow-edit {
@@ -42,14 +35,24 @@ a {
     max-height: 100%;
 }
 
-.description .content p {
+.description p {
     line-height: 1.8rem;
     word-wrap: break-word;
-    max-width: 290px;
-    max-height: 87px;
-    overflow: hidden;
     font-size: 25px;
     color: #424C50;
+    overflow: hidden;
+    white-space: initial;
+    text-overflow: ellipsis;
+    width: 290px;
+    height: 87px;
+    display: block;
+}
+.description .content{
+    margin-left: 0;
+    width: 290px;
+    height: 87px;
+    white-space:nowrap;
+    display: block;
 }
 
 .lable {
@@ -80,5 +83,3 @@ a {
     margin-left: 0;
     min-width: 500px;
 }
-
-.gender {}

@@ -88,10 +88,8 @@ class Question extends Component {
                     {ans.all_answers[0].content}
                   </div>
                   :
-                  <div
-                    key={ans.question_id}
-                    className={styles.blank}>
-                  </div>
+                  //no answers
+                  null
               )}
             </div>
           )}

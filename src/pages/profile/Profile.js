@@ -43,7 +43,7 @@ class Profile extends Component {
       });
   }
   componentDidMount() {
-    if(!Object.keys(this.props.user).length) this.props.getProfile()
+    if (!Object.keys(this.props.user).length) this.props.getProfile()
   }
   render() {
     const user = this.props.user
@@ -63,7 +63,7 @@ class Profile extends Component {
               id={user.id}
               handleChange={this.handleChange}
             />
-            {Object.keys(user).length
+            {Object.keys(user).length > 0
               && !this.props.profile_loading
               &&
               <Form

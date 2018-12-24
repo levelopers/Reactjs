@@ -32,7 +32,6 @@ class SignUp extends Component {
   handleChange = (e) => {
     const targetName = e.target.name
     const targetValue = e.target.value
-
     this.setState({
       [targetName]: {
         ...this.state[targetName],
@@ -44,7 +43,6 @@ class SignUp extends Component {
   handleBlur = (e) => {
     const name = e.target.name
     const value = e.target.value
-
     let { targetName, isValid, errorMessage } = validation(name, value)
     this.setState({
       [targetName]: {
@@ -58,7 +56,14 @@ class SignUp extends Component {
   handleClick = () => {
     let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
-      let { isValid } = validation(key, val.value)
+      let { targetName, isValid, errorMessage } = validation(key, val.value)
+      this.setState({
+        [targetName]: {
+          ...this.state[targetName],
+          isValid: isValid,
+          errorMessage: errorMessage
+        }
+      })
       canSubmit = isValid && canSubmit
     })
     if (canSubmit && !this.props.signup_loading) {

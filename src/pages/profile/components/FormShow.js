@@ -22,7 +22,9 @@ const FormShow = ({
           <p>
             {content}
           </p>
-          {isHover &&
+          
+        </div>
+        {isHover &&
             <div className="formshow-edit">
               <div onClick={click}>
                 <img src={Pencil} alt="" />
@@ -30,7 +32,6 @@ const FormShow = ({
               </div>
             </div>
           }
-        </div>
       </div>
     </div>
   )

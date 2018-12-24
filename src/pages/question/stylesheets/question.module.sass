@@ -6,6 +6,10 @@
     box-shadow: 0 1px 5px 1px #BBCDC5
 
 .title
+    width: 100%
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
     font-family: Roboto-Medium
     font-size: 25px
     color: #424C50
@@ -13,7 +17,7 @@
     width: 100%
     height: 100%
     position: fixed
-    background-color: rgba(100,100,100,0.5)
+    background-color: #F0F0F4
     overflow: scroll
 
 .answer
@@ -22,6 +26,7 @@
     color: #424C50
     text-align: justify
     margin-top: 10px
+
 .paragraph
     margin: 23px
     margin-left: 29px
@@ -45,19 +50,23 @@
   overflow: auto
   background-color: rgb(0,0,0)
   background-color: rgba(0,0,0,0.4)
+
 .popup_content
   background-color: #fefefe
   margin: auto
   border: 1px solid #888
   width: 900px
   height: 400px
+
 .modal_outbox
   margin-left: 100px
   margin-right: 100px
+
 .form_outbox
   display: flex
   flex-direction: column
   align-items: flex-end
+
 .form_form
   display: flex
   flex-direction: column
@@ -65,6 +74,7 @@
     font-family: Roboto-Regular
     font-size: 25px
     color: #BBCDC5
+
 .form_input
   font-family: Roboto-Regular
   font-size: 30px
@@ -75,6 +85,7 @@
   outline: 0
   background: transparent
   border-bottom: 1px solid rgba(100, 100, 100, 0.3)
+
 .form_textArea
   width: 700px
   height: 161px
@@ -98,7 +109,9 @@
   text-align: center
   border-radius: 10px
   margin-bottom: 25px
+
 .btn
+  background: transparent
   text-decoration: none
   border: none
   position: fixed
@@ -108,6 +121,5 @@
   margin-bottom: 25px
   button
     background: transparent
-    background-color: rgba(100,100,100,0.1)
     padding: 0
     border: 0
