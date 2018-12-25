@@ -10,9 +10,9 @@ export default class FormComponent extends Component {
       },
       female: {
         display: 'none'
-      }
+      },
+      placeholder: ''
     }
-    this.placeholder = null
   }
   componentDidMount() {
     if (this.props.value === "female") {
@@ -27,10 +27,14 @@ export default class FormComponent extends Component {
     } else {
       switch (this.props.lablename) {
         case "title":
-          this.placeholder = 'please enter your name'
+          this.setState({
+            placeholder: 'please enter your name'
+          })
           break;
         case "description":
-          this.placeholder = 'Short Description'
+          this.setState({
+            placeholder: 'Short Description'
+          })
           break;
         default:
           this.placeholder = ''
@@ -96,7 +100,7 @@ export default class FormComponent extends Component {
           :
           // render type text input
           <div className={styles.input}>
-            <input type={type} onChange={change} value={value} placeholder={this.placeholder} />
+            <input type={type} onChange={change} value={value} placeholder={this.state.placeholder} />
           </div>
         }
         <div className={styles.btns}>

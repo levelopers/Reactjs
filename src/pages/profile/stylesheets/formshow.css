@@ -33,26 +33,20 @@
     display: flex;
     flex-direction: column;
     max-height: 100%;
+    font-family: Helvetica;
+
 }
 
 .description p {
-    line-height: 1.8rem;
-    word-wrap: break-word;
-    font-size: 25px;
-    color: #424C50;
-    overflow: hidden;
-    white-space: initial;
-    text-overflow: ellipsis;
-    width: 290px;
-    height: 87px;
-    display: block;
+    margin-top: 5px;
 }
 .description .content{
-    margin-left: 0;
+    line-height: 1.8rem;
+    font-size: 25px;
+    color: #424C50;
     width: 290px;
     height: 87px;
-    white-space:nowrap;
-    display: block;
+    max-width: 290px;
 }
 
 .lable {
@@ -60,15 +54,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-family: Roboto-Medium;
+    font-family: Helvetica;
     font-size: 25px;
     color: #424C50;
     text-align: left;
 }
 
 .title {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     margin-top: 1px;
+    font-family: Helvetica;
 }
 
 .title p {
