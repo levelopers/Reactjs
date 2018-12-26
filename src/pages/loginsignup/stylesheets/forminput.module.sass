@@ -17,12 +17,7 @@
         padding: 0
         outline: 0
         background: transparent
-        &[name='email']
-            max-width: 60%
-        &[name='password']
-            max-width: 30%
-        &[name='name']
-            max-width: 50%
+        
     span 
         position: relative
         max-width: 100%
@@ -44,6 +39,22 @@
     overflow: hidden
     &::placeholder
         color: #FF2121
+
+.error_message
+    font-family: Helvetica
+    font-size: 25px
+    color: #424C50
+    position: relative
+    border: 0
+    padding: 0
+    outline: 0
+    background: transparent
+    &[name='email']
+        max-width: 60%
+    &[name='password']
+        max-width: 30%
+    &[name='name']
+        max-width: 50%
     
 .error_span
     position: relative

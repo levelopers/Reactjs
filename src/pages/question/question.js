@@ -6,7 +6,7 @@ import post_button from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
 import { getQuestions } from '../../redux/actions/questionActions'
 import { getAnswers } from '../../redux/actions/answersActions'
-import { getProfile } from '../../redux/actions/profileActions'
+import { getProfile, getProfiles } from '../../redux/actions/profileActions'
 import { postQuestion } from '../../redux/actions/questionActions'
 class Question extends Component {
   constructor(props) {
@@ -29,7 +29,22 @@ class Question extends Component {
     }
     if (this.props.all_answers.length < 1) this.props.getAnswers()
     if (!!!Object.keys(this.props.user).length) this.props.getProfile()
+    // let mySet = new Set(this.props.users.map(user => user.id))
+    //   let diff = user_ids.filter(id => {
+    //     return !mySet.has(id)
+    //   })
+    //   if (diff.length > 0) this.props.getProfiles(diff)
   }
+  // componentDidUpdate() {
+  //   if (this.props.all_answers.length > 0 && !this.props.answers_loading) {
+  //     let user_ids = []
+  //     console.log(this.props.all_answers);
+      
+  //     for (let ans of this.props.all_answers.all_answers) {
+  //       user_ids.push(ans.user_id)
+  //     }
+  //   }
+  // }
   showPostClick = () => {
     this.setState({
       modalDisplay: 'flex'
@@ -116,11 +131,13 @@ class Question extends Component {
 
 const mapStateToProps = state => ({
   all_answers: state.answers.all_answers,
+  answers_loading: state.answers.answers_loading,
   questions: state.questions.questions,
   user: state.profile.user,
+  users: state.profile.users,
   postQuestionStatus: state.questions.postStatus
 })
 const mapDispatchtoProps = {
-  getProfile, getQuestions, postQuestion, getAnswers
+  getProfile, getProfiles, getQuestions, postQuestion, getAnswers
 }
 export default connect(mapStateToProps, mapDispatchtoProps)(Question)

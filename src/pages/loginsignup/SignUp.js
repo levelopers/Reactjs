@@ -32,9 +32,16 @@ class SignUp extends Component {
   handleChange = (e) => {
     const targetName = e.target.name
     const targetValue = e.target.value
+    let errorMessage
+    if (this.state[targetName].errorMessage === 'Required') {
+      errorMessage = ''
+    } else {
+      errorMessage = this.state[targetName].errorMessage
+    }
     this.setState({
       [targetName]: {
         ...this.state[targetName],
+        errorMessage: errorMessage,
         value: targetValue
       }
     })

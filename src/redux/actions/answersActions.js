@@ -6,27 +6,48 @@ export const getAnswers = () => (dispatch, getState) => {
   dispatch({
     type: FETCH_ANSWERS_BEGIN
   })
-  questions.map((ques, index) => {
+  let answers_responses = []
+  let answers_errors = []
+  // questions.map((ques, index) => {
+  for (let ques of questions) {
     const call = serverCall({
       method: 'get',
       url: `/questions/${ques.id}/answers`,
     })
-    return call.request
+    call.request
       .then(res => {
-        dispatch({
-          type: FETCH_ANSWERS_SUCCESS,
-          payload: res,
+        // dispatch({
+        //   type: FETCH_ANSWERS_SUCCESS,
+        //   payload: res,
+        //   question_id: ques.id
+        // })
+        answers_responses.push({
+          answers_response: res,
           question_id: ques.id
         })
       })
-      .catch(err => {
-        dispatch({
-          type: FETCH_ANSWERS_FAILURE,
-          payload: err
+      .catch(error => {
+        // dispatch({
+        //   type: FETCH_ANSWERS_FAILURE,
+        //   payload: err
+        // })
+        answers_errors.push({
+          error:error,
+          question_id: ques.id
         })
         call.cancel()
       })
+  }
+  console.log(answers_responses);
+  dispatch({
+    type: FETCH_ANSWERS_SUCCESS,
+    payload: answers_responses,
   })
+  dispatch({
+    type: FETCH_ANSWERS_FAILURE,
+    payload: answers_errors
+  })
+  // })
 }
 
 export const getAnswer = (ques_id) => (dispatch, getState) => {

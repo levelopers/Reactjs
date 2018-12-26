@@ -44,13 +44,44 @@ export default function (state = initialState, action) {
         error: null
       };
     case FETCH_ANSWERS_SUCCESS:
+      let all_answers=[]
+      let user_ids=[]
+      console.log(action.payload);
+      
+      // for (let res of action.payload) {
+      //   console.log(res);
+        
+      //   all_answers.push({
+      //     all_answers:res.answers_response.data.answers,
+      //     question_id:res.question_id
+      //   })
+      //   for (let ans of ans.answers_response.data.answers) {
+      //     console.log();
+          
+      //     user_ids.push({
+      //       question_id:ans.question_id,
+      //       user_id:ans.user_id,
+      //       answer_id:ans.id
+      //     })
+      //   }
+      // }
+      action.payload.map(res=>
+        // all_answers.push({
+        //   all_answers:res.answers_response.data.answers,
+        //   question_id:res.question_id
+        // })
+        console.log(res)
+        
+      )
+      
       return {
         ...state,
         answers_loading: false,
-        all_answers: [...state.all_answers, {
-          question_id: action.question_id,
-          all_answers: action.payload.data.answers,
-        }]
+        // all_answers: [...state.all_answers, {
+        //   question_id: action.question_id,
+        //   all_answers: action.payload.data.answers,
+        // }]
+        // all_answers:all_answers
       };
     case FETCH_ANSWERS_FAILURE:
       return {
