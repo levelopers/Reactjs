@@ -7,6 +7,8 @@ const Form = ({
   handleContentChange,
   handleButton
 }) => {
+  let disableButton=true
+  if(!!inputValue) disableButton=false
   return (
     <div className={styles.form_outbox}>
       <form className={styles.form_form}>
@@ -23,6 +25,7 @@ const Form = ({
           value={textareaValue} />
       </form>
       <button
+        disabled={disableButton}
         className={styles.form_button}
         onClick={e => handleButton(e)}>
         Ask

@@ -17,21 +17,37 @@ class Answers extends Component {
       answers: []
     }
     this.question_id = parseInt(this.props.match.params.ques_id)
+    this.headerRef = null
+    this.bottomRef = null
   }
   postAnswerClick = (e) => {
+    let formStyle = 'block'
+    if (this.state.form_style && this.state.form_style === 'block') {
+      formStyle = 'none'
+    }
     this.setState({
-      form_style: 'block'
+      form_style: formStyle
     })
+    this.headerRef.scrollIntoView({ behavior: 'smooth' })
+  }
+  hideForm = () => {
+    this.setState({
+      form_style: 'none'
+    })
+  }
+  setBottomRef = (ref) => {
+    this.bottomRef = ref
   }
 
   componentDidMount() {
     //when refresh /answers send requests
     if (this.props.all_answers.length < 1 && this.props.answers.length < 1) {
       this.props.getAnswer(this.question_id)
-    } else if (this.props.questions.length < 1) {
+    }
+    if (this.props.questions.length < 1) {
       this.props.getQuestions()
     }
-    //when redirect from question dont send request
+    //when redirect from other pages
     else {
       let local_answers
       let user_ids = []
@@ -54,26 +70,30 @@ class Answers extends Component {
       let diff = user_ids.filter(id => {
         return !mySet.has(id)
       })
-      if (diff.length > 0) this.props.getProfiles(diff)
+      if (diff.length > 0) {
+        diff.map(dif =>
+          this.props.getProfiles(dif)
+        )
+      }
       this.setState({
         answers: local_answers
       })
     }
   }
   componentDidUpdate() {
-    //when get responses
+    //when get responses from getAnswer()
     if (this.state.answers.length < 1
       && !this.props.profiles_loading
       && (this.props.answers.length > 0
         || this.props.all_answers.length > 0)) {
       const local_answers = this.props.answers
-      const user_ids = []
+      const user_ids = new Set()
       //return null if no answers 
       if (!local_answers.length) return null
       for (let ans of local_answers) {
-        user_ids.push(ans.user_id)
+        if (!user_ids.has(ans.user_id)) this.props.getProfiles(ans.user_id)
+        user_ids.add(ans.user_id)
       }
-      if (this.props.users.length < 1) this.props.getProfiles(user_ids)
       this.setState({
         answers: local_answers
       })
@@ -87,17 +107,22 @@ class Answers extends Component {
       this.props.getQuestions()
     }
   }
-
   render() {
     return (
       <div className={styles.page}>
-        <Header img={this.props.user && this.props.user.avatar_url} />
+        <div ref={ref => this.headerRef = ref}>
+          <Header img={this.props.user && this.props.user.avatar_url} />
+        </div>
         <div className={styles.outbox}>
           <div>
             {this.props.questions &&
               <Question questions={this.props.questions} question_id={this.question_id} />}
             <div style={{ display: this.state.form_style }} className={styles.post_outbox}>
-              <Form question_id={this.question_id} answers_props={this.props} />
+              <Form
+                question_id={this.question_id}
+                answers_this={this}
+                hideForm={this.hideForm}
+                bottomRef={this.bottomRef} />
             </div>
             {this.state.answers.length > 0
               && !this.props.answers_loading
@@ -106,13 +131,15 @@ class Answers extends Component {
               &&
               <Answer
                 answers={this.state.answers}
-                users={this.props.users} />
+                users={this.props.users.concat(this.props.user)}
+                question_id={this.question_id}
+                setBottomRef={this.setBottomRef} />
             }
           </div>
         </div>
         <div className={styles.button}>
           <button className={styles.btn} onClick={this.postAnswerClick}>
-            <img src={btn} alt="" />
+            <img src={btn} alt="button" />
           </button>
         </div>
       </div>
@@ -133,4 +160,12 @@ const mapStateToProps = (state) => ({
   questions_loading: state.questions.loading
 })
 
-export default connect(mapStateToProps, { getAnswer, postAnswer, getProfile, getProfiles, getQuestions })(Answers)
+const mapDispatchToProps = {
+  getAnswer,
+  postAnswer,
+  getProfile,
+  getProfiles,
+  getQuestions
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Answers)

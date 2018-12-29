@@ -47,10 +47,11 @@ class Profile extends Component {
   }
   render() {
     const user = this.props.user
+    if(!user) return null
     return (
       <div className="profile">
         <Header
-          img={user.avatar_url}
+          img={user.avatar_url||'/avatar_default.jpg'}
           input_file_path={this.state.input_file_path}
           id={user.id}
           handleChange={this.handleChange}

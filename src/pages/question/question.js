@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import Header from '../../components/header'
 import Form from './components/Form'
+import Conversation from './components/Conversation'
 import styles from './stylesheets/question.module.sass'
 import post_button from '../../assets/question_post_button.svg'
 import { connect } from 'react-redux';
@@ -20,31 +22,16 @@ class Question extends Component {
       },
       modalDisplay: 'none'
     }
+    this.headerRef = null
   }
   componentDidMount() {
     if (this.props.questions.length < 1) {
       this.props.getQuestions().then(res => {
-        if (this.props.all_answers.length < 1) this.props.getAnswers()
+         this.props.getAnswers()
       })
-    }
-    if (this.props.all_answers.length < 1) this.props.getAnswers()
+    } else if (this.props.all_answers.length < 1) this.props.getAnswers()
     if (!!!Object.keys(this.props.user).length) this.props.getProfile()
-    // let mySet = new Set(this.props.users.map(user => user.id))
-    //   let diff = user_ids.filter(id => {
-    //     return !mySet.has(id)
-    //   })
-    //   if (diff.length > 0) this.props.getProfiles(diff)
   }
-  // componentDidUpdate() {
-  //   if (this.props.all_answers.length > 0 && !this.props.answers_loading) {
-  //     let user_ids = []
-  //     console.log(this.props.all_answers);
-      
-  //     for (let ans of this.props.all_answers.all_answers) {
-  //       user_ids.push(ans.user_id)
-  //     }
-  //   }
-  // }
   showPostClick = () => {
     this.setState({
       modalDisplay: 'flex'
@@ -56,13 +43,23 @@ class Question extends Component {
   submitPostClick = (e) => {
     this.cancelModal()
     this.props.postQuestion(this.state.title.value, this.state.content.value)
+      .then(res => {
+        //auto scroll to top
+        if (this.headerRef) this.headerRef.scrollIntoView({ behavior: 'smooth' })
+      })
   }
   handleParagraphClick = (e, ques_id) => {
     this.props.history.push(`/answers/${ques_id}`)
   }
   cancelModal = () => {
     this.setState({
-      modalDisplay: 'none'
+      modalDisplay: 'none',
+      title: {
+        value: ''
+      },
+      content: {
+        value: ''
+      }
     })
   }
   handleContentChange = (e) => {
@@ -82,7 +79,9 @@ class Question extends Component {
   render() {
     return (
       <div className={styles.page}>
-        <div className={styles.header}>
+        <div className={styles.header}
+          ref={ref => this.headerRef = ref}
+        >
           <Header img={this.props.user.avatar_url} />
         </div>
         <div className={styles.btn}>
@@ -91,21 +90,21 @@ class Question extends Component {
           </button>
         </div>
         <div className={styles.outbox}>
-          {this.props.questions && this.props.questions.map(ques =>
-            <div key={ques.id} className={styles.paragraph} onClick={e => this.handleParagraphClick(e, ques.id)}>
+          {this.props.questions.length > 0 && this.props.questions.map(ques =>
+            <div
+              key={ques.id}
+              id={ques.id}
+              className={styles.paragraph}
+              onClick={e => this.handleParagraphClick(e, ques.id)}
+            >
               <div className={styles.title}>
                 {ques.title}
               </div>
-              {this.props.all_answers && this.props.all_answers.map(ans =>
-                ans.question_id === ques.id ?
-                  //display first answer of the question
-                  <div key={ans.all_answers[0].id} className={styles.answer}>
-                    {ans.all_answers[0].content}
-                  </div>
-                  :
-                  //no answers
-                  null
-              )}
+              <Conversation
+                question={ques}
+                answers={this.props.all_answers}
+                users={this.props.users}
+              />
             </div>
           )}
         </div>

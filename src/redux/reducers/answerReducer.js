@@ -2,10 +2,13 @@ import {
   FETCH_ANSWERS_BEGIN,
   FETCH_ANSWERS_SUCCESS,
   FETCH_ANSWERS_FAILURE,
+  FETCH_ANSWERS_DONE,
   FETCH_ANSWER_BEGIN,
   FETCH_ANSWER_SUCCESS,
   FETCH_ANSWER_FAILURE,
-  POST_ANSWER
+  POST_ANSWER,
+  UPDATE_REDUX_ANSWER,
+  UPDATE_REDUX_ANSWERS
 } from '../actions/answersActions'
 
 const initialState = {
@@ -44,57 +47,48 @@ export default function (state = initialState, action) {
         error: null
       };
     case FETCH_ANSWERS_SUCCESS:
-      let all_answers=[]
-      let user_ids=[]
-      console.log(action.payload);
-      
-      // for (let res of action.payload) {
-      //   console.log(res);
-        
-      //   all_answers.push({
-      //     all_answers:res.answers_response.data.answers,
-      //     question_id:res.question_id
-      //   })
-      //   for (let ans of ans.answers_response.data.answers) {
-      //     console.log();
-          
-      //     user_ids.push({
-      //       question_id:ans.question_id,
-      //       user_id:ans.user_id,
-      //       answer_id:ans.id
-      //     })
-      //   }
-      // }
-      action.payload.map(res=>
-        // all_answers.push({
-        //   all_answers:res.answers_response.data.answers,
-        //   question_id:res.question_id
-        // })
-        console.log(res)
-        
-      )
-      
       return {
         ...state,
-        answers_loading: false,
-        // all_answers: [...state.all_answers, {
-        //   question_id: action.question_id,
-        //   all_answers: action.payload.data.answers,
-        // }]
-        // all_answers:all_answers
+        all_answers: [...state.all_answers, {
+          question_id: action.question_id,
+          all_answers: action.payload.data.answers,
+        }]
       };
     case FETCH_ANSWERS_FAILURE:
       return {
         //404 remain answers state
         ...state,
-        answers_loading: false,
         error: action.payload,
       };
+    case FETCH_ANSWERS_DONE:
+      return {
+        ...state,
+        answers_loading: false
+      }
     case POST_ANSWER:
       return {
         ...state,
         postAnswer: action.payload
       }
+    case UPDATE_REDUX_ANSWERS:
+      let allAnswers = state.all_answers
+      for (let i = allAnswers.length - 1; i >= 0; i--) {
+        if (allAnswers[i].question_id === action.payload.data.answer.question_id) {
+          allAnswers[i].all_answers.push(action.payload.data.answer)
+          break;
+        }
+      }
+      return {
+        ...state,
+        all_answers: allAnswers
+      }
+    case UPDATE_REDUX_ANSWER:
+    let answers=state.answers
+    answers.push(action.payload.data.answer)
+    return {
+      ...state,
+      answers: answers
+    }
     default:
       return state
   }

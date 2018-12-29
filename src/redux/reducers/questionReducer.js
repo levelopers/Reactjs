@@ -10,7 +10,6 @@ const initialState = {
   questions: [],
   loading: false,
   error: null,
-  postStatus: null
 };
 
 export default function (state = initialState, action) {
@@ -36,7 +35,7 @@ export default function (state = initialState, action) {
     case POST_QUESTION:
       return {
         ...state,
-        postStatus: action.payload.data
+        questions: [...state.questions,action.payload.data.question]
       }
     default:
       return state;

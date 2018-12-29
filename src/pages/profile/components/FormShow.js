@@ -22,20 +22,18 @@ const FormShow = ({
         <div className="content" onMouseOver={hover}>
           <Dotdotdot clamp={3}>
             <p>
-              {content.split(' ').map((item, key) => {
-                return <span key={key}>{item}<br /></span>
-              })}
+              {content}
             </p>
           </Dotdotdot>
-        </div>
-        {isHover &&
-          <div className="formshow-edit">
-            <div onClick={click}>
-              <img src={Pencil} alt="" />
-              <div id='edit'>Edit</div>
+          {isHover &&
+            <div className="formshow-edit">
+              <div onClick={click}>
+                <img src={Pencil} alt="" />
+                <div id='edit'>Edit</div>
+              </div>
             </div>
-          </div>
-        }
+          }
+        </div>
       </div>
     </div>
   )

@@ -40,13 +40,14 @@ const validation = (targetName, targetValue) => {
       break;
     default: return null
   }
-
   if (!targetValue) {
     errorMessage = "Required"
     isValid = false
-    if (targetName === 'name') errorMessage = ''; isValid = true;
+    if (targetName === 'name') {
+      errorMessage = ''
+      isValid = true
+    }
   }
-
   return {
     targetName: targetName,
     isValid: isValid,

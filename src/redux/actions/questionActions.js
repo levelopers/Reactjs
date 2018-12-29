@@ -46,9 +46,11 @@ export const postQuestion = (title, content) => (dispatch, getState) => {
         type: POST_QUESTION,
         payload: res
       })
+      return res
     })
     .catch(err => {
-      console.log(err);
+      alert(err)
+      return err
     })
 }
 

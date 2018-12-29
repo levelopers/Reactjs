@@ -3,6 +3,7 @@ import styles from './stylesheets/loginsignup.module.sass'
 import { Link } from 'react-router-dom'
 import validation from './utils/validation'
 import Forminput from './components/FormInput'
+import Button from './components/Button'
 import { connect } from 'react-redux';
 import { signUp } from '../../redux/actions/profileActions';
 import { postToken } from '../../redux/actions/tokenActions';
@@ -113,6 +114,7 @@ class SignUp extends Component {
           <div className={styles.form}>
             {Object.keys(this.state).map(attrName =>
               <Forminput
+                key={attrName}
                 name={attrName}
                 message={this.state[attrName].errorMessage}
                 value={this.state[attrName].value}

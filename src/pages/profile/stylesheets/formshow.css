@@ -39,14 +39,20 @@
 
 .description p {
     margin-top: 5px;
+    word-break: break-all;
+    max-width: 290px;
 }
 .description .content{
     line-height: 1.8rem;
     font-size: 25px;
     color: #424C50;
-    width: 290px;
     height: 87px;
-    max-width: 290px;
+    display: flex;
+    flex-direction: row;
+}
+
+.description .formshow-edit{
+    margin-top: 0
 }
 
 .lable {
@@ -76,5 +82,4 @@
 
 .title .content {
     margin-left: 0;
-    min-width: 500px;
 }

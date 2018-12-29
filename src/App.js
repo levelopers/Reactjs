@@ -16,13 +16,14 @@ class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             {this.props.token && [
               <Route key="profile" path="/profile" component={Profile} />,
               <Route key="question" path="/question" component={Question} />,
-              <Route key="answer" path="/answers/:ques_id" component={Answers} />
+              <Route key="answer" path="/answers/:ques_id" component={Answers} />,
+              <Redirect key="redirect_question" to ="/question"/>
             ]}
+            <Route path="/login" component={Login} />
             <Route exact path="/" component={Login} />
             <Redirect to="/login" />
           </Switch>
