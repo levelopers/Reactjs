@@ -83,12 +83,12 @@ export default function (state = initialState, action) {
         all_answers: allAnswers
       }
     case UPDATE_REDUX_ANSWER:
-    let answers=state.answers
-    answers.push(action.payload.data.answer)
-    return {
-      ...state,
-      answers: answers
-    }
+      let answers = state.answers
+      answers.push(action.payload.data.answer)
+      return {
+        ...state,
+        answers: answers
+      }
     default:
       return state
   }

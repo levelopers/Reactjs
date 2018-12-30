@@ -62,7 +62,7 @@ class SignUp extends Component {
   }
   //validate input text on submit
   handleClick = () => {
-    let canSubmit = true
+    let canSubmit = this.validateAllInput()
     Object.entries(this.state).forEach(([key, val]) => {
       let { targetName, isValid, errorMessage } = validation(key, val.value)
       this.setState({
@@ -72,7 +72,6 @@ class SignUp extends Component {
           errorMessage: errorMessage
         }
       })
-      canSubmit = isValid && canSubmit
     })
     if (canSubmit && !this.props.signup_loading) {
       const { email, password, name } = this.state
@@ -101,7 +100,16 @@ class SignUp extends Component {
             }
           })
         })
+      return canSubmit
     }
+  }
+  validateAllInput=()=>{
+    let canSubmit = true
+    Object.entries(this.state).forEach(([key, val]) => {
+      let {  isValid } = validation(key, val.value)
+      canSubmit = isValid && canSubmit
+    })
+    return canSubmit
   }
 
   render() {
@@ -123,9 +131,11 @@ class SignUp extends Component {
                 handleClick={this.handleClick}
               />
             )}
-            <button className={styles.form_button} type="button" onClick={this.handleClick} >
-              SignUp
-            </button>
+            <Button 
+            click={this.handleClick}
+            canSubmit={this.validateAllInput()}
+            textName={'Signup'}
+            />
           </div>
           <div className={styles.footer}>
             <span >

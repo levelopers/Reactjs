@@ -3,6 +3,7 @@ import styles from './stylesheets/loginsignup.module.sass'
 import { Link } from 'react-router-dom'
 import validation from './utils/validation'
 import Forminput from './components/FormInput'
+import Button from './components/Button'
 import { connect } from 'react-redux';
 import { postToken } from '../../redux/actions/tokenActions';
 
@@ -52,7 +53,7 @@ class Login extends Component {
     })
   }
   handleClick = () => {
-    let canSubmit = true
+    let canSubmit = this.validateAllInput()
     Object.entries(this.state).forEach(([key, val]) => {
       let { targetName, isValid, errorMessage } = validation(key, val.value)
       this.setState({
@@ -62,7 +63,6 @@ class Login extends Component {
           errorMessage: errorMessage
         }
       })
-      canSubmit = isValid && !!canSubmit
     })
     if (canSubmit && !this.props.token_loading) {
       this.props.postToken(this.state.email.value, this.state.password.value)
@@ -82,6 +82,14 @@ class Login extends Component {
           })
         })
     }
+  }
+  validateAllInput = () => {
+    let canSubmit = true
+    Object.entries(this.state).forEach(([key, val]) => {
+      let { isValid } = validation(key, val.value)
+      canSubmit = isValid && canSubmit
+    })
+    return canSubmit
   }
 
   render() {
@@ -104,9 +112,11 @@ class Login extends Component {
                 />
               </div>
             )}
-            <button className={styles.form_button} type="button" onClick={this.handleClick} >
-              Login
-            </button>
+            <Button
+              click={this.handleClick}
+              canSubmit={this.validateAllInput()}
+              textName={'Login'}
+            />
           </div>
           <div className={styles.footer}>
             <span >

@@ -1,14 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react'
+import styles from '../stylesheets/loginsignup.module.sass'
 
-export default class Button extends Component {
-    constructor(props){
-        super(props)
-    }
-  render() {
-    return (
-      <div>
-        
-      </div>
-    )
-  }
+export default function Button({
+  click,
+  canSubmit,
+  textName
+}) {
+  return (
+    <div >
+      <button
+        className={styles.form_button}
+        type="button"
+        onClick={click}
+        disabled={!canSubmit}
+      >
+        {textName}
+      </button>
+    </div>
+  )
 }
+

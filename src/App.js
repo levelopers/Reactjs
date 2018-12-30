@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import SignUp from './pages/loginsignup/SignUp';
 import Login from './pages/loginsignup/Login'
 import Question from './pages/question/question'
-import Answers from './pages/answers/answers'
+// import Answers from './pages/answers/answers'
+import AnswersContainer from './pages/answers/containers/answers.container'
 import { insertToken } from './redux/actions/tokenActions'
 import { connect } from 'react-redux';
 
@@ -20,7 +21,7 @@ class App extends Component {
             {this.props.token && [
               <Route key="profile" path="/profile" component={Profile} />,
               <Route key="question" path="/question" component={Question} />,
-              <Route key="answer" path="/answers/:ques_id" component={Answers} />,
+              <Route key="answer" path="/answers/:ques_id" component={AnswersContainer} />,
               <Redirect key="redirect_question" to ="/question"/>
             ]}
             <Route path="/login" component={Login} />
