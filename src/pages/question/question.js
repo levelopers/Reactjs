@@ -22,14 +22,14 @@ class Question extends Component {
       },
       modalDisplay: 'none'
     }
-    this.headerRef = null
+    this.bottomRef = null
   }
   componentDidMount() {
     if (this.props.questions.length < 1) {
       this.props.getQuestions().then(res => {
          this.props.getAnswers()
       })
-    } else if (this.props.all_answers.length < 1) this.props.getAnswers()
+    } else if (this.props.all_answers.length < 2) this.props.getAnswers()
     if (!!!Object.keys(this.props.user).length) this.props.getProfile()
   }
   showPostClick = () => {
@@ -44,8 +44,8 @@ class Question extends Component {
     this.cancelModal()
     this.props.postQuestion(this.state.title.value, this.state.content.value)
       .then(res => {
-        //auto scroll to top
-        if (this.headerRef) this.headerRef.scrollIntoView({ behavior: 'smooth' })
+        //auto scroll to bottom
+        if (this.bottomRef) this.bottomRef.scrollIntoView({ behavior: 'smooth' })
       })
   }
   handleParagraphClick = (e, ques_id) => {
@@ -79,9 +79,7 @@ class Question extends Component {
   render() {
     return (
       <div className={styles.page}>
-        <div className={styles.header}
-          ref={ref => this.headerRef = ref}
-        >
+        <div className={styles.header}>
           <Header img={this.props.user.avatar_url} />
         </div>
         <div className={styles.btn}>
@@ -95,6 +93,7 @@ class Question extends Component {
               key={ques.id}
               id={ques.id}
               className={styles.paragraph}
+              ref={ref=>this.bottomRef=ref}
               onClick={e => this.handleParagraphClick(e, ques.id)}
             >
               <div className={styles.title}>

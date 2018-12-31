@@ -48,7 +48,8 @@ export const getAnswer = (ques_id) => (dispatch, getState) => {
     .then(res => {
       dispatch({
         type: FETCH_ANSWER_SUCCESS,
-        payload: res
+        payload: res,
+        question_id:ques_id
       })
     })
     .catch(err => {
@@ -77,21 +78,12 @@ export const postAnswer = (content, id) => (dispatch, getState) => {
         payload: res
       })
       //redirect from /question
-      if (getState().answers.all_answers.length > 0) {
         dispatch({
           type: UPDATE_REDUX_ANSWERS,
           payload: res,
           question_id: id
         })
         return res
-      }else{
-        dispatch({
-          type: UPDATE_REDUX_ANSWER,
-          payload: res,
-          question_id: id
-        })
-      }
-      return res
     })
     .catch(err => {
       console.log(err);

@@ -11,9 +11,14 @@ class AnswersContainer extends Component {
     this.question_id = parseInt(this.props.match.params.ques_id)
   }
   componentDidMount() {
-    //when refresh /answers send requests
-    if (this.props.all_answers.length < 1 && this.props.answers.length < 1) {
+    //when redux dont have answers, request answers
+    if (this.props.all_answers.length < 1) {
       this.props.getAnswer(this.question_id)
+    } else {
+      //when redux have answers, process answers
+      const local_answers = this.findAnswers()
+      if (!local_answers || local_answers.length < 1) return null
+      this.requestUsersProfiles(local_answers)
     }
     if (this.props.questions.length < 1) {
       this.props.getQuestions()
@@ -22,8 +27,7 @@ class AnswersContainer extends Component {
   componentDidUpdate() {
     //when get responses from getAnswer()
     if (!this.props.profiles_loading
-      && (this.props.answers.length > 0
-        || this.props.all_answers.length > 0)) {
+      && this.props.all_answers.length > 0) {
       const local_answers = this.findAnswers()
       if (local_answers.length < 1) return null
       this.requestUsersProfiles(local_answers)
@@ -35,18 +39,13 @@ class AnswersContainer extends Component {
   }
   findAnswers = () => {
     let local_answers
-    if (this.props.answers.length > 0
-      && this.props.answers[0].question_id === this.question_id) {
-      local_answers = this.props.answers
-    } else {
-      local_answers = this.props.all_answers.find(
-        ans => {
-          return ans.question_id === this.question_id
-        }
-      )
-      if (!local_answers) return null
-      local_answers = local_answers.all_answers
-    }
+    local_answers = this.props.all_answers.find(
+      ans => {
+        return ans.question_id === this.question_id
+      }
+    )
+    if (!local_answers) return null
+    local_answers = local_answers.all_answers
     return local_answers
   }
   requestUsersProfiles = (local_answers) => {
@@ -80,15 +79,12 @@ class AnswersContainer extends Component {
 
 const mapStateToProps = (state) => ({
   token: state.token.token,
-  answers: state.answers.answers,
   all_answers: state.answers.all_answers,
-  answers_loading: state.answers.answers_loading,
   user: state.profile.user,
   users: state.profile.users,
   profile_loading: state.profile.profile_loading,
   profiles_loading: state.profile.profiles_loading,
   questions: state.questions.questions,
-  questions_loading: state.questions.loading
 })
 
 const mapDispatchToProps = {

@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from '../stylesheets/user.module.sass'
+import portrait from '../../../assets/avatar_default.jpg'
 const User = ({
   users,
   user_id
@@ -12,7 +13,7 @@ const User = ({
       {
         <div key={`${user_id}`} className={styles.user_box}>
           <div className={styles.img_box}>
-            <img src={user.avatar_url||'/avatar_default.jpg'} alt="portrait" className={styles.img} />
+            <img src={user.avatar_url || portrait} alt="portrait" className={styles.img} />
           </div>
           <div className={styles.user_info}>
             <div className={styles.name}>
