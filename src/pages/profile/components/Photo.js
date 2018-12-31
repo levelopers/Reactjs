@@ -1,6 +1,6 @@
 import React from 'react'
 import '../stylesheets/photo.css'
-import { ReactComponent as Camera } from '../stylesheets/camera.svg'
+import Camera from '../stylesheets/camera.svg'
 const Photo = (props) => {
   let img_src = props.input_file_path || props.img || '/avatar_default.jpg'
   let input_ref = null
@@ -9,13 +9,17 @@ const Photo = (props) => {
       <div
         className="photo-container"
         onClick={e => input_ref.click()}
-        style={{ backgroundImage: `url(${img_src})` }}
       >
-        <Camera />
+        <div className="photo">
+          <img src={img_src} alt="photo" />
+        </div>
+        <div className="camera">
+          <img src={Camera} alt="camera" />
+        </div>
       </div>
       <input
         type="file"
-        accept="image/*"
+        accept=".jpg,.jpeg,.png"
         ref={ref => { input_ref = ref }}
         onChange={props.handleChange}
         style={{ display: "none" }} />

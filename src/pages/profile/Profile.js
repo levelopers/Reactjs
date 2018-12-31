@@ -19,6 +19,7 @@ class Profile extends Component {
   }
   handleChange = (e) => {
     const file = e.target.files[0]
+    if(!file) return
     this.setState({
       input_file_path: (window.URL || window.webkitURL).createObjectURL(file)
     })
@@ -59,7 +60,7 @@ class Profile extends Component {
         <div className="profile_content">
           <div className="box">
             <Photo
-              img={user.avatar_url}
+              img={user.avatar_url||'/avatar_default.jpg'}
               input_file_path={this.state.input_file_path}
               id={user.id}
               handleChange={this.handleChange}

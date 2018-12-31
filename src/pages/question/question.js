@@ -27,7 +27,7 @@ class Question extends Component {
   componentDidMount() {
     if (this.props.questions.length < 1) {
       this.props.getQuestions().then(res => {
-         this.props.getAnswers()
+        this.props.getAnswers()
       })
     } else if (this.props.all_answers.length < 2) this.props.getAnswers()
     if (!!!Object.keys(this.props.user).length) this.props.getProfile()
@@ -93,7 +93,7 @@ class Question extends Component {
               key={ques.id}
               id={ques.id}
               className={styles.paragraph}
-              ref={ref=>this.bottomRef=ref}
+              ref={ref => this.bottomRef = ref}
               onClick={e => this.handleParagraphClick(e, ques.id)}
             >
               <div className={styles.title}>

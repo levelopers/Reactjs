@@ -49,7 +49,7 @@ export const getAnswer = (ques_id) => (dispatch, getState) => {
       dispatch({
         type: FETCH_ANSWER_SUCCESS,
         payload: res,
-        question_id:ques_id
+        question_id: ques_id
       })
     })
     .catch(err => {
@@ -77,13 +77,12 @@ export const postAnswer = (content, id) => (dispatch, getState) => {
         type: POST_ANSWER,
         payload: res
       })
-      //redirect from /question
-        dispatch({
-          type: UPDATE_REDUX_ANSWERS,
-          payload: res,
-          question_id: id
-        })
-        return res
+      dispatch({
+        type: UPDATE_REDUX_ANSWERS,
+        payload: res,
+        question_id: id
+      })
+      return res
     })
     .catch(err => {
       console.log(err);

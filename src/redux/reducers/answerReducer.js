@@ -11,7 +11,6 @@ import {
 } from '../actions/answersActions'
 
 const initialState = {
-  // answers: [],
   all_answers: [],
   answers_loading: false,
   answer_loading: false,
@@ -31,9 +30,9 @@ export default function (state = initialState, action) {
         ...state,
         answer_loading: false,
         all_answers:
-          [...state.all_answers,{
-            question_id:action.question_id,
-            all_answers:action.payload.data.answers
+          [...state.all_answers, {
+            question_id: action.question_id,
+            all_answers: action.payload.data.answers
           }]
       };
     case FETCH_ANSWER_FAILURE:
