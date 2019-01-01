@@ -1,35 +1,76 @@
 .outbox
+    position: relative
     display: flex
     flex-direction: row
-    justify-content: center
     flex-wrap: nowrap
-    margin-top: 25px
-    margin-right: 0
+    margin: auto
+    margin-bottom: 25px
     font-family: Roboto-Regular
     font-size: 25px
     color: #424C50
     height: 36px
-
+    width: 386px
+    border-bottom: 1px solid rgba(100, 100, 100, 0.3)
     input
+        position: relative
         border: 0
+        padding: 0
         outline: 0
         background: transparent
-        border-bottom: 1px solid rgba(100, 100, 100, 0.3)
+        
+    span 
+        position: relative
+        max-width: 100%
+        margin-left: auto
 
 .form_input
+    width: 100%
+    font-family: Helvetica
+    font-size: 25px
+    color: #424C50
     &::placeholder
         color: #BBCDC5
-        
-    
 
-
-.error_required
+.error
+    position: relative
+    font-family: Helvetica
+    font-size: 25px
+    color: #424C50
+    overflow: hidden
     &::placeholder
         color: #FF2121
 
+.error_message
+    font-family: Helvetica
+    font-size: 25px
+    color: #424C50
+    position: relative
+    border: 0
+    padding: 0
+    outline: 0
+    background: transparent
+    &[name='email']
+        max-width: 60%
+    &[name='password']
+        max-width: 30%
+    &[name='name']
+        max-width: 50%
     
 .error_span
-     color: #FF2121
+    position: relative
+    display: flex
+    flex-wrap: nowrap
+    flex-direction: column
+    justify-content: center
+    background-color: white
+    z-index: 1
+    right: 0
+    top: -1px
+    height: 100%
+    color: #FF2121
+    font-family: Helvetica
+    font-size: 25px
+
 
     
     

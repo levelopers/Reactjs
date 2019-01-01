@@ -2,122 +2,91 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 import Form from './components/Form'
 import Photo from './components/Photo'
-import axios from 'axios'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
+import { connect } from 'react-redux'
+import { getProfile, updateProfile } from '../../redux/actions/profileActions'
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
-    
     super(props)
     this.state = {
-      id: localStorage.getItem('id'),
-      name: '',
-      email: localStorage.getItem('email'),
-      gender: '',
-      avatar_url: '',
-      description: '',
       done: false,
       input_file_path: '',
-      input_file: null,
       url: '',
       progress: Number
     }
   }
-  //change image
   handleChange = (e) => {
     const file = e.target.files[0]
-    const img_path = (window.URL || window.webkitURL).createObjectURL(file)
-
+    if(!file) return
     this.setState({
-      input_file: file,
-      input_file_path: img_path
-    }, () => {
-      //set state callbacks post image to firebase and get url
-      const { input_file } = this.state
-      const uploadTask = firebase_storage.ref(`images/${input_file.name}`).put(input_file);
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          this.setState({ progress });
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          firebase_storage.ref('images').child(input_file.name).getDownloadURL().then(url => {
-            console.log(url);
-            this.setState({ url });
-          })
-        });
+      input_file_path: (window.URL || window.webkitURL).createObjectURL(file)
     })
-  }
-  //after update state
-  componentDidUpdate() {
-    //update user avatar_url
-    if (this.state.url) {
-      axios.put(`https://bigfish100.herokuapp.com/users/${this.state.id.toString()}`, {
-        user: {
-          avatar_url: this.state.url
-        }
-      })
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
-    }
-  }
-
-  componentDidMount() {
-
-    axios.get(`https://bigfish100.herokuapp.com/users/${this.state.id}`)
-      .then(res => {
-        const user = res.data.user
-        this.setState({
-          name: user.name,
-          email: user.email,
-          id: user.id,
-          avatar_url: user.avatar_url,
-          description: user.description,
-          gender: user.gender,
-          done: true
+    //upload to firebase and fetch image url
+    const uploadTask = firebase_storage.ref(`images/${file.name}`).put(file);
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        this.setState({ progress });
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        firebase_storage.ref('images').child(file.name).getDownloadURL().then(url => {
+          this.setState({ url });
+          //send put request to update user info
+          this.props.updateProfile({
+            "avatar_url": url
+          }).catch(err => alert("unexpected image format"))
         })
-        console.log(res);
-        
-      })
+      });
   }
-
+  componentDidMount() {
+    if (!Object.keys(this.props.user).length) this.props.getProfile()
+  }
   render() {
-    console.log(this.state);
-    console.log(this.props.response);
-    
-    if (this.state.done) {
-      return (
-        <div className="profile">
-          <Header
-            img={this.state.avatar_url}
-            input_file_path={this.state.input_file_path}
-            id={this.state.id}
-            handleChange={this.handleChange}
-          />
-          <div className="content">
-            <div className="box">
-              <Photo
-                img={this.state.avatar_url}
-                input_file_path={this.state.input_file_path}
-                id={this.state.id}
-                handleChange={this.handleChange}
-              />
+    const user = this.props.user
+    if(!user) return null
+    return (
+      <div className="profile">
+        <Header
+          img={user.avatar_url||'/avatar_default.jpg'}
+          input_file_path={this.state.input_file_path}
+          id={user.id}
+          handleChange={this.handleChange}
+        />
+        <div className="profile_content">
+          <div className="box">
+            <Photo
+              img={user.avatar_url||'/avatar_default.jpg'}
+              input_file_path={this.state.input_file_path}
+              id={user.id}
+              handleChange={this.handleChange}
+            />
+            {Object.keys(user).length > 0
+              && !this.props.profile_loading
+              &&
               <Form
-                id={this.state.id}
-                email={this.state.email}
-                name={this.state.name}
-                gender={this.state.gender}
-                description={this.state.description}
-              />
-            </div>
+                id={user.id}
+                email={user.email}
+                name={user.name}
+                gender={user.gender}
+                description={user.description}
+                updateProfile={this.props.updateProfile}
+              />}
           </div>
         </div>
-      )
-    }
-    return null
+      </div>
+    )
   }
 }
+
+const mapStoretoProps = state => ({
+  user: state.profile.user,
+  profile_loading: state.profile.profile_loading,
+  token: state.token.token
+})
+
+export default connect(mapStoretoProps, { getProfile, updateProfile })(Profile)

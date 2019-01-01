@@ -10,14 +10,11 @@
     width: 100%;
 }
 
-a {
-    margin-left: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-}
 #edit{
     margin-left: 15.91px;
+    font-family: Helvetica;
+    font-size: 25px;
+    color: #ED5736;
 }
 
 .formshow-edit {
@@ -25,21 +22,37 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-left: 30px;
 }
 
 .content {
     margin-left: 100px;
-    font-family: Roboto-Regular;
     font-size: 25px;
     color: #424C50;
     text-align: justify;
     display: flex;
     flex-direction: column;
     max-height: 100%;
+    font-family: Helvetica;
+
 }
 
-.description .content p {
+.description p {
+    margin-top: 5px;
+    word-break: break-all;
     max-width: 290px;
+}
+.description .content{
+    line-height: 1.8rem;
+    font-size: 25px;
+    color: #424C50;
+    height: 87px;
+    display: flex;
+    flex-direction: row;
+}
+
+.description .formshow-edit{
+    margin-top: 0
 }
 
 .lable {
@@ -47,15 +60,16 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-family: Roboto-Medium;
+    font-family: Helvetica;
     font-size: 25px;
     color: #424C50;
     text-align: left;
 }
 
 .title {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     margin-top: 1px;
+    font-family: Helvetica;
 }
 
 .title p {
@@ -68,7 +82,4 @@ a {
 
 .title .content {
     margin-left: 0;
-    min-width: 500px;
 }
-
-.gender {}

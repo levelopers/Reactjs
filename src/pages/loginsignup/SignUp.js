@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import  styles from './stylesheets/signup.module.sass'
+import styles from './stylesheets/loginsignup.module.sass'
 import { Link } from 'react-router-dom'
 import validation from './utils/validation'
-import axios from 'axios'
-import Base from './Base'
+import Forminput from './components/FormInput'
+import Button from './components/Button'
+import { connect } from 'react-redux';
+import { signUp } from '../../redux/actions/profileActions';
+import { postToken } from '../../redux/actions/tokenActions';
 
-export default class SignUp extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,25 +29,28 @@ export default class SignUp extends Component {
       }
     }
   }
-
   // set input value to state
   handleChange = (e) => {
     const targetName = e.target.name
     const targetValue = e.target.value
-
+    let errorMessage
+    if (this.state[targetName].errorMessage === 'Required') {
+      errorMessage = ''
+    } else {
+      errorMessage = this.state[targetName].errorMessage
+    }
     this.setState({
       [targetName]: {
         ...this.state[targetName],
+        errorMessage: errorMessage,
         value: targetValue
       }
     })
   }
-
   //validate input text on blur
   handleBlur = (e) => {
     const name = e.target.name
     const value = e.target.value
-
     let { targetName, isValid, errorMessage } = validation(name, value)
     this.setState({
       [targetName]: {
@@ -54,13 +60,11 @@ export default class SignUp extends Component {
       }
     })
   }
-
   //validate input text on submit
   handleClick = () => {
-    let canSubmit=Boolean
+    let canSubmit = this.validateAllInput()
     Object.entries(this.state).forEach(([key, val]) => {
       let { targetName, isValid, errorMessage } = validation(key, val.value)
-      canSubmit=isValid && !!canSubmit
       this.setState({
         [targetName]: {
           ...this.state[targetName],
@@ -69,29 +73,56 @@ export default class SignUp extends Component {
         }
       })
     })
-    if(canSubmit){
-      axios.post('https://bigfish100.herokuapp.com/users',{
-        user:{
-            "email": this.state.email.value,
-            "password": this.state.password.value,
-            "name": this.state.name.value,
-        }
-      })
-      .then(res=>console.log(res))
+    if (canSubmit && !this.props.signup_loading) {
+      const { email, password, name } = this.state
+      this.props.signUp(email.value, password.value, name.value)
+        .then(signup_res => {
+          this.props.postToken(email.value, password.value)
+            .then(token_res => {
+              this.props.history.push('/question')
+            })
+            .catch(err => alert(err))
+        })
+        .catch(err => {
+          alert(err)
+          this.setState({
+            email: {
+              ...this.state.email,
+              isValid: false,
+            },
+            password: {
+              ...this.state.password,
+              isValid: false,
+            },
+            name: {
+              ...this.state.name,
+              isValid: false
+            }
+          })
+        })
+      return canSubmit
     }
+  }
+  validateAllInput=()=>{
+    let canSubmit = true
+    Object.entries(this.state).forEach(([key, val]) => {
+      let {  isValid } = validation(key, val.value)
+      canSubmit = isValid && canSubmit
+    })
+    return canSubmit
   }
 
   render() {
-    console.log(this.state);
     return (
-      <div className={styles.login} style={{ backgroundImage: "url('/background.jpg')",backgroundSize:"cover" }}>
+      <div className={styles.login} style={{ backgroundImage: "url('/background.jpg')", backgroundSize: "cover" }}>
         <div className={styles.outbox}>
           <div className={styles.form_title}>
             BIGFISH
           </div>
-          <div>
+          <div className={styles.form}>
             {Object.keys(this.state).map(attrName =>
-              <Base
+              <Forminput
+                key={attrName}
                 name={attrName}
                 message={this.state[attrName].errorMessage}
                 value={this.state[attrName].value}
@@ -100,18 +131,27 @@ export default class SignUp extends Component {
                 handleClick={this.handleClick}
               />
             )}
-            <button className={styles.form_button} type="button" onClick={this.handleClick} >
-              SignUp
-            </button>
+            <Button 
+            click={this.handleClick}
+            canSubmit={this.validateAllInput()}
+            textName={'Signup'}
+            />
           </div>
           <div className={styles.footer}>
             <span >
-              Already have an account?
-              <Link to="/login">Login</Link>
+              Already have an account?&nbsp;
             </span>
+            <Link to="/login">Login</Link>
           </div>
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  token: state.token.token,
+  signup_loading: state.profile.signup_loading,
+  signup_err: state.profile.error
+})
+export default connect(mapStateToProps, { signUp, postToken })(SignUp)
