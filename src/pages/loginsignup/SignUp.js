@@ -87,15 +87,17 @@ class SignUp extends Component {
             })
         })
         .catch(err => {
-          // popup({
-          //   root: 'signup_popup',
-          //   context: 'content content',
-          //   button: 'button',
-          //   style: { width: "300px", height: '200px' },
-          //   handleClick: () => {
-          //     console.log('popupbutton');
-          //   }
-          // })
+          //handle error
+          popup({
+            root: 'signup_popup',
+            context: 'content content',
+            button: 'button',
+            style: { width: "300px", height: '200px' },
+            handleClick: () => {
+              console.log('popupbutton');
+            },
+            components: [<button>button2</button>, 'context2']
+          })
           this.setState({
             email: {
               ...this.state.email,
@@ -122,19 +124,6 @@ class SignUp extends Component {
     })
     return canSubmit
   }
-  componentDidUpdate(){
-    popup({
-      root: 'signup_popup',
-      context: 'content content',
-      button: 'button',
-      style: { width: "300px", height: '200px' },
-      handleClick: () => {
-        console.log('popupbutton');
-      },
-      components:[<button>button2</button>,'context2']
-    })
-  }
-
   render() {
     return (
       <div
