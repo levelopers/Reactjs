@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import Header from '../../components/header'
 import Form from './components/Form'
 import Conversation from './components/Conversation'
 import styles from './stylesheets/question.module.sass'
 import post_button from '../../assets/question_post_button.svg'
+import loading_animation from '../../assets/loading_animation.svg'
 import { connect } from 'react-redux';
 import { getQuestions } from '../../redux/actions/questionActions'
 import { getAnswers } from '../../redux/actions/answersActions'
@@ -87,26 +87,39 @@ class Question extends Component {
             <img src={post_button} alt="" />
           </button>
         </div>
-        <div className={styles.outbox}>
-          {this.props.questions.length > 0 && this.props.questions.map(ques =>
-            <div
-              key={ques.id}
-              id={ques.id}
-              className={styles.paragraph}
-              ref={ref => this.bottomRef = ref}
-              onClick={e => this.handleParagraphClick(e, ques.id)}
-            >
-              <div className={styles.title}>
-                {ques.title}
-              </div>
-              <Conversation
-                question={ques}
-                answers={this.props.all_answers}
-                users={this.props.users}
-              />
-            </div>
-          )}
-        </div>
+        {
+          this.props.questions.length < 1 &&
+          <div className={styles.loading}>
+            <img src={loading_animation} alt="loading animation" />
+          </div>
+        }
+        {
+          !!this.props.questions
+          && this.props.questions.length > 0
+          &&
+          <div className={styles.outbox}>
+            {
+              this.props.questions.map(ques =>
+                <div
+                  key={ques.id}
+                  id={ques.id}
+                  className={styles.paragraph}
+                  ref={ref => this.bottomRef = ref}
+                  onClick={e => this.handleParagraphClick(e, ques.id)}
+                >
+                  <div className={styles.title}>
+                    {ques.title}
+                  </div>
+                  <Conversation
+                    question={ques}
+                    answers={this.props.all_answers}
+                    users={this.props.users}
+                  />
+                </div>
+              )
+            }
+          </div>
+        }
         <div className={styles.popup_box}
           onClick={this.cancelModal}
           style={{ display: this.state.modalDisplay }}>
