@@ -9,6 +9,7 @@ import Question from './pages/question/question'
 import AnswersContainer from './pages/answers/containers/answers.container'
 import { insertToken } from './redux/actions/tokenActions'
 import { connect } from 'react-redux';
+import {PopupInstance, register} from './components/popup'
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
             <Redirect to="/login" />
           </Switch>
         </Router>
+        <PopupInstance ref={register}/>
       </div>
     )
   }

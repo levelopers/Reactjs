@@ -1,65 +1,65 @@
 import React, { Component } from 'react'
 import styles from './popup.module.sass'
 
-export default class popupComponent extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      opacity: "0",
-      visibility: 'hidden'
-    }
+const default_config = {
+  isShow: false,
+  title: '',
+  message: '',
+  buttons: [],
+}
+
+export default class PopupInstance extends Component {
+  state = default_config
+  /**
+   * @public open a popup with config
+   * @param {object} configs the configs of popup
+   * @param {string} configs.message the text content of the popup
+   * @param {[object]} configs.buttons define the configs of buttons, which includes,
+   *                  text       ===> button text
+   *                  onClick    ===> callback when click button
+   *                  shouldHold ===> should close popup after clicking? default is true
+   */
+  open = (config) => {
+    this.setState({ isShow: true, ...config })
   }
-  componentWillReceiveProps() {
-    this.setState({
-      opacity: '1',
-      visibility: 'visible'
-    })
+  close = () => {
+    this.setState(default_config)
   }
+
   handleCloseClick = () => {
-    this.setState({
-      opacity: '0',
-      visibility: 'hidden'
-    })
+    this.setState(default_config)
   }
-  _stopPropergation = (e) => {
-    e.stopPropagation()
-  }
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ opacity: "1", visibility: 'visible' })
-    }, 1);
-  }
+
   render() {
+    const { isShow, title, message, buttons } = this.state
     return (
-      //animation style
-      <div style={{
-        opacity: this.state.opacity,
-        visibility: this.state.visibility
-      }}
-        className={styles.outbox}
-        onClick={this.handleCloseClick} >
-        {/* custom style */}
-        <div
-          style={this.props.style}
-          className={styles.children_components}
-          onClick={this._stopPropergation}
-        >
-          {/* custom context */}
-          {this.props.context}
-          {/* custom button */}
-          {this.props.button &&
-            <div className="button">
-              <button onClick={this.props.handleClick}>{this.props.button}</button>
-            </div>
-          }
-          {/* other components */}
-          {this.props.components &&
-            this.props.components.map((c, index) =>
-              <div key={index}>
-                {c}
+      <div className={styles.outbox}
+        style={isShow
+          ? { opacity: "1", zIndex: "1" }
+          : { opacity: "0", zIndex: "-1000" }
+        }
+      >
+        <div className={styles.content}>
+          <div className={styles.title}>
+            {title}
+          </div>
+          <div className={styles.message}>
+            {message}
+          </div>
+          <div className={styles.buttons}>
+            {buttons.map(({ text, click, shouldHold }, index) =>
+              <div
+                className={styles.btn}
+                key={index}
+                onClick={click || (() => !shouldHold && this.close())}
+              >
+                {text}
               </div>
             )}
-          <div className={styles.close} onClick={this.handleCloseClick}>&times;</div>
+          </div>
+          <div className={styles.close} onClick={this.handleCloseClick}>
+            &times;
+          </div>
         </div>
       </div>
     )

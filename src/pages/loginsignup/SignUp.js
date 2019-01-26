@@ -32,6 +32,7 @@ class SignUp extends Component {
   }
   // set input value to state
   handleChange = (e) => {
+
     const targetName = e.target.name
     const targetValue = e.target.value
     let errorMessage
@@ -88,15 +89,17 @@ class SignUp extends Component {
         })
         .catch(err => {
           //handle error
-          popup({
-            root: 'signup_popup',
-            context: 'content content',
-            button: 'button',
-            style: { width: "300px", height: '200px' },
-            handleClick: () => {
-              console.log('popupbutton');
-            },
-            components: [<button>button2</button>, 'context2']
+          popup.open({
+            title: "Invalid email or password",
+            message: "this email has been registered ",
+            buttons: [
+              { text: "close" },
+              {
+                text: "dont close",
+                shouldHold: true,
+                click: () => console.log("not closed")
+              }
+            ]
           })
           this.setState({
             email: {
@@ -125,6 +128,7 @@ class SignUp extends Component {
     return canSubmit
   }
   render() {
+
     return (
       <div
         id="loginsignup"
