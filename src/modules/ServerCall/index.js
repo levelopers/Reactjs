@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Auth from '../Auth'
 
-const URL = 'https://bigfish100.herokuapp.com/'
+const URL = 'https://bigfish-dongsheng.herokuapp.com/'
 
 export const serverCall = (config) => {
   if (Auth.getToken()) {
