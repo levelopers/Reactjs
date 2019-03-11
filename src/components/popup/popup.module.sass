@@ -1,0 +1,65 @@
+.outbox
+    width: 100vw
+    height: 100vh
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    position: fixed
+    z-index: 1
+    left: 0
+    top: 0
+    overflow: auto
+    background-color: rgba(0,0,0,0.4)
+    transition: opacity 900ms
+
+.content
+    font-family: Helvetica
+    color: black
+    position: relative
+    background-color: #fefefe
+    margin: auto
+    border: 1px solid #888
+    width: 50%
+    height: 50%
+    display: flex
+    flex-direction: column
+    align-items: center
+    .title, .message
+        display: flex
+        align-items: center
+    .title
+        font-size: 25px
+        flex-grow: 1
+    .message
+        flex-grow: 2
+        font-size: 20px
+    .buttons
+        flex-grow: 1
+        width: 100%
+        display: flex
+        justify-content: space-around
+        align-items: center
+        .btn
+            border: 1px solid black
+            border-radius: 10%
+            width: 30%
+            height: 50px
+            display: flex
+            justify-content: center
+            align-items: center
+
+.close
+    width: 50px
+    height: 50px
+    font-size: 50px
+    position: absolute
+    top: 0
+    right: 0
+    display: flex
+    transition: all 900ms
+    &:hover
+        color: #06D85F
+
+
+

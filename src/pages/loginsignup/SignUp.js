@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import validation from './utils/validation'
 import Forminput from './components/FormInput'
 import Button from './components/Button'
+import popup from '../../components/popup'
 import { connect } from 'react-redux';
 import { signUp } from '../../redux/actions/profileActions';
 import { postToken } from '../../redux/actions/tokenActions';
@@ -31,6 +32,7 @@ class SignUp extends Component {
   }
   // set input value to state
   handleChange = (e) => {
+
     const targetName = e.target.name
     const targetValue = e.target.value
     let errorMessage
@@ -81,10 +83,24 @@ class SignUp extends Component {
             .then(token_res => {
               this.props.history.push('/question')
             })
-            .catch(err => alert(err))
+            .catch(err => {
+              alert(err)
+            })
         })
         .catch(err => {
-          alert(err)
+          //handle error
+          popup.open({
+            title: "Invalid email or password",
+            message: "this email has been registered ",
+            buttons: [
+              { text: "close" },
+              {
+                text: "dont close",
+                shouldHold: true,
+                click: () => console.log("not closed")
+              }
+            ]
+          })
           this.setState({
             email: {
               ...this.state.email,
@@ -103,18 +119,25 @@ class SignUp extends Component {
       return canSubmit
     }
   }
-  validateAllInput=()=>{
+  validateAllInput = () => {
     let canSubmit = true
     Object.entries(this.state).forEach(([key, val]) => {
-      let {  isValid } = validation(key, val.value)
+      let { isValid } = validation(key, val.value)
       canSubmit = isValid && canSubmit
     })
     return canSubmit
   }
-
   render() {
+
     return (
-      <div className={styles.login} style={{ backgroundImage: "url('/background.jpg')", backgroundSize: "cover" }}>
+      <div
+        id="loginsignup"
+        className={styles.login}
+        style={{
+          backgroundImage: "url('/background.jpg')",
+          backgroundSize: "cover"
+        }}
+      >
         <div className={styles.outbox}>
           <div className={styles.form_title}>
             BIGFISH
@@ -131,10 +154,10 @@ class SignUp extends Component {
                 handleClick={this.handleClick}
               />
             )}
-            <Button 
-            click={this.handleClick}
-            canSubmit={this.validateAllInput()}
-            textName={'Signup'}
+            <Button
+              click={this.handleClick}
+              canSubmit={this.validateAllInput()}
+              textName={'Signup'}
             />
           </div>
           <div className={styles.footer}>
@@ -144,6 +167,7 @@ class SignUp extends Component {
             <Link to="/login">Login</Link>
           </div>
         </div>
+        <div id="signup_popup"></div>
       </div>
     )
   }
