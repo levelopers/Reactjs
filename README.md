@@ -5,5 +5,5 @@
 ### [UI design sketch file](https://github.com/levelopers/ReactUI)
 
 ### testing url: [levelopers.ca](http://levelopers-react-forum.herokuapp.com/)
-    live demo is deployed on heroku server, it usually takes minutes to boot up please standby
+    live demo is deployed on heroku server, it usually takes minutes to boot up please wait
    
