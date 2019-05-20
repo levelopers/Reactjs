@@ -102,7 +102,7 @@ export const updateProfile = (obj) => (dispatch, getState) => {
   })
   return serverCall({
     method: 'put',
-    url: `/users/${token.user_id}`,
+    url: `/user`,
     data: {
       "user": {
         ...obj

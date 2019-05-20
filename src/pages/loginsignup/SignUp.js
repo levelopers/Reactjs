@@ -89,16 +89,15 @@ class SignUp extends Component {
         })
         .catch(err => {
           //handle error
+          let err_message = 'Network Error'
+          if (err.response) {
+            err_message = 'this email has been registered'
+          }
           popup.open({
             title: "Invalid email or password",
-            message: "this email has been registered ",
+            message: err_message,
             buttons: [
               { text: "close" },
-              {
-                text: "dont close",
-                shouldHold: true,
-                click: () => console.log("not closed")
-              }
             ]
           })
           this.setState({
@@ -167,7 +166,7 @@ class SignUp extends Component {
             <Link to="/login">Login</Link>
           </div>
         </div>
-        <div id="signup_popup"></div>
+        {/* <div id="signup_popup"></div> */}
       </div>
     )
   }

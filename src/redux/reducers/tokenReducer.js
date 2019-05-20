@@ -29,7 +29,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         token_loading: false,
-        error: action.payload.error
+        error: action.payload.error.response
       }
     default:
       return state
