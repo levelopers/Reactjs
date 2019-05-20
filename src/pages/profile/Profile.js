@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 import Form from './components/Form'
 import Photo from './components/Photo'
+import Logout from './components/Logout'
 import './stylesheets/profile.css'
 import firebase_storage from './utils/firebase/index'
 import { connect } from 'react-redux'
@@ -76,6 +77,7 @@ class Profile extends Component {
                 description={user.description}
                 updateProfile={this.props.updateProfile}
               />}
+              <Logout/>
           </div>
         </div>
       </div>

@@ -9,28 +9,29 @@ import Question from './pages/question/question'
 import AnswersContainer from './pages/answers/containers/answers.container'
 import { insertToken } from './redux/actions/tokenActions'
 import { connect } from 'react-redux';
-import {PopupInstance, register} from './components/popup'
+import { PopupInstance, register } from './components/popup'
+import { registerNav } from './modules/Navigation'
+
 
 class App extends Component {
   render() {
-    // Auth.loggout()
     return (
       <div>
-        <Router>
+        <Router ref={registerNav}>
           <Switch>
             <Route path="/signup" component={SignUp} />
             {this.props.token && [
               <Route key="profile" path="/profile" component={Profile} />,
               <Route key="question" path="/question" component={Question} />,
               <Route key="answer" path="/answers/:ques_id" component={AnswersContainer} />,
-              <Redirect key="redirect_question" to ="/question"/>
+              <Redirect key="redirect_question" to="/question" />
             ]}
             <Route path="/login" component={Login} />
             <Route exact path="/" component={Login} />
             <Redirect to="/login" />
           </Switch>
         </Router>
-        <PopupInstance ref={register}/>
+        <PopupInstance ref={register} />
       </div>
     )
   }

@@ -6,6 +6,8 @@ import Forminput from './components/FormInput'
 import Button from './components/Button'
 import { connect } from 'react-redux';
 import { postToken } from '../../redux/actions/tokenActions';
+import popup from '../../components/popup'
+
 
 class Login extends Component {
   constructor(props) {
@@ -69,7 +71,18 @@ class Login extends Component {
         .then(res => {
           this.props.history.push('/question')
         }).catch(err => {
-          alert(err)
+          //handle login error
+          let err_message = 'Network Error'
+          if (err.response) {
+            err_message = 'The password you entered is incorrect'
+          }
+          popup.open({
+            title: "Invalid email or password",
+            message: err_message,
+            buttons: [
+              { text: "close" },
+            ]
+          })
           this.setState({
             email: {
               ...this.state.email,
